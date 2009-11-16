@@ -1,6 +1,5 @@
 ### Density function for the skew-Laplace distribution
-dskewlap <- function(x, mu = 0, alpha = 1, beta = 1,
-  Theta = c(mu, alpha, beta)) {
+dskewlap <- function(x, Theta = c(0, 1, 1)) {
 
   mu <- Theta[1] 
   alpha <- Theta[2]
@@ -16,8 +15,7 @@ dskewlap <- function(x, mu = 0, alpha = 1, beta = 1,
 
 
 ### Distribution function for the skew-Laplace distribution
-pskewlap <- function(q, mu = 0, alpha = 1, beta = 1,
-  Theta = c(mu, alpha, beta)) {
+pskewlap <- function(q, Theta = c(0, 1, 1)) {
 
   mu <- Theta[1] 
   alpha <- Theta[2]
@@ -39,8 +37,7 @@ pskewlap <- function(q, mu = 0, alpha = 1, beta = 1,
 
 
 ### Quantile function for the skew-Laplace distribution
-qskewlap <- function(p, mu = 0, alpha = 1, beta = 1,
-  Theta = c(mu, alpha, beta)) {
+qskewlap <- function(p, Theta = c(0, 1, 1)) {
 
   mu <- Theta[1] 
   alpha <- Theta[2]
@@ -66,8 +63,7 @@ qskewlap <- function(p, mu = 0, alpha = 1, beta = 1,
 
 ### Function to generate random observations from the
 ### skew Laplace distribution
-rskewlap <- function(n, mu = 0, alpha = 1, beta = 1,
-  Theta = c(mu, alpha, beta)) {
+rskewlap <- function(n, Theta = c(0, 1, 1)) {
 
   mu <- Theta[1] 
   alpha <- Theta[2]
