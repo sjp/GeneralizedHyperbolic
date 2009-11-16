@@ -3,67 +3,75 @@
 ### In case of error, include appropriate message
 ghypCheckPars <- function(Theta, ...) {
 
-    Theta <- as.numeric(Theta)
-    mu <- Theta[1]
-    delta <- Theta[2]
-    alpha <- Theta[3]
-    beta <- Theta[4]
-    lambda <- Theta[5]
+  Theta <- as.numeric(Theta)
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
 
-    case <- "normal"
-    errMessage <- ""
+  case <- "normal"
+  errMessage <- ""
 
-    if (length(Theta) != 5)
-        errMessage <- "Theta vector must contain 5 values"
+  if (length(Theta) != 5) {
+    case <- "error"
+    errMessage <- "Theta vector must contain 5 values"
+  }
 
-    if (lambda == 0) {
+  if (lambda == 0) {
 
-        if (abs(beta) >= alpha)
-            case <- "error"
-            errMessage <- "abs(beta) must be less than alpha when lambda = 0"
-
-        if (delta <= 0)
-            case <- "error"
-            errMessage <- "delta must be greater than zero when lambda = 0"
-
-        if (abs(beta) >= alpha & delta <= 0)
-            case <- "error"
-            errMessage <- "abs(beta) must be less than alpha and delta must be greater than zero when lambda = 0"
-
-    }        
-
-    if (lambda > 0) {
-
-        if (abs(beta) >= alpha)
-            case <- "error"
-            errMessage <- "abs(beta) must be less than alpha when lambda > 0"
-
-        if (delta < 0)
-            case <- "error"
-            errMessage <- "delta must be less than zero when lambda > 0"
-
-        if (abs(beta) >= alpha & delta < 0)
-            case <- "error"
-            errMessage <- "abs(beta) must be less than alpha and delta must be less than zero when lambda > 0"
-
+    if (abs(beta) >= alpha) {
+      case <- "error"
+      errMessage <- "abs(beta) must be less than alpha when lambda = 0"
     }
 
-    if (lambda < 0) {
-
-        if (abs(beta) != alpha)
-            case <- "error"
-            errMessage <- "abs(beta) must be equal to alpha when lambda < 0"
-
-        if (delta <= 0)
-            case <- "error"
-            errMessage <- "delta must be greater than zero when lambda < 0"
-
-        if (abs(beta) ! alpha & delta <= 0)
-            case <- "error"
-            errMessage <- "abs(beta) must be equal to alpha and delta must be greater than zero when lambda < 0"
-
+    if (delta <= 0) {
+        case <- "error"
+        errMessage <- "delta must be greater than zero when lambda = 0"
     }
 
-    result <- list(case = case, errMessage = errMessage)
-    return(result)
+    if (abs(beta) >= alpha & delta <= 0) {
+        case <- "error"
+        errMessage <- "abs(beta) must be less than alpha and delta must be greater than zero when lambda = 0"
+    }
+  }        
+
+  if (lambda > 0) {
+
+    if (abs(beta) >= alpha) {
+      case <- "error"
+      errMessage <- "abs(beta) must be less than alpha when lambda > 0"
+    }
+
+    if (delta < 0) {
+      case <- "error"
+      errMessage <- "delta must be less than zero when lambda > 0"
+    }
+
+    if (abs(beta) >= alpha & delta < 0) {
+      case <- "error"
+      errMessage <- "abs(beta) must be less than alpha and delta must be less than zero when lambda > 0"
+    }
+  }
+
+  if (lambda < 0) {
+
+    if (abs(beta) != alpha) {
+      case <- "error"
+      errMessage <- "abs(beta) must be equal to alpha when lambda < 0"
+    }
+
+    if (delta <= 0) {
+      case <- "error"
+      errMessage <- "delta must be greater than zero when lambda < 0"
+    }
+
+    if (abs(beta) ! alpha & delta <= 0) {
+      case <- "error"
+      errMessage <- "abs(beta) must be equal to alpha and delta must be greater than zero when lambda < 0"
+    }
+  }
+
+  result <- list(case = case, errMessage = errMessage)
+  return(result)
 }
