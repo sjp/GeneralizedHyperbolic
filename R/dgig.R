@@ -517,23 +517,27 @@ rgig <- function(n, Theta = c(1, 1, 1)) {
 ### Derivative of dgig
 ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
 
-  if(length(Theta) != 3)
+  if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-  if(chi <= 0) stop("chi must be positive")
-  if(psi <= 0) stop("psi must be positive")
 
-  omega <- sqrt(chi*psi)
+  if (chi <= 0)
+    stop("chi must be positive")
 
-  if(is.null(KOmega)){
+  if (psi <= 0)
+    stop("psi must be positive")
+
+  omega <- sqrt(chi * psi)
+
+  if (is.null(KOmega))
     KOmega <- besselK(x = omega, nu = lambda)
-  }
+
   ddgig <- ifelse(x > 0,
-                  dgig(x, Theta, KOmega)*(chi/x^2 + 2*(lambda - 1)/x - psi)/2,
+                  dgig(x, Theta, KOmega) * (chi / x^2 + 2 * (lambda - 1) / x - psi) / 2,
                   0)
   ddgig
 } ## End of ddgig()
