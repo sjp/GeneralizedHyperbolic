@@ -39,7 +39,7 @@ pgig <- function(q, Theta = c(1, 1, 1),
                  deriv = 0.3, subdivisions = 100,
                  accuracy = FALSE, ...) {
 
-  if(length(Theta) != 3)
+  if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
   Theta <- as.numeric(Theta)
@@ -47,13 +47,17 @@ pgig <- function(q, Theta = c(1, 1, 1),
   psi <- Theta[2]
   lambda <- Theta[3]
 
-  if(chi <= 0) stop("chi must be positive")
-  if(psi <= 0) stop("psi must be positive")
-  omega <- sqrt(chi*psi)
+  if (chi <= 0)
+    stop("chi must be positive")
+
+  if (psi <= 0)
+    stop("psi must be positive")
+
+  omega <- sqrt(chi * psi)
    
   ## Standardise distribution to chi = 1
-  q <- q/chi
-  psi <- chi*psi
+  q <- q / chi
+  psi <- chi * psi
   chi <- 1
   Theta <- c(chi, psi, lambda)
   KOmega <- besselK(omega, nu = lambda)
@@ -93,7 +97,7 @@ pgig <- function(q, Theta = c(1, 1, 1),
 
 
   ## Use safeIntegrate function between xTiny and xHuge in 6 sections
-  dgigInt <- function(q){ 
+  dgigInt <- function(q) {
     dgig(q, Theta)
   }
 
@@ -111,40 +115,45 @@ pgig <- function(q, Theta = c(1, 1, 1),
   errLow <- errSmall + resLow$abs.error
   errHigh <- errLarge + resHigh$abs.error
 
-  for (i in qSmall){
+  for (i in qSmall) {
     intRes <- safeIntegrate(dgigInt, xTiny, qSort[i], subdivisions, ...)
     intFun[i] <- intRes$value
     intErr[i] <- intRes$abs.error
   }
-  for (i in qLarge){
+
+  for (i in qLarge) {
     intRes <- safeIntegrate(dgigInt, qSort[i], xHuge, subdivisions, ...)
     intFun[i] <-  1- intRes$value 
     intErr[i] <- intRes$abs.error + tiny
   }
-  for (i in qLow){
+
+  for (i in qLow) {
     intRes <- safeIntegrate(dgigInt, xSmall, qSort[i], subdivisions, ...)
     intFun[i] <- intRes$value + intSmall
     intErr[i] <- intRes$abs.error + errSmall
   }
-  for (i in qHigh){
+
+  for (i in qHigh) {
     intRes <- safeIntegrate(dgigInt, qSort[i], xLarge, subdivisions, ...)
     intFun[i] <-  1- intRes$value - intLarge
     intErr[i] <- intRes$abs.error + errLarge
   }
-  for (i in qLessEqMode){
+
+  for (i in qLessEqMode) {
     intRes <- safeIntegrate(dgigInt, lowBreak, qSort[i], subdivisions, ...)
     intFun[i] <- intRes$value + intLow
     intErr[i] <- intRes$abs.error + errLow
   }
-  for (i in qGreatMode){
+
+  for (i in qGreatMode) {
     intRes <- safeIntegrate(dgigInt, qSort[i], highBreak, subdivisions, ...)
     intFun[i] <-  1- intRes$value - intHigh
     intErr[i] <- intRes$abs.error + errLarge
   }
 
-  if (!accuracy){
+  if (!accuracy) {
     return(intFun[rank(q)])
-  }else{
+  } else {
     return(list(value=intFun[rank(q)], error=intErr[rank(q)]))
   }
 } ## End of pgig()
