@@ -2,9 +2,9 @@
 ### generalized inverse Gaussian distribution
 dgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL) {
 
-  if(length(Theta) != 3) {
-    stop("parameter vector must contain 3 values")
-  }
+  if(length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
@@ -36,9 +36,9 @@ pgig <- function(q, Theta = c(1, 1, 1),
                  deriv = 0.3, subdivisions = 100,
                  accuracy = FALSE, ...) {
 
-  if(length(Theta) != 3) {
-    stop("parameter vector must contain 3 values")
-  }
+  if(length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
@@ -152,9 +152,9 @@ qgig <- function(p, Theta = c(1, 1, 1),
                  deriv = 0.3, nInterpol = 100,
                  subdivisions = 100, ...) {
 
-  if(length(Theta) != 3 ){
-    stop("parameter vector must contain 3 values") 
-  }
+  if(length(Theta) != 3 )
+    stop("Theta vector must contain 3 values") 
+
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
@@ -346,9 +346,12 @@ qgig <- function(p, Theta = c(1, 1, 1),
 # special case where lambda = 1.
 rgig1 <- function(n, Theta = c(1, 1, 1)) {
 
-  if(length(Theta) == 2) {
+  if (length(Theta) == 2)
     Theta <- c(Theta, 1)
-  }
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values or 2 if you choose to omit lambda (because it is assumed to equal 1).")
+
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- 1
@@ -400,6 +403,9 @@ rgig1 <- function(n, Theta = c(1, 1, 1)) {
 # generalized inverse Gaussian distribution. The
 # algorithm is based on that given by Dagpunar (1989)
 rgig <- function(n, Theta = c(1, 1, 1)) {
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
 
   chi <- Theta[1]
   psi <- Theta[2]
@@ -464,9 +470,9 @@ rgig <- function(n, Theta = c(1, 1, 1)) {
 ### Derivative of dgig
 ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
 
-  if(length(Theta) != 3) {
-    stop("parameter vector must contain 3 values")
-  }
+  if(length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
@@ -489,9 +495,9 @@ ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
 gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
                       tiny = 10^(-10), deriv = 0.3, ...) {
 
-  if(length(Theta) != 3) {
-    stop("parameter vector must contain 3 values")
-  }
+  if(length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
