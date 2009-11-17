@@ -3,6 +3,9 @@
 ### DJS 10/01/07
 gigCalcRange <- function(Theta = c(1, 1, 1), tol = 10^(-5), density = TRUE, ...) {
 
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
@@ -27,11 +30,6 @@ gigCalcRange <- function(Theta = c(1, 1, 1), tol = 10^(-5), density = TRUE, ...)
 
     xUpper <- uniroot(zeroFun, interval = c(mode, xHigh), ...)$root
     xLow <- 0
-
-    zeroFun <- function(x) {
-       dgig(x, Theta) - tol
-     }
-
     xLower <- uniroot(zeroFun, interval = c(xLow, mode), ...)$root
     range <- c(xLower, xUpper)
   }
