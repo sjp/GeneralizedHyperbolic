@@ -546,23 +546,27 @@ ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
 gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
                       tiny = 10^(-10), deriv = 0.3, ...) {
 
-  if(length(Theta) != 3)
+  if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-  if(chi <= 0) stop("chi must be positive")
-  if(psi <= 0) stop("psi must be positive")
 
-  omega <- sqrt(chi*psi)
+  if (chi <= 0)
+    stop("chi must be positive")
+
+  if (psi <= 0)
+    stop("psi must be positive")
+
+  omega <- sqrt(chi * psi)
   ## Find quantiles of standardised gig: adjust later
-  psi <- chi*psi
+  psi <- chi * psi
   chi <- 1
   ThetaStand <- c(chi, psi, lambda)
   KOmega <- besselK(x = omega, nu = lambda)
-  const <- (psi/chi)^(lambda/2)/(2*KOmega)
+  const <- (psi / chi)^(lambda / 2) / (2 * KOmega)
 
   xTiny <- 0
   xSmall <- gigCalcRange(ThetaStand, small, density = TRUE)[1]
@@ -575,37 +579,41 @@ gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
   derivVals <- ddgig(xDeriv, ThetaStand, KOmega)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
-  breakSize <- deriv*maxDeriv
-  breakFun <- function(x){
+  breakSize <- deriv * maxDeriv
+
+  breakFun <- function(x) {
     ddgig(x, ThetaStand, KOmega) - breakSize
   }
-  if ((maxDeriv < breakSize)||(derivVals[1] > breakSize)){
+
+  if ((maxDeriv < breakSize) | (derivVals[1] > breakSize)) {
     lowBreak <- xSmall
-  }else{
+  } else {
     whichMaxDeriv <- which.max(derivVals)
-    lowBreak <- uniroot(breakFun,c(xSmall,xDeriv[whichMaxDeriv]))$root
+    lowBreak <- uniroot(breakFun, c(xSmall, xDeriv[whichMaxDeriv]))$root
   }
 
   xDeriv <- seq(modeDist, xLarge, length.out = 101)
-  derivVals <- -ddgig(xDeriv,ThetaStand, KOmega)
+  derivVals <- -ddgig(xDeriv, ThetaStand, KOmega)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
-  breakSize <- deriv*maxDeriv
-  breakFun <- function(x){
-    - ddgig(x, ThetaStand, KOmega) - breakSize
+  breakSize <- deriv * maxDeriv
+
+  breakFun <- function(x) {
+    -ddgig(x, ThetaStand, KOmega) - breakSize
   }
-  if ((maxDeriv < breakSize)||(derivVals[101] > breakSize)){
+
+  if ((maxDeriv < breakSize) | (derivVals[101] > breakSize)) {
     highBreak <- xLarge
-  }else{
+  } else {
     whichMaxDeriv <- which.max(derivVals)
-    highBreak <- uniroot(breakFun,c(xDeriv[whichMaxDeriv],xLarge))$root
+    highBreak <- uniroot(breakFun, c(xDeriv[whichMaxDeriv], xLarge))$root
   }
 
   # Theta[1] is the original value of chi
-  breaks <- Theta[1]*c(xTiny,xSmall,lowBreak,highBreak,xLarge,xHuge,modeDist)
-  breaks <- list(xTiny = breaks[1], xSmall =  breaks[2],
-                 lowBreak =  breaks[3], highBreak =  breaks[4],
-                 xLarge =  breaks[5], xHuge =  breaks[6],
-                 modeDist =  breaks[7])
+  breaks <- Theta[1] * c(xTiny, xSmall, lowBreak, highBreak, xLarge, xHuge, modeDist)
+  breaks <- list(xTiny = breaks[1], xSmall = breaks[2],
+                 lowBreak = breaks[3], highBreak = breaks[4],
+                 xLarge = breaks[5], xHuge = breaks[6],
+                 modeDist = breaks[7])
   return(breaks)
 } ## End of gigBreaks()
