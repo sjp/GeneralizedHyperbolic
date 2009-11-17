@@ -2,6 +2,9 @@
 ### generalized inverse Gaussian distribution given its parameters.
 gigMean <- function(Theta = c(1, 1, 1)) {
 
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
