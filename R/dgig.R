@@ -1,13 +1,14 @@
 ### Function to calculate the density of the
 ### generalized inverse Gaussian distribution
-dgig <- function(x, Theta, KOmega = NULL){
+dgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL) {
+
   if(length(Theta) != 3) {
     stop("parameter vector must contain 3 values")
   }
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
   
@@ -30,16 +31,18 @@ dgig <- function(x, Theta, KOmega = NULL){
 ### Calls gigBreaks to determine the breaks
 ###
 ### DJS 25/01/07
-pgig <- function(q, Theta, small = 10^(-6), tiny = 10^(-10),
-                    deriv = 0.3, subdivisions = 100,
-                    accuracy = FALSE, ...){
+pgig <- function(q, Theta = c(1, 1, 1),
+                 small = 10^(-6), tiny = 10^(-10),
+                 deriv = 0.3, subdivisions = 100,
+                 accuracy = FALSE, ...) {
+
   if(length(Theta) != 3) {
     stop("parameter vector must contain 3 values")
   }
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
   omega <- sqrt(chi*psi)
@@ -48,7 +51,7 @@ pgig <- function(q, Theta, small = 10^(-6), tiny = 10^(-10),
   q <- q/chi
   psi <- chi*psi
   chi <- 1
-  Theta <- c(lambda,chi,psi)
+  Theta <- c(chi, psi, lambda)
   KOmega <- besselK(omega, nu = lambda)
 
   bks <- gigBreaks(Theta, small, tiny, deriv, ...)
@@ -144,15 +147,18 @@ pgig <- function(q, Theta, small = 10^(-6), tiny = 10^(-10),
 
 ### qgig using breaks as for pgig and splines
 ### David Scott 08/12/06
-qgig <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
-                 deriv = 0.3, nInterpol = 100, subdivisions = 100, ...){ 
+qgig <- function(p, Theta = c(1, 1, 1),
+                 small = 10^(-6), tiny = 10^(-10),
+                 deriv = 0.3, nInterpol = 100,
+                 subdivisions = 100, ...) {
+
   if(length(Theta) != 3 ){
     stop("parameter vector must contain 3 values") 
   }
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
   if(any(p < 0|p > 1) ) stop("p must lie between 0 and 1")
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
@@ -338,13 +344,14 @@ qgig <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
 # Modified version of rgig to generate random observations
 # from a generalized inverse Gaussian distribution in the
 # special case where lambda = 1.
-rgig1 <- function(n, Theta){
+rgig1 <- function(n, Theta = c(1, 1, 1)) {
+
   if(length(Theta) == 2) {
-    Theta <- c(1,Theta)
+    Theta <- c(Theta, 1)
   }
+  chi <- Theta[1]
+  psi <- Theta[2]
   lambda <- 1
-  chi <- Theta[2]
-  psi <- Theta[3]
 
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
@@ -392,10 +399,11 @@ rgig1 <- function(n, Theta){
 # Function to generate random observations from a
 # generalized inverse Gaussian distribution. The
 # algorithm is based on that given by Dagpunar (1989)
-rgig <- function(n, Theta){
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
+rgig <- function(n, Theta = c(1, 1, 1)) {
+
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
 
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
@@ -454,14 +462,15 @@ rgig <- function(n, Theta){
 } ## End of rgig()
 
 ### Derivative of dgig
-ddgig <- function(x, Theta, KOmega = NULL, ...){
+ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
+
   if(length(Theta) != 3) {
     stop("parameter vector must contain 3 values")
   }
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
   
@@ -477,15 +486,16 @@ ddgig <- function(x, Theta, KOmega = NULL, ...){
 } ## End of ddgig()
 
 ### Function to set up breaks for pgig and qgig
-gigBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
-                         deriv = 0.3, ...){
+gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
+                      tiny = 10^(-10), deriv = 0.3, ...) {
+
   if(length(Theta) != 3) {
     stop("parameter vector must contain 3 values")
   }
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
   
@@ -493,7 +503,7 @@ gigBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   ## Find quantiles of standardised gig: adjust later
   psi <- chi*psi
   chi <- 1
-  ThetaStand <- c(lambda,chi,psi)
+  ThetaStand <- c(chi, psi, lambda)
   KOmega <- besselK(x = omega, nu = lambda)
   const <- (psi/chi)^(lambda/2)/(2*KOmega)
   
@@ -534,7 +544,8 @@ gigBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
     highBreak <- uniroot(breakFun,c(xDeriv[whichMaxDeriv],xLarge))$root
   }
 
-  breaks <- Theta[2]*c(xTiny,xSmall,lowBreak,highBreak,xLarge,xHuge,modeDist)
+  # Theta[1] is the original value of chi
+  breaks <- Theta[1]*c(xTiny,xSmall,lowBreak,highBreak,xLarge,xHuge,modeDist)
   breaks <- list(xTiny = breaks[1], xSmall =  breaks[2],
                  lowBreak =  breaks[3], highBreak =  breaks[4],
                  xLarge =  breaks[5], xHuge =  breaks[6],
