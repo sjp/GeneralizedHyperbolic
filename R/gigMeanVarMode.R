@@ -40,7 +40,7 @@ gigSkew <- function(Theta = c(1, 1, 1)) {
 
 ### Function to calculate the theoretical kurtosis of a 
 ### generalized inverse Gaussian distribution given its parameters.
-gigKurt <- function(Theta = c(1, 1, 1)){
+gigKurt <- function(Theta = c(1, 1, 1)) {
 
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
@@ -53,10 +53,14 @@ gigKurt <- function(Theta = c(1, 1, 1)){
 
 ### Function to calculate the theoretical mode point of a 
 ### generalized inverse Gaussian distribution given its parameters.
-gigMode <- function(Theta) {
+gigMode <- function(Theta = c(1, 1, 1)) {
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
-  (lambda - 1 + sqrt((lambda - 1)^2 + chi*psi))/psi
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
+  (lambda - 1 + sqrt((lambda - 1)^2 + chi * psi)) / psi
 } ## End of gigMode()
