@@ -16,7 +16,11 @@ gigMean <- function(Theta = c(1, 1, 1)) {
 
 ### Function to calculate the theoretical variance of a 
 ### generalized inverse Gaussian distribution given its parameters.
-gigVar <- function(Theta){
+gigVar <- function(Theta = c(1, 1, 1)) {
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   m1 <- gigMean(Theta)
   var <- gigMom(2, Theta, about = m1)
   return(var)
