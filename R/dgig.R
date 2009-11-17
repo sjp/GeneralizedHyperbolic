@@ -292,7 +292,7 @@ qgig <- function(p, Theta = c(1, 1, 1),
   if (length(pGreatMode) > 0) {
     xValues <- seq(modeDist, highBreak, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+                       subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pGreatMode) {
@@ -315,7 +315,7 @@ qgig <- function(p, Theta = c(1, 1, 1),
   if (length(pHigh) > 0) {
     xValues <- seq(highBreak, xLarge, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+                       subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pHigh) {
@@ -392,47 +392,55 @@ rgig1 <- function(n, Theta = c(1, 1, 1)) {
   psi <- Theta[2]
   lambda <- 1
 
-  if(chi <= 0) stop("chi must be positive")
-  if(psi <= 0) stop("psi must be positive")
+  if (chi <= 0)
+    stop("chi must be positive")
 
-  alpha <- sqrt(psi/chi)
-  beta <- sqrt(psi*chi)
+  if (psi <= 0)
+    stop("psi must be positive")
 
-  m <- abs(beta)/beta
+  alpha <- sqrt(psi / chi)
+  beta <- sqrt(psi * chi)
 
-  g <- function(y){
-    0.5*beta*y^3 - y^2*(0.5*beta*m + lambda+1) +
-      y*(-0.5*beta) + 0.5*beta*m
+  m <- abs(beta) / beta
+
+  g <- function(y) {
+    0.5 * beta * y^3 - y^2 * (0.5 * beta * m + lambda + 1) +
+    y * (-0.5 * beta) + 0.5 * beta * m
   }
 
   upper <- m
-  while(g(upper) <= 0) upper <- 2*upper
 
-  yM <- uniroot(g, interval = c(0,m))$root
+  while (g(upper) <= 0)
+    upper <- 2 * upper
 
-  yP <- uniroot(g, interval = c(m,upper))$root
+  yM <- uniroot(g, interval = c(0, m))$root
 
-  a <- (yP - m)*exp(-0.25*beta*(yP + 1/yP - m - 1/m))
-  b <- (yM - m)*exp(-0.25*beta*(yM + 1/yM - m - 1/m))
-  c <- -0.25*beta*(m + 1/m)
+  yP <- uniroot(g, interval = c(m, upper))$root
+
+  a <- (yP - m) * exp(-0.25 * beta * (yP + 1 / yP - m - 1 / m))
+  b <- (yM - m) * exp(-0.25 * beta * (yM + 1 / yM - m - 1 / m))
+  c <- -0.25 * beta * (m + 1 / m)
 
   output <- numeric(n)
 
-  for(i in 1:n){
+  for (i in 1:n) {
     needValue <- TRUE
-    while(needValue == TRUE){
+
+    while(needValue == TRUE) {
       R1 <- runif(1)
       R2 <- runif(1)
-      Y <- m + a*R2/R1 + b*(1 - R2)/R1
-      if(Y > 0){
-        if(-log(R1) >= 0.25*beta*(Y + 1/Y) + c){
+      Y <- m + a * R2 / R1 + b * (1 - R2) / R1
+      if (Y > 0) {
+        if (-log(R1) >= 0.25 * beta * (Y + 1 / Y) + c) {
           needValue <- FALSE
         }
       }
     }
+
     output[i] <- Y
   }
-  output/alpha
+
+  output / alpha
 } ## End of rgig1
 
 # Function to generate random observations from a
