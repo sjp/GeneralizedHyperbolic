@@ -1,6 +1,9 @@
 ### Density function for the skew-Laplace distribution
 dskewlap <- function(x, Theta = c(0, 1, 1)) {
 
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   mu <- Theta[1] 
   alpha <- Theta[2]
   beta <- Theta[3] 
@@ -16,6 +19,9 @@ dskewlap <- function(x, Theta = c(0, 1, 1)) {
 
 ### Distribution function for the skew-Laplace distribution
 pskewlap <- function(q, Theta = c(0, 1, 1)) {
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
 
   mu <- Theta[1] 
   alpha <- Theta[2]
@@ -38,6 +44,9 @@ pskewlap <- function(q, Theta = c(0, 1, 1)) {
 
 ### Quantile function for the skew-Laplace distribution
 qskewlap <- function(p, Theta = c(0, 1, 1)) {
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
 
   mu <- Theta[1] 
   alpha <- Theta[2]
@@ -64,6 +73,9 @@ qskewlap <- function(p, Theta = c(0, 1, 1)) {
 ### Function to generate random observations from the
 ### skew Laplace distribution
 rskewlap <- function(n, Theta = c(0, 1, 1)) {
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
 
   mu <- Theta[1] 
   alpha <- Theta[2]
