@@ -2,7 +2,7 @@
 ### generalized inverse Gaussian distribution
 dgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL) {
 
-  if(length(Theta) != 3)
+  if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
   Theta <- as.numeric(Theta)
@@ -46,6 +46,7 @@ pgig <- function(q, Theta = c(1, 1, 1),
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
+
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
   omega <- sqrt(chi*psi)
