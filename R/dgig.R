@@ -405,7 +405,7 @@ rgig1 <- function(n, Theta = c(1, 1, 1)) {
 
   g <- function(y) {
     0.5 * beta * y^3 - y^2 * (0.5 * beta * m + lambda + 1) +
-    y * (-0.5 * beta) + 0.5 * beta * m
+      y * (-0.5 * beta) + 0.5 * beta * m
   }
 
   upper <- m
@@ -455,60 +455,63 @@ rgig <- function(n, Theta = c(1, 1, 1)) {
   psi <- Theta[2]
   lambda <- Theta[3]
 
-  if(chi <= 0) stop("chi must be positive")
-  if(psi <= 0) stop("psi must be positive")
+  if (chi <= 0)
+    stop("chi must be positive")
 
-  if (lambda==1){
-    stop(return(rgig1(n, c(chi,psi))))
-  }
+  if (psi <= 0)
+    stop("psi must be positive")
 
+  if (lambda == 1)
+    stop(return(rgig1(n, c(chi, psi))))
 
-  alpha <- sqrt(psi/chi)
-  beta <- sqrt(psi*chi)
+  alpha <- sqrt(psi / chi)
+  beta <- sqrt(psi * chi)
 
-  m <- (lambda - 1 + sqrt((lambda - 1)^2 + beta^2))/beta
+  m <- (lambda - 1 + sqrt((lambda - 1)^2 + beta^2)) / beta
 
-  g <- function(y){
-    0.5*beta*y^3 - y^2*(0.5*beta*m + lambda + 1) +
-      y*((lambda - 1)*m - 0.5*beta) + 0.5*beta*m
+  g <- function(y) {
+    0.5 * beta * y^3 - y^2 * (0.5 * beta * m + lambda + 1) +
+      y * ((lambda - 1) * m - 0.5 * beta) + 0.5 * beta * m
   }
 
   upper <- m
-  while(g(upper) <= 0) upper <- 2*upper
 
-  ##yM <- uniroot(g, interval = c(0, m))$root
+  while (g(upper) <= 0)
+    upper <- 2 * upper
+
+  ## yM <- uniroot(g, interval = c(0, m))$root
   ## Correct problem when psi and chi are very small
   ## Code from Fabian Scheipl
   ## Fabian.Scheipl@stat.uni-muenchen.de
-  yM <- uniroot(g, interval = c(0,m),
+  yM <- uniroot(g, interval = c(0, m),
                 tol = min(.Machine$double.eps^0.25,
-                          (.Machine$double.eps +g(0)/10)))$root
+                          (.Machine$double.eps + g(0) / 10)))$root
 
-  yP <- uniroot(g, interval = c(m,upper))$root
+  yP <- uniroot(g, interval = c(m, upper))$root
 
-  a <- (yP - m)*(yP/m)^(0.5*(lambda - 1))*
-    exp(-0.25*beta*(yP + 1/yP - m - 1/m))
-  b <- (yM - m)*(yM/m)^(0.5*(lambda - 1))*
-    exp(-0.25*beta*(yM + 1/yM - m - 1/m))
-  c <- -0.25*beta*(m + 1/m) + 0.5*(lambda - 1)*log(m)
+  a <- (yP - m) * (yP / m)^(0.5 * (lambda - 1)) *
+         exp(-0.25 * beta * (yP + 1 / yP - m - 1 / m))
+  b <- (yM - m) * (yM / m)^(0.5 * (lambda - 1)) *
+         exp(-0.25 * beta * (yM + 1 / yM - m - 1 / m))
+  c <- -0.25 * beta * (m + 1 / m) + 0.5 * (lambda - 1) * log(m)
 
   output <- numeric(n)
 
-  for(i in 1:n){
+  for (i in 1:n) {
     needValue <- TRUE
-    while(needValue == TRUE){
+    while (needValue == TRUE) {
       R1 <- runif(1)
       R2 <- runif(1)
-      Y <- m + a*R2/R1 + b*(1 - R2)/R1
-      if(Y>0){
-        if(-log(R1) >= -0.5*(lambda - 1)*log(Y) + 0.25*beta*(Y + 1/Y) + c){
+      Y <- m + a * R2 / R1 + b * (1 - R2) / R1
+      if (Y > 0) {
+        if (-log(R1) >= -0.5 * (lambda - 1) * log(Y) + 0.25 * beta * (Y + 1 / Y) + c) {
           needValue <- FALSE
         }
       }
     }
     output[i] <- Y
   }
-  output/alpha
+  output / alpha
 } ## End of rgig()
 
 ### Derivative of dgig
