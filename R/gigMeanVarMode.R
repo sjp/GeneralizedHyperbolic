@@ -40,9 +40,13 @@ gigSkew <- function(Theta = c(1, 1, 1)) {
 
 ### Function to calculate the theoretical kurtosis of a 
 ### generalized inverse Gaussian distribution given its parameters.
-gigKurt <- function(Theta){
+gigKurt <- function(Theta = c(1, 1, 1)){
+
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
+
   m1 <- gigMean(Theta)
-  kurt <- gigMom(4, Theta, about = m1)/(gigVar(Theta)^2) - 3
+  kurt <- gigMom(4, Theta, about = m1) / (gigVar(Theta)^2) - 3
   return(kurt)
 } ## End of gigKurt()
 
