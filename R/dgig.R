@@ -12,15 +12,15 @@ dgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL) {
 
   if (chi <= 0)
     stop("chi must be positive")
-  
+
   if (psi <= 0)
     stop("psi must be positive")
-  
+
   omega <- sqrt(chi * psi)
 
-  if (is.null(KOmega)) 
-    KOmega <- besselK(omega, nu = lambda)     
-   
+  if (is.null(KOmega))
+    KOmega <- besselK(omega, nu = lambda)
+
   gigDensity <- ifelse(x > 0, (psi / chi)^(lambda / 2) /
                        (2 * KOmega) * x^(lambda - 1) *
                        exp(-(1/2) * (chi * x^(-1) + psi * x)), 0)
@@ -54,7 +54,7 @@ pgig <- function(q, Theta = c(1, 1, 1),
     stop("psi must be positive")
 
   omega <- sqrt(chi * psi)
-   
+
   ## Standardise distribution to chi = 1
   q <- q / chi
   psi <- chi * psi
@@ -123,7 +123,7 @@ pgig <- function(q, Theta = c(1, 1, 1),
 
   for (i in qLarge) {
     intRes <- safeIntegrate(dgigInt, qSort[i], xHuge, subdivisions, ...)
-    intFun[i] <-  1- intRes$value 
+    intFun[i] <-  1- intRes$value
     intErr[i] <- intRes$abs.error + tiny
   }
 
@@ -165,16 +165,22 @@ qgig <- function(p, Theta = c(1, 1, 1),
                  deriv = 0.3, nInterpol = 100,
                  subdivisions = 100, ...) {
 
-  if(length(Theta) != 3 )
-    stop("Theta vector must contain 3 values") 
+  if (length(Theta) != 3)
+    stop("Theta vector must contain 3 values")
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-  if(any(p < 0|p > 1) ) stop("p must lie between 0 and 1")
-  if(chi <= 0) stop("chi must be positive")
-  if(psi <= 0) stop("psi must be positive")
+
+  if (any(p < 0 | p > 1))
+    stop("p must lie between 0 and 1")
+
+  if (chi <= 0)
+    stop("chi must be positive")
+
+  if (psi <= 0)
+    stop("psi must be positive")
 
   bks <- gigBreaks(Theta, small, tiny, deriv, ...)
   xTiny <- bks$xTiny
@@ -214,145 +220,162 @@ qgig <- function(p, Theta = c(1, 1, 1),
   if (length(pTiny) > 0) qSort[pTiny] <- -Inf
   if (length(pHuge) > 0) qSort[pHuge] <- Inf
 
-  if (length(pSmall) > 0){
+  if (length(pSmall) > 0) {
     xValues <- seq(xTiny, xSmall, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+                       subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
-    for(i in pSmall){ 
-      zeroFun<-function(x){ 
-        pgigSpline(x) - pSort[i] 
+
+    for (i in pSmall) {
+      zeroFun <- function(x) {
+        pgigSpline(x) - pSort[i]
       }
-      if (zeroFun(xTiny) >= 0){
+
+      if (zeroFun(xTiny) >= 0) {
         qSort[i] <- xTiny
-      }else{
-        if (zeroFun(xSmall) <= 0){
+      } else {
+        if (zeroFun(xSmall) <= 0) {
           qSort[i] <- xSmall
-        }else{
+        } else {
           qSort[i] <- uniroot(zeroFun, interval = c(xTiny,xSmall), ...)$root
         }
       }
     }
   }
-  if (length(pLow) > 0){
+
+  if (length(pLow) > 0) {
     xValues <- seq(xSmall, lowBreak, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+                       subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
-    for(i in pLow){ 
-      zeroFun<-function(x){ 
-        pgigSpline(x) - pSort[i] 
+
+    for (i in pLow) {
+      zeroFun <- function(x) {
+        pgigSpline(x) - pSort[i]
       }
-      if (zeroFun(xSmall) >= 0){
+
+      if (zeroFun(xSmall) >= 0) {
         qSort[i] <- xSmall
-      }else{
-        if (zeroFun(lowBreak) <= 0){
+      } else {
+        if (zeroFun(lowBreak) <= 0) {
           qSort[i] <- lowBreak
-        }else{
+        } else {
           qSort[i] <- uniroot(zeroFun, interval = c(xSmall,lowBreak), ...)$root
         }
       }
     }
   }
-  if (length(pLessEqMode) > 0){
+
+  if (length(pLessEqMode) > 0) {
     xValues <- seq(lowBreak, modeDist, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+                       subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
-    for(i in pLessEqMode){ 
-      zeroFun<-function(x){ 
-        pgigSpline(x) - pSort[i] 
+
+    for (i in pLessEqMode) {
+      zeroFun <- function(x) {
+        pgigSpline(x) - pSort[i]
       }
-      if (zeroFun(lowBreak) >= 0){
+
+      if (zeroFun(lowBreak) >= 0) {
         qSort[i] <- lowBreak
-      }else{
-        if (zeroFun(modeDist) <= 0){
+      } else {
+        if (zeroFun(modeDist) <= 0) {
           qSort[i] <- modeDist
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(lowBreak,modeDist), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(lowBreak,modeDist), ...)$root
         }
       }
     }
   }
-  if (length(pGreatMode) > 0){
+
+  if (length(pGreatMode) > 0) {
     xValues <- seq(modeDist, highBreak, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
                             subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
-    for(i in pGreatMode){ 
-      zeroFun<-function(x){ 
-        pgigSpline(x) - pSort[i] 
+
+    for (i in pGreatMode) {
+      zeroFun <- function(x) {
+        pgigSpline(x) - pSort[i]
       }
-      if (zeroFun(modeDist) >= 0){
+
+      if (zeroFun(modeDist) >= 0) {
         qSort[i] <- modeDist
-      }else{
-        if (zeroFun(highBreak) <= 0){
+      } else {
+        if (zeroFun(highBreak) <= 0) {
           qSort[i] <- highBreak
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(modeDist,highBreak), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(modeDist,highBreak), ...)$root
         }
       }
     }
   }
-  if (length(pHigh) > 0){
+
+  if (length(pHigh) > 0) {
     xValues <- seq(highBreak, xLarge, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
                             subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
-    for(i in pHigh){ 
-      zeroFun<-function(x){ 
-        pgigSpline(x) - pSort[i] 
+
+    for (i in pHigh) {
+      zeroFun <- function(x) {
+        pgigSpline(x) - pSort[i]
       }
-      if (zeroFun(highBreak) >= 0){
+
+      if (zeroFun(highBreak) >= 0) {
         qSort[i] <- highBreak
-      }else{
-        if (zeroFun(xLarge) <= 0){
+      } else {
+        if (zeroFun(xLarge) <= 0) {
           qSort[i] <- xLarge
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(highBreak,xLarge), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(highBreak,xLarge), ...)$root
         }
       }
     }
   }
-  if (length(pLarge) > 0){
+
+  if (length(pLarge) > 0) {
     xValues <- seq(xLarge, xHuge, length = nInterpol)
     pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+                       subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
-    for(i in pLarge){ 
-      zeroFun<-function(x){ 
-        pgigSpline(x) - pSort[i] 
+
+    for (i in pLarge) {
+      zeroFun <- function(x) {
+        pgigSpline(x) - pSort[i]
       }
-      if (zeroFun(xLarge) >= 0){
+
+      if (zeroFun(xLarge) >= 0) {
         qSort[i] <- xLarge
-      }else{
-        if (zeroFun(xHuge) <= 0){
+      } else {
+        if (zeroFun(xHuge) <= 0) {
           qSort[i] <- xHuge
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(xLarge,xHuge), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(xLarge,xHuge), ...)$root
         }
       }
     }
-  }        
-  if (length(pHuge) > 0){
-    for (i in pHuge){
-      zeroFun<-function(x){ 
-        pgig(x,Theta) - pSort[i] 
+  }
+
+  if (length(pHuge) > 0) {
+    for (i in pHuge) {
+      zeroFun <- function(x) {
+        pgig(x,Theta) - pSort[i]
       }
+
       interval <- c(xHuge,xHuge + (xHuge - xLarge))
-      while(zeroFun(interval[1])*zeroFun(interval[2])>0) {
+
+      while (zeroFun(interval[1]) * zeroFun(interval[2]) > 0) {
         interval[1] <- interval[1] + (xHuge - xLarge)
       }
+
       qSort[i] <- uniroot(zeroFun,interval)$root
     }
   }
 
-  return(qSort[rank(p)]) 
-} # End of qgig()
+  return(qSort[rank(p)])
+} ## End of qgig()
 
 # Modified version of rgig to generate random observations
 # from a generalized inverse Gaussian distribution in the
@@ -376,7 +399,7 @@ rgig1 <- function(n, Theta = c(1, 1, 1)) {
   beta <- sqrt(psi*chi)
 
   m <- abs(beta)/beta
-  
+
   g <- function(y){
     0.5*beta*y^3 - y^2*(0.5*beta*m + lambda+1) +
       y*(-0.5*beta) + 0.5*beta*m
@@ -394,7 +417,7 @@ rgig1 <- function(n, Theta = c(1, 1, 1)) {
   c <- -0.25*beta*(m + 1/m)
 
   output <- numeric(n)
-  
+
   for(i in 1:n){
     needValue <- TRUE
     while(needValue == TRUE){
@@ -436,7 +459,7 @@ rgig <- function(n, Theta = c(1, 1, 1)) {
   beta <- sqrt(psi*chi)
 
   m <- (lambda - 1 + sqrt((lambda - 1)^2 + beta^2))/beta
-  
+
   g <- function(y){
     0.5*beta*y^3 - y^2*(0.5*beta*m + lambda + 1) +
       y*((lambda - 1)*m - 0.5*beta) + 0.5*beta*m
@@ -462,7 +485,7 @@ rgig <- function(n, Theta = c(1, 1, 1)) {
   c <- -0.25*beta*(m + 1/m) + 0.5*(lambda - 1)*log(m)
 
   output <- numeric(n)
-  
+
   for(i in 1:n){
     needValue <- TRUE
     while(needValue == TRUE){
@@ -492,12 +515,12 @@ ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
   lambda <- Theta[3]
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
-  
+
   omega <- sqrt(chi*psi)
-  
-  if(is.null(KOmega)){ 
-    KOmega <- besselK(x = omega, nu = lambda)     
-  } 
+
+  if(is.null(KOmega)){
+    KOmega <- besselK(x = omega, nu = lambda)
+  }
   ddgig <- ifelse(x > 0,
                   dgig(x, Theta, KOmega)*(chi/x^2 + 2*(lambda - 1)/x - psi)/2,
                   0)
@@ -517,7 +540,7 @@ gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
   lambda <- Theta[3]
   if(chi <= 0) stop("chi must be positive")
   if(psi <= 0) stop("psi must be positive")
-  
+
   omega <- sqrt(chi*psi)
   ## Find quantiles of standardised gig: adjust later
   psi <- chi*psi
@@ -525,9 +548,9 @@ gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
   ThetaStand <- c(chi, psi, lambda)
   KOmega <- besselK(x = omega, nu = lambda)
   const <- (psi/chi)^(lambda/2)/(2*KOmega)
-  
+
   xTiny <- 0
-  xSmall <- gigCalcRange(ThetaStand, small, density = TRUE)[1] 
+  xSmall <- gigCalcRange(ThetaStand, small, density = TRUE)[1]
   xLarge <- gigCalcRange(ThetaStand, small, density = TRUE)[2]
   xHuge <- gigCalcRange(ThetaStand, tiny, density = TRUE)[2]
 
@@ -538,7 +561,7 @@ gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv*maxDeriv
-  breakFun <- function(x){ 
+  breakFun <- function(x){
     ddgig(x, ThetaStand, KOmega) - breakSize
   }
   if ((maxDeriv < breakSize)||(derivVals[1] > breakSize)){
@@ -553,7 +576,7 @@ gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv*maxDeriv
-  breakFun <- function(x){ 
+  breakFun <- function(x){
     - ddgig(x, ThetaStand, KOmega) - breakSize
   }
   if ((maxDeriv < breakSize)||(derivVals[101] > breakSize)){
