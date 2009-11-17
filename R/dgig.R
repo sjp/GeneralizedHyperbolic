@@ -9,20 +9,23 @@ dgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL) {
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-  if(chi <= 0) stop("chi must be positive")
-  if(psi <= 0) stop("psi must be positive")
-  
-  omega <- sqrt(chi*psi)
 
-  if(is.null(KOmega)){ 
+  if (chi <= 0)
+    stop("chi must be positive")
+  
+  if (psi <= 0)
+    stop("psi must be positive")
+  
+  omega <- sqrt(chi * psi)
+
+  if (is.null(KOmega)) 
     KOmega <- besselK(omega, nu = lambda)     
-  } 
    
-  gigDensity <- ifelse(x > 0, (psi/chi)^(lambda/2)/
-                      (2*KOmega)*x^(lambda - 1)*
-                       exp(-(1/2)*(chi*x^(-1) + psi*x)),0)
+  gigDensity <- ifelse(x > 0, (psi / chi)^(lambda / 2) /
+                       (2 * KOmega) * x^(lambda - 1) *
+                       exp(-(1/2) * (chi * x^(-1) + psi * x)), 0)
   gigDensity
-}## end of dgig()
+} ## end of dgig()
 
 ### Cumulative distribution function of the generalized inverse Gaussian
 ### New version intended to give guaranteed accuracy
