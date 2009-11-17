@@ -1,14 +1,15 @@
 ### Function to calculate the theoretical mean of a 
 ### generalized inverse Gaussian distribution given its parameters.
-gigMean <- function (Theta) {
+gigMean <- function(Theta = c(1, 1, 1)) {
+
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  chi <- Theta[2]
-  psi <- Theta[3]
-  omega <- sqrt(chi*psi)
-  eta <- sqrt(chi/psi)
-  eta*besselRatio(omega, lambda, 1)
-}## End of gigMean() 
+  chi <- Theta[1]
+  psi <- Theta[2]
+  lambda <- Theta[3]
+  omega <- sqrt(chi * psi)
+  eta <- sqrt(chi / psi)
+  eta * besselRatio(omega, lambda, 1)
+} ## End of gigMean() 
 
 ### Function to calculate the theoretical variance of a 
 ### generalized inverse Gaussian distribution given its parameters.
