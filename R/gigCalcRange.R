@@ -1,10 +1,7 @@
 ### Function to calculate an effective range for the distribution function
 ### or for the density function
 ### DJS 10/01/07
-gigCalcRange <- function(Theta = c(1, 1, 1), tol = 10^(-5), density = TRUE, ...) {
-
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+gigCalcRange <- function(Theta, tol = 10^(-5), density = TRUE, ...) {
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
