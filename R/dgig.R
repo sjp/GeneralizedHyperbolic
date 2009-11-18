@@ -573,7 +573,7 @@ gigBreaks <- function(chi = 1, psi = 1, lambda = 1,
   xLarge <- gigCalcRange(ThetaStand, small, density = TRUE)[2]
   xHuge <- gigCalcRange(ThetaStand, tiny, density = TRUE)[2]
 
-  modeDist <- gigMode(ThetaStand)
+  modeDist <- gigMode(Theta = ThetaStand)
   ## Determine break points, based on size of derivative
   xDeriv <- seq(xSmall, modeDist, length.out = 101)
   derivVals <- ddgig(xDeriv, Theta = ThetaStand, KOmega)

@@ -14,11 +14,11 @@ gigCalcRange <- function(Theta, tol = 10^(-5), density = TRUE, ...) {
     stop("Distribution function bounds not yet implemented")
   } else {
     ## bounds are for the density function
-    mode <- gigMode(Theta)
-    xHigh <- mode + sqrt(gigVar(Theta))
+    mode <- gigMode(Theta = Theta)
+    xHigh <- mode + sqrt(gigVar(Theta = Theta))
 
     while (dgig(xHigh, Theta) > tol) {
-      xHigh <- xHigh + sqrt(gigVar(Theta))
+      xHigh <- xHigh + sqrt(gigVar(Theta = Theta))
     }
 
     zeroFun <- function(x) {

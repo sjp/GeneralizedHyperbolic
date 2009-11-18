@@ -1,9 +1,15 @@
-### Function to calculate the theoretical mean of a 
+### Function to calculate the theoretical mean of a
 ### generalized inverse Gaussian distribution given its parameters.
-gigMean <- function(Theta = c(1, 1, 1)) {
+gigMean <- function(chi = 1, psi = 1, lambda = 1,
+                    Theta = c(chi, psi, lambda)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
@@ -12,51 +18,75 @@ gigMean <- function(Theta = c(1, 1, 1)) {
   omega <- sqrt(chi * psi)
   eta <- sqrt(chi / psi)
   eta * besselRatio(omega, lambda, 1)
-} ## End of gigMean() 
+} ## End of gigMean()
 
-### Function to calculate the theoretical variance of a 
+### Function to calculate the theoretical variance of a
 ### generalized inverse Gaussian distribution given its parameters.
-gigVar <- function(Theta = c(1, 1, 1)) {
+gigVar <- function(chi = 1, psi = 1, lambda = 1,
+                   Theta = c(chi, psi, lambda)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
 
-  m1 <- gigMean(Theta)
-  var <- gigMom(2, Theta, about = m1)
+  if (case == "error")
+    stop(errMessage)
+
+  m1 <- gigMean(Theta = Theta)
+  var <- gigMom(2, Theta = Theta, about = m1)
   return(var)
 } ## End of gigVar()
 
-### Function to calculate the theoretical skewness of a 
+### Function to calculate the theoretical skewness of a
 ### generalized inverse Gaussian distribution given its parameters.
-gigSkew <- function(Theta = c(1, 1, 1)) {
+gigSkew <- function(chi = 1, psi = 1, lambda = 1,
+                    Theta = c(chi, psi, lambda)) {
 
-  if (length(Theta != 3))
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
 
-  m1 <- gigMean(Theta)
-  skew <- gigMom(3, Theta, about = m1) / (gigVar(Theta)^(3 / 2))
+  if (case == "error")
+    stop(errMessage)
+
+  m1 <- gigMean(Theta = Theta)
+  skew <- gigMom(3, Theta = Theta, about = m1) / (gigVar(Theta = Theta)^(3 / 2))
   return(skew)
 } ## End of gigSkew()
 
-### Function to calculate the theoretical kurtosis of a 
+### Function to calculate the theoretical kurtosis of a
 ### generalized inverse Gaussian distribution given its parameters.
-gigKurt <- function(Theta = c(1, 1, 1)) {
+gigKurt <- function(chi = 1, psi = 1, lambda = 1,
+                    Theta = c(chi, psi, lambda)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
 
-  m1 <- gigMean(Theta)
-  kurt <- gigMom(4, Theta, about = m1) / (gigVar(Theta)^2) - 3
+  if (case == "error")
+    stop(errMessage)
+
+  m1 <- gigMean(Theta = Theta)
+  kurt <- gigMom(4, Theta = Theta, about = m1) / (gigVar(Theta = Theta)^2) - 3
   return(kurt)
 } ## End of gigKurt()
 
 
-### Function to calculate the theoretical mode point of a 
+### Function to calculate the theoretical mode point of a
 ### generalized inverse Gaussian distribution given its parameters.
-gigMode <- function(Theta = c(1, 1, 1)) {
+gigMode <- function(chi = 1, psi = 1, lambda = 1,
+                    Theta = c(chi, psi, lambda)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
