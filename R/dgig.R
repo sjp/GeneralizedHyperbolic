@@ -3,19 +3,18 @@
 dgig <- function(x, chi = 1, psi = 1, lambda = 1,
                  Theta = c(chi, psi, lambda), KOmega = NULL) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
 
+  if (case == "error")
+    stop(errMessage)
+  
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-
-  if (chi <= 0)
-    stop("chi must be positive")
-
-  if (psi <= 0)
-    stop("psi must be positive")
 
   omega <- sqrt(chi * psi)
 
@@ -41,19 +40,18 @@ pgig <- function(q, chi = 1, psi = 1, lambda = 1,
                  deriv = 0.3, subdivisions = 100,
                  accuracy = FALSE, ...) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-
-  if (chi <= 0)
-    stop("chi must be positive")
-
-  if (psi <= 0)
-    stop("psi must be positive")
 
   omega <- sqrt(chi * psi)
 
@@ -168,8 +166,13 @@ qgig <- function(p, chi = 1, psi = 1, lambda = 1,
                  deriv = 0.3, nInterpol = 100,
                  subdivisions = 100, ...) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
@@ -178,12 +181,6 @@ qgig <- function(p, chi = 1, psi = 1, lambda = 1,
 
   if (any(p < 0 | p > 1))
     stop("p must lie between 0 and 1")
-
-  if (chi <= 0)
-    stop("chi must be positive")
-
-  if (psi <= 0)
-    stop("psi must be positive")
 
   bks <- gigBreaks(Theta = Theta, small = small, tiny = tiny, deriv = deriv, ...)
   xTiny <- bks$xTiny
@@ -389,18 +386,17 @@ rgig1 <- function(n, chi = 1, psi = 1, lambda = 1,
   if (length(Theta) == 2)
     Theta <- c(Theta, 1)
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values or 2 if you choose to omit lambda (because it is assumed to equal 1).")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- 1
-
-  if (chi <= 0)
-    stop("chi must be positive")
-
-  if (psi <= 0)
-    stop("psi must be positive")
 
   alpha <- sqrt(psi / chi)
   beta <- sqrt(psi * chi)
@@ -453,18 +449,17 @@ rgig1 <- function(n, chi = 1, psi = 1, lambda = 1,
 rgig <- function(n, chi = 1, psi = 1, lambda = 1,
                  Theta = c(chi, psi, lambda)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-
-  if (chi <= 0)
-    stop("chi must be positive")
-
-  if (psi <= 0)
-    stop("psi must be positive")
 
   if (lambda == 1)
     stop(return(rgig1(n, Theta = c(chi, psi))))
@@ -523,19 +518,18 @@ rgig <- function(n, chi = 1, psi = 1, lambda = 1,
 ddgig <- function(x, chi = 1, psi = 1, lambda = 1,
                   Theta = c(chi, psi, lambda), KOmega = NULL, ...) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-
-  if (chi <= 0)
-    stop("chi must be positive")
-
-  if (psi <= 0)
-    stop("psi must be positive")
 
   omega <- sqrt(chi * psi)
 
@@ -553,19 +547,18 @@ gigBreaks <- function(chi = 1, psi = 1, lambda = 1,
                       Theta = c(chi, psi, lambda), small = 10^(-6),
                       tiny = 10^(-10), deriv = 0.3, ...) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
-
-  if (chi <= 0)
-    stop("chi must be positive")
-
-  if (psi <= 0)
-    stop("psi must be positive")
 
   omega <- sqrt(chi * psi)
   ## Find quantiles of standardised gig: adjust later
