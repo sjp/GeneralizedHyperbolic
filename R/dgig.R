@@ -1,6 +1,7 @@
 ### Function to calculate the density of the
 ### generalized inverse Gaussian distribution
-dgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL) {
+dgig <- function(x, chi = 1, psi = 1, lambda = 1,
+                 Theta = c(chi, psi, lambda), KOmega = NULL) {
 
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
@@ -34,7 +35,8 @@ dgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL) {
 ### Calls gigBreaks to determine the breaks
 ###
 ### DJS 25/01/07
-pgig <- function(q, Theta = c(1, 1, 1),
+pgig <- function(q, chi = 1, psi = 1, lambda = 1,
+                 Theta = c(chi, psi, lambda),
                  small = 10^(-6), tiny = 10^(-10),
                  deriv = 0.3, subdivisions = 100,
                  accuracy = FALSE, ...) {
@@ -62,7 +64,7 @@ pgig <- function(q, Theta = c(1, 1, 1),
   Theta <- c(chi, psi, lambda)
   KOmega <- besselK(omega, nu = lambda)
 
-  bks <- gigBreaks(Theta, small, tiny, deriv, ...)
+  bks <- gigBreaks(Theta = Theta, small = small, tiny = tiny, deriv = deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
   lowBreak <- bks$lowBreak
@@ -98,7 +100,7 @@ pgig <- function(q, Theta = c(1, 1, 1),
 
   ## Use safeIntegrate function between xTiny and xHuge in 6 sections
   dgigInt <- function(q) {
-    dgig(q, Theta)
+    dgig(q, Theta = Theta)
   }
 
   ## Calculate integrals and errors to cut points
@@ -160,7 +162,8 @@ pgig <- function(q, Theta = c(1, 1, 1),
 
 ### qgig using breaks as for pgig and splines
 ### David Scott 08/12/06
-qgig <- function(p, Theta = c(1, 1, 1),
+qgig <- function(p, chi = 1, psi = 1, lambda = 1,
+                 Theta = c(chi, psi, lambda),
                  small = 10^(-6), tiny = 10^(-10),
                  deriv = 0.3, nInterpol = 100,
                  subdivisions = 100, ...) {
@@ -182,7 +185,7 @@ qgig <- function(p, Theta = c(1, 1, 1),
   if (psi <= 0)
     stop("psi must be positive")
 
-  bks <- gigBreaks(Theta, small, tiny, deriv, ...)
+  bks <- gigBreaks(Theta = Theta, small = small, tiny = tiny, deriv = deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
   lowBreak <- bks$lowBreak
@@ -191,23 +194,23 @@ qgig <- function(p, Theta = c(1, 1, 1),
   xHuge <- bks$xHuge
   modeDist <- bks$modeDist
 
-  yTiny <- pgig(xTiny, Theta)
-  ySmall <- pgig(xSmall, Theta)
-  yLowBreak <- pgig(lowBreak, Theta)
-  yHighBreak <- pgig(highBreak, Theta)
-  yLarge <- pgig(xLarge, Theta)
-  yHuge <- pgig(xHuge, Theta)
-  yModeDist <- pgig(modeDist, Theta)
+  yTiny <- pgig(xTiny, Theta = Theta)
+  ySmall <- pgig(xSmall, Theta = Theta)
+  yLowBreak <- pgig(lowBreak, Theta = Theta)
+  yHighBreak <- pgig(highBreak, Theta = Theta)
+  yLarge <- pgig(xLarge, Theta = Theta)
+  yHuge <- pgig(xHuge, Theta = Theta)
+  yModeDist <- pgig(modeDist, Theta = Theta)
 
   pSort <- sort(p)
-  pSmall <- which(pSort < pgig(xSmall, Theta))
-  pTiny <- which(pSort < pgig(xTiny, Theta))
-  pLarge <- which(pSort > pgig(xLarge, Theta))
-  pHuge <- which(pSort > pgig(xHuge, Theta))
-  pLow <- which(pSort < pgig(lowBreak, Theta))
-  pHigh <- which(pSort > pgig(highBreak, Theta))
-  pLessEqMode <- which(pSort <= pgig(modeDist, Theta))
-  pGreatMode <- which(pSort > pgig(modeDist, Theta))
+  pSmall <- which(pSort < pgig(xSmall, Theta = Theta))
+  pTiny <- which(pSort < pgig(xTiny, Theta = Theta))
+  pLarge <- which(pSort > pgig(xLarge, Theta = Theta))
+  pHuge <- which(pSort > pgig(xHuge, Theta = Theta))
+  pLow <- which(pSort < pgig(lowBreak, Theta = Theta))
+  pHigh <- which(pSort > pgig(highBreak, Theta = Theta))
+  pLessEqMode <- which(pSort <= pgig(modeDist, Theta = Theta))
+  pGreatMode <- which(pSort > pgig(modeDist, Theta = Theta))
 
   ## Break indices into 8 groups: beware of empty groups
   if (length(pLow) > 0) pLessEqMode <- pLessEqMode[pLessEqMode > max(pLow)]
@@ -222,8 +225,8 @@ qgig <- function(p, Theta = c(1, 1, 1),
 
   if (length(pSmall) > 0) {
     xValues <- seq(xTiny, xSmall, length = nInterpol)
-    pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                       subdivisions = subdivisions, accuracy = FALSE)
+    pgigValues <- pgig(xValues, Theta = Theta, small = small, tiny = tiny,
+                       deriv = deriv, subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pSmall) {
@@ -245,8 +248,8 @@ qgig <- function(p, Theta = c(1, 1, 1),
 
   if (length(pLow) > 0) {
     xValues <- seq(xSmall, lowBreak, length = nInterpol)
-    pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                       subdivisions = subdivisions, accuracy = FALSE)
+    pgigValues <- pgig(xValues, Theta = Theta, small = small, tiny = tiny,
+                       deriv = deriv, subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pLow) {
@@ -268,8 +271,8 @@ qgig <- function(p, Theta = c(1, 1, 1),
 
   if (length(pLessEqMode) > 0) {
     xValues <- seq(lowBreak, modeDist, length = nInterpol)
-    pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                       subdivisions = subdivisions, accuracy = FALSE)
+    pgigValues <- pgig(xValues, Theta = Theta, small = small, tiny = tiny,
+                       deriv = deriv, subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pLessEqMode) {
@@ -291,8 +294,8 @@ qgig <- function(p, Theta = c(1, 1, 1),
 
   if (length(pGreatMode) > 0) {
     xValues <- seq(modeDist, highBreak, length = nInterpol)
-    pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                       subdivisions = subdivisions, accuracy = FALSE)
+    pgigValues <- pgig(xValues, Theta = Theta, small = small, tiny = tiny,
+                       deriv = deriv, subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pGreatMode) {
@@ -314,8 +317,8 @@ qgig <- function(p, Theta = c(1, 1, 1),
 
   if (length(pHigh) > 0) {
     xValues <- seq(highBreak, xLarge, length = nInterpol)
-    pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                       subdivisions = subdivisions, accuracy = FALSE)
+    pgigValues <- pgig(xValues, Theta = Theta, small = small, tiny = tiny,
+                       deriv = deriv, subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pHigh) {
@@ -337,8 +340,8 @@ qgig <- function(p, Theta = c(1, 1, 1),
 
   if (length(pLarge) > 0) {
     xValues <- seq(xLarge, xHuge, length = nInterpol)
-    pgigValues <- pgig(xValues, Theta, small, tiny, deriv,
-                       subdivisions = subdivisions, accuracy = FALSE)
+    pgigValues <- pgig(xValues, Theta = Theta, small = small, tiny = tiny,
+                       deriv = deriv, subdivisions = subdivisions, accuracy = FALSE)
     pgigSpline <- splinefun(xValues, pgigValues)
 
     for (i in pLarge) {
@@ -361,7 +364,7 @@ qgig <- function(p, Theta = c(1, 1, 1),
   if (length(pHuge) > 0) {
     for (i in pHuge) {
       zeroFun <- function(x) {
-        pgig(x,Theta) - pSort[i]
+        pgig(x, Theta = Theta) - pSort[i]
       }
 
       interval <- c(xHuge,xHuge + (xHuge - xLarge))
@@ -380,7 +383,8 @@ qgig <- function(p, Theta = c(1, 1, 1),
 # Modified version of rgig to generate random observations
 # from a generalized inverse Gaussian distribution in the
 # special case where lambda = 1.
-rgig1 <- function(n, Theta = c(1, 1, 1)) {
+rgig1 <- function(n, chi = 1, psi = 1, lambda = 1,
+                  Theta = c(chi, psi, lambda)) {
 
   if (length(Theta) == 2)
     Theta <- c(Theta, 1)
@@ -446,7 +450,8 @@ rgig1 <- function(n, Theta = c(1, 1, 1)) {
 # Function to generate random observations from a
 # generalized inverse Gaussian distribution. The
 # algorithm is based on that given by Dagpunar (1989)
-rgig <- function(n, Theta = c(1, 1, 1)) {
+rgig <- function(n, chi = 1, psi = 1, lambda = 1,
+                 Theta = c(chi, psi, lambda)) {
 
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
@@ -462,7 +467,7 @@ rgig <- function(n, Theta = c(1, 1, 1)) {
     stop("psi must be positive")
 
   if (lambda == 1)
-    stop(return(rgig1(n, c(chi, psi))))
+    stop(return(rgig1(n, Theta = c(chi, psi))))
 
   alpha <- sqrt(psi / chi)
   beta <- sqrt(psi * chi)
@@ -515,7 +520,8 @@ rgig <- function(n, Theta = c(1, 1, 1)) {
 } ## End of rgig()
 
 ### Derivative of dgig
-ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
+ddgig <- function(x, chi = 1, psi = 1, lambda = 1,
+                  Theta = c(chi, psi, lambda), KOmega = NULL, ...) {
 
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
@@ -537,13 +543,14 @@ ddgig <- function(x, Theta = c(1, 1, 1), KOmega = NULL, ...) {
     KOmega <- besselK(x = omega, nu = lambda)
 
   ddgig <- ifelse(x > 0,
-                  dgig(x, Theta, KOmega) * (chi / x^2 + 2 * (lambda - 1) / x - psi) / 2,
+                  dgig(x, Theta = Theta, KOmega) * (chi / x^2 + 2 * (lambda - 1) / x - psi) / 2,
                   0)
   ddgig
 } ## End of ddgig()
 
 ### Function to set up breaks for pgig and qgig
-gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
+gigBreaks <- function(chi = 1, psi = 1, lambda = 1,
+                      Theta = c(chi, psi, lambda), small = 10^(-6),
                       tiny = 10^(-10), deriv = 0.3, ...) {
 
   if (length(Theta) != 3)
@@ -576,13 +583,13 @@ gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
   modeDist <- gigMode(ThetaStand)
   ## Determine break points, based on size of derivative
   xDeriv <- seq(xSmall, modeDist, length.out = 101)
-  derivVals <- ddgig(xDeriv, ThetaStand, KOmega)
+  derivVals <- ddgig(xDeriv, Theta = ThetaStand, KOmega)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv * maxDeriv
 
   breakFun <- function(x) {
-    ddgig(x, ThetaStand, KOmega) - breakSize
+    ddgig(x, Theta = ThetaStand, KOmega) - breakSize
   }
 
   if ((maxDeriv < breakSize) | (derivVals[1] > breakSize)) {
@@ -593,13 +600,13 @@ gigBreaks <- function(Theta = c(1, 1, 1), small = 10^(-6),
   }
 
   xDeriv <- seq(modeDist, xLarge, length.out = 101)
-  derivVals <- -ddgig(xDeriv, ThetaStand, KOmega)
+  derivVals <- -ddgig(xDeriv, Theta = ThetaStand, KOmega)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv * maxDeriv
 
   breakFun <- function(x) {
-    -ddgig(x, ThetaStand, KOmega) - breakSize
+    -ddgig(x, Theta = ThetaStand, KOmega) - breakSize
   }
 
   if ((maxDeriv < breakSize) | (derivVals[101] > breakSize)) {
