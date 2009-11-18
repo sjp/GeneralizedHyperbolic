@@ -5,9 +5,9 @@ dskewlap <- function(x, mu = 0, alpha = 1, beta = 1,
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
-  mu <- Theta[1] 
+  mu <- Theta[1]
   alpha <- Theta[2]
-  beta <- Theta[3] 
+  beta <- Theta[3]
   ab <- alpha + beta
 
   belowMu <- (1 / ab) * exp((x - mu) / alpha)
@@ -25,14 +25,14 @@ pskewlap <- function(q, mu = 0, alpha = 1, beta = 1,
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
-  mu <- Theta[1] 
+  mu <- Theta[1]
   alpha <- Theta[2]
   beta <- Theta[3]
   ab <- alpha + beta
 
   if (alpha <= 0)
     stop("alpha must be positive")
-  
+
   if (beta <= 0)
     stop("beta must be positive")
 
@@ -51,7 +51,7 @@ qskewlap <- function(p, mu = 0, alpha = 1, beta = 1,
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
-  mu <- Theta[1] 
+  mu <- Theta[1]
   alpha <- Theta[2]
   beta <- Theta[3]
   ab <- alpha + beta
@@ -81,7 +81,7 @@ rskewlap <- function(n, mu = 0, alpha = 1, beta = 1,
   if (length(Theta) != 3)
     stop("Theta vector must contain 3 values")
 
-  mu <- Theta[1] 
+  mu <- Theta[1]
   alpha <- Theta[2]
   beta <- Theta[3]
   ab <- alpha + beta

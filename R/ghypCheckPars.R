@@ -34,7 +34,7 @@ ghypCheckPars <- function(Theta, ...) {
         case <- "error"
         errMessage <- "abs(beta) must be less than alpha and delta must be greater than zero when lambda = 0"
     }
-  }        
+  }
 
   if (lambda > 0) {
 
