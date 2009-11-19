@@ -21,32 +21,35 @@ dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   alpha <- Theta[3]
   beta <- Theta[4]
   lambda <- Theta[5]
-  
+
   gamma <- sqrt(alpha^2 - beta^2)
 
   ## Argument of Bessel K function in numerator
-  y <- alpha*sqrt(delta^2 + (x - mu)^2)
-  bx <- beta*(x - mu)
+  y <- alpha * sqrt(delta^2 + (x - mu)^2)
+  bx <- beta * (x - mu)
+
   ## Deal with underflow in ratio of Bessel K functions
   ## besselK underflows for x > 740
   ## Use exponentially scaled besselK
-  if(delta*gamma > 700){# underflow in constant part
-    expTerm <- exp(delta*gamma - y + bx)
-    besselRatio <- besselK(x = y, nu = lambda -1/2, expon.scaled = TRUE)/
-      besselK(x = delta*gamma, nu = lambda, expon.scaled = TRUE)  
+  if (delta * gamma > 700) {
+    # underflow in constant part
+    expTerm <- exp(delta * gamma - y + bx)
+    besselRatio <- besselK(x = y, nu = lambda - 1 / 2, expon.scaled = TRUE) /
+                           besselK(x = delta * gamma, nu = lambda, expon.scaled = TRUE)
     expAndBessel <- expTerm*besselRatio
-  }else{
-    expAndBessel <- ifelse(y > 700|bx > 700, # underflow in variable part
-                           exp(delta*gamma - y + bx)*
-                           besselK(x = y, nu = lambda -1/2,
-                                   expon.scaled = TRUE)/
-                           besselK(x = delta*gamma, nu = lambda,
+  } else {
+    expAndBessel <- ifelse(y > 700 | bx > 700, # underflow in variable part
+                           exp(delta * gamma - y + bx) *
+                           besselK(x = y, nu = lambda - 1 / 2,
+                                   expon.scaled = TRUE) /
+                           besselK(x = delta * gamma, nu = lambda,
                                    expon.scaled = TRUE),
-                          exp(bx)*besselK(x = y, nu = lambda -1/2)/
-                          besselK(x = delta*gamma, nu = lambda))
+                          exp(bx) * besselK(x = y, nu = lambda - 1 / 2) /
+                          besselK(x = delta * gamma, nu = lambda))
   }
-  dens <- (y/alpha)^(lambda - 1/2)*((gamma/delta)^lambda)*
-    alpha^(1/2-lambda)*expAndBessel/sqrt(2*pi)
+
+  dens <- (y / alpha)^(lambda - 1 / 2) * ((gamma / delta)^lambda) *
+          alpha^(1 / 2 - lambda) * expAndBessel / sqrt(2 * pi)
   dens
 } ## End of dghyp()
 
@@ -81,7 +84,7 @@ pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   alpha <- Theta[3]
   beta <- Theta[4]
   lambda <- Theta[5]
-  
+
   bks <- ghypBreaks(Theta, small, tiny, deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
@@ -117,7 +120,7 @@ pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 
 
   ## Use safeIntegrate function between xTiny and xHuge in 6 sections
-  dghypInt <- function(q){ 
+  dghypInt <- function(q) {
     dghyp(q, Theta = Theta)
   }
 
@@ -135,41 +138,46 @@ pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   errLow <- errSmall + resLow$abs.error
   errHigh <- errLarge + resHigh$abs.error
 
-  for (i in qSmall){
+  for (i in qSmall) {
     intRes <- safeIntegrate(dghypInt, xTiny, qSort[i], subdivisions, ...)
     intFun[i] <- intRes$value
     intErr[i] <- intRes$abs.error + tiny
   }
-  for (i in qLarge){
+
+  for (i in qLarge) {
     intRes <- safeIntegrate(dghypInt, qSort[i], xHuge, subdivisions, ...)
-    intFun[i] <-  1- intRes$value 
+    intFun[i] <-  1- intRes$value
     intErr[i] <- intRes$abs.error + tiny
   }
-  for (i in qLow){
+
+  for (i in qLow) {
     intRes <- safeIntegrate(dghypInt, xSmall, qSort[i], subdivisions, ...)
     intFun[i] <- intRes$value + intSmall
     intErr[i] <- intRes$abs.error + errSmall
   }
-  for (i in qHigh){
+
+  for (i in qHigh) {
     intRes <- safeIntegrate(dghypInt, qSort[i], xLarge, subdivisions, ...)
     intFun[i] <-  1- intRes$value - intLarge
     intErr[i] <- intRes$abs.error + errLarge
   }
-  for (i in qLessEqMode){
+
+  for (i in qLessEqMode) {
     intRes <- safeIntegrate(dghypInt, lowBreak, qSort[i], subdivisions, ...)
     intFun[i] <- intRes$value + intLow
     intErr[i] <- intRes$abs.error + errLow
   }
-  for (i in qGreatMode){
+
+  for (i in qGreatMode) {
     intRes <- safeIntegrate(dghypInt, qSort[i], highBreak, subdivisions, ...)
     intFun[i] <-  1- intRes$value - intHigh
     intErr[i] <- intRes$abs.error + errLarge
   }
 
-  if (!accuracy){
+  if (!accuracy) {
     return(intFun[rank(q)])
-  }else{
-    return(list(value=intFun[rank(q)], error=intErr[rank(q)]))
+  } else {
+    return(list(value = intFun[rank(q)], error = intErr[rank(q)]))
   }
 } ## End of pghyp()
 
@@ -184,7 +192,7 @@ qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
                   subdivisions = 100, ...) {
 
   # Lambda defaults to one if omitted from Theta vector
-  if(length(Theta) == 4)
+  if (length(Theta) == 4)
     Theta <- c(Theta, 1)
 
   ## check parameters
@@ -201,7 +209,7 @@ qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   alpha <- Theta[3]
   beta <- Theta[4]
   lambda <- Theta[5]
-  
+
   bks <- ghypBreaks(Theta, small, tiny, deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
@@ -241,156 +249,182 @@ qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   if (length(pHuge) > 0) qSort[pHuge] <- Inf
 
 
-  if (length(pTiny) > 0){
-    for (i in pTiny){
-      zeroFun<-function(x){ 
-        pghyp(x, Theta = Theta) - pSort[i] 
+  if (length(pTiny) > 0) {
+    for (i in pTiny) {
+
+      zeroFun <- function(x) {
+        pghyp(x, Theta = Theta) - pSort[i]
       }
-      interval <- c(xTiny - (xSmall - xTiny),xTiny)
-      while(zeroFun(interval[1])*zeroFun(interval[2])>0) {
+
+      interval <- c(xTiny - (xSmall - xTiny), xTiny)
+      while (zeroFun(interval[1]) * zeroFun(interval[2]) > 0) {
         interval[1] <- interval[1] - (xSmall - xTiny)
       }
-      qSort[i] <- uniroot(zeroFun,interval)$root
+      qSort[i] <- uniroot(zeroFun, interval)$root
     }
   }
-  if (length(pSmall) > 0){
+
+  if (length(pSmall) > 0) {
     xValues <- seq(xTiny, xSmall, length = nInterpol)
     pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
                          subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
-    for(i in pSmall){ 
-      zeroFun<-function(x){ 
-        pghypSpline(x) - pSort[i] 
+
+    for (i in pSmall) {
+
+      zeroFun <- function(x) {
+        pghypSpline(x) - pSort[i]
       }
-      if (zeroFun(xTiny) >= 0){
+
+      if (zeroFun(xTiny) >= 0) {
         qSort[i] <- xTiny
-      }else{
-        if (zeroFun(xSmall) <= 0){
+      } else {
+        if (zeroFun(xSmall) <= 0) {
           qSort[i] <- xSmall
-        }else{
-          qSort[i] <- uniroot(zeroFun, interval = c(xTiny,xSmall), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(xTiny, xSmall), ...)$root
         }
       }
     }
   }
-  if (length(pLow) > 0){
+
+  if (length(pLow) > 0) {
     xValues <- seq(xSmall, lowBreak, length = nInterpol)
     pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
                          subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
-    for(i in pLow){ 
-      zeroFun<-function(x){ 
-        pghypSpline(x) - pSort[i] 
+
+    for (i in pLow) {
+
+      zeroFun <- function(x) {
+        pghypSpline(x) - pSort[i]
       }
-      if (zeroFun(xSmall) >= 0){
+
+      if (zeroFun(xSmall) >= 0) {
         qSort[i] <- xSmall
-      }else{
-        if (zeroFun(lowBreak) <= 0){
+      } else {
+        if (zeroFun(lowBreak) <= 0) {
           qSort[i] <- lowBreak
-        }else{
-          qSort[i] <- uniroot(zeroFun, interval = c(xSmall,lowBreak), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(xSmall, lowBreak), ...)$root
         }
       }
     }
   }
-  if (length(pLessEqMode) > 0){
+
+  if (length(pLessEqMode) > 0) {
     xValues <- seq(lowBreak, modeDist, length = nInterpol)
     pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
                          subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
-    for(i in pLessEqMode){ 
-      zeroFun<-function(x){ 
-        pghypSpline(x) - pSort[i] 
+
+    for (i in pLessEqMode) {
+
+      zeroFun <- function(x) {
+        pghypSpline(x) - pSort[i]
       }
-      if (zeroFun(lowBreak) >= 0){
+
+      if (zeroFun(lowBreak) >= 0) {
         qSort[i] <- lowBreak
-      }else{
-        if (zeroFun(modeDist) <= 0){
+      } else {
+        if (zeroFun(modeDist) <= 0) {
           qSort[i] <- modeDist
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(lowBreak,modeDist), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(lowBreak, modeDist), ...)$root
         }
       }
     }
   }
-  if (length(pGreatMode) > 0){
+
+  if (length(pGreatMode) > 0) {
     xValues <- seq(modeDist, highBreak, length = nInterpol)
     pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
                          subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
-    for(i in pGreatMode){ 
-      zeroFun<-function(x){ 
-        pghypSpline(x) - pSort[i] 
+
+    for (i in pGreatMode) {
+
+      zeroFun <- function(x) {
+        pghypSpline(x) - pSort[i]
       }
-      if (zeroFun(modeDist) >= 0){
+
+      if (zeroFun(modeDist) >= 0) {
         qSort[i] <- modeDist
-      }else{
-        if (zeroFun(highBreak) <= 0){
+      } else {
+        if (zeroFun(highBreak) <= 0) {
           qSort[i] <- highBreak
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(modeDist,highBreak), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(modeDist, highBreak), ...)$root
         }
       }
     }
   }
-  if (length(pHigh) > 0){
+
+  if (length(pHigh) > 0) {
     xValues <- seq(highBreak, xLarge, length = nInterpol)
     pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
                          subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
-    for(i in pHigh){ 
-      zeroFun<-function(x){ 
-        pghypSpline(x) - pSort[i] 
+
+    for (i in pHigh) {
+
+      zeroFun <- function(x) {
+        pghypSpline(x) - pSort[i]
       }
-      if (zeroFun(highBreak) >= 0){
+
+      if (zeroFun(highBreak) >= 0) {
         qSort[i] <- highBreak
-      }else{
-        if (zeroFun(xLarge) <= 0){
+      } else {
+        if (zeroFun(xLarge) <= 0) {
           qSort[i] <- xLarge
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(highBreak,xLarge), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(highBreak,xLarge), ...)$root
         }
       }
     }
   }
-  if (length(pLarge) > 0){
+
+  if (length(pLarge) > 0) {
     xValues <- seq(xLarge, xHuge, length = nInterpol)
     pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
                          subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
-    for(i in pLarge){ 
-      zeroFun<-function(x){ 
-        pghypSpline(x) - pSort[i] 
+
+    for (i in pLarge) {
+
+      zeroFun <- function(x) {
+        pghypSpline(x) - pSort[i]
       }
-      if (zeroFun(xLarge) >= 0){
+
+      if (zeroFun(xLarge) >= 0) {
         qSort[i] <- xLarge
-      }else{
-        if (zeroFun(xHuge) <= 0){
+      } else {
+        if (zeroFun(xHuge) <= 0) {
           qSort[i] <- xHuge
-        }else{
-          qSort[i] <-
-            uniroot(zeroFun, interval = c(xLarge,xHuge), ...)$root
+        } else {
+          qSort[i] <- uniroot(zeroFun, interval = c(xLarge,xHuge), ...)$root
         }
       }
     }
-  }        
-  if (length(pHuge) > 0){
-    for (i in pHuge){
-      zeroFun<-function(x){ 
-        pghyp(x, Theta = Theta) - pSort[i] 
+  }
+
+  if (length(pHuge) > 0) {
+    for (i in pHuge) {
+
+      zeroFun <- function(x) {
+        pghyp(x, Theta = Theta) - pSort[i]
       }
-      interval <- c(xHuge,xHuge + (xHuge - xLarge))
-      while(zeroFun(interval[1])*zeroFun(interval[2])>0) {
+
+      interval <- c(xHuge, xHuge + (xHuge - xLarge))
+
+      while (zeroFun(interval[1]) * zeroFun(interval[2]) > 0) {
         interval[1] <- interval[1] + (xHuge - xLarge)
       }
-      qSort[i] <- uniroot(zeroFun,interval)$root
+      qSort[i] <- uniroot(zeroFun, interval)$root
     }
   }
 
-  return(qSort[rank(p)]) 
+  return(qSort[rank(p)])
 } # End of qghyp()
 
 ### Derivative of the density
@@ -398,7 +432,7 @@ ddghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
                    Theta = c(mu, delta, alpha, beta, lambda)) {
 
   # Lambda defaults to one if omitted from Theta vector
-  if(length(Theta) == 4)
+  if (length(Theta) == 4)
     Theta <- c(Theta, 1)
 
   ## check parameters
@@ -419,15 +453,15 @@ ddghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   ## Terms for simplification of programming
   t1 <- sqrt(delta^2 + (x - mu)^2)
   t2 <- sqrt(alpha^2 - beta^2)
-  t3 <- besselK(x = alpha*t1, nu = lambda - 0.5)
-  t4 <- besselK(x = alpha*t1, nu = lambda + 0.5)
-  
-  ddghyp <- (t3*(beta*delta^2 + (2*lambda - 1)*(x - mu) + beta*(x - mu)^2) -
-             t4*alpha*t1*(x - mu))*
-               exp(beta*(x - mu))*t1^(lambda - (5/2))*t2^lambda/
-                          (sqrt(2*pi)*alpha^(lambda -  1/2)*delta^lambda*
-                           besselK(x = delta*t2, nu = lambda))
-                      
+  t3 <- besselK(x = alpha * t1, nu = lambda - 0.5)
+  t4 <- besselK(x = alpha * t1, nu = lambda + 0.5)
+
+  ddghyp <- (t3 * (beta * delta^2 + (2 * lambda - 1) * (x - mu) + beta * (x - mu)^2) -
+             t4 * alpha * t1 * (x - mu)) *
+             exp(beta * (x - mu)) * t1^(lambda - (5 / 2)) * t2^lambda /
+             (sqrt(2 * pi) * alpha^(lambda -  1 / 2) * delta^lambda *
+             besselK(x = delta * t2, nu = lambda))
+
   ddghyp
 } ## End of ddghyp()
 
@@ -436,7 +470,7 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
                        deriv = 0.3, ...) {
 
   # Lambda defaults to one if omitted from Theta vector
-  if(length(Theta) == 4)
+  if (length(Theta) == 4)
     Theta <- c(Theta, 1)
 
   ## check parameters
@@ -453,7 +487,7 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  xTiny <- ghypCalcRange(Theta, tiny, density = TRUE)[1] 
+  xTiny <- ghypCalcRange(Theta, tiny, density = TRUE)[1]
   xSmall <- ghypCalcRange(Theta, small, density = TRUE)[1]
   xLarge <- ghypCalcRange(Theta, small, density = TRUE)[2]
   xHuge <- ghypCalcRange(Theta, tiny, density = TRUE)[2]
@@ -464,36 +498,41 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   derivVals <- ddghyp(xDeriv, Theta = Theta)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
-  breakSize <- deriv*maxDeriv
-  breakFun <- function(x){ 
+  breakSize <- deriv * maxDeriv
+
+  breakFun <- function(x) {
     ddghyp(x, Theta = Theta) - breakSize
   }
-  if ((maxDeriv < breakSize)||(derivVals[1] > breakSize)){
+
+  if ((maxDeriv < breakSize) | (derivVals[1] > breakSize)) {
     lowBreak <- xSmall
-  }else{
+  } else {
     whichMaxDeriv <- which.max(derivVals)
-    lowBreak <- uniroot(breakFun,c(xSmall,xDeriv[whichMaxDeriv]))$root
+    lowBreak <- uniroot(breakFun, c(xSmall, xDeriv[whichMaxDeriv]))$root
   }
 
   xDeriv <- seq(modeDist, xLarge, length.out = 101)
   derivVals <- -ddghyp(xDeriv, Theta = Theta)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
-  breakSize <- deriv*maxDeriv
-  breakFun <- function(x){ 
-    - ddghyp(x, Theta = Theta) - breakSize
+  breakSize <- deriv * maxDeriv
+
+  breakFun <- function(x) {
+    -ddghyp(x, Theta = Theta) - breakSize
   }
-  if ((maxDeriv < breakSize)||(derivVals[101] > breakSize)){
+
+  if ((maxDeriv < breakSize) | (derivVals[101] > breakSize)) {
     highBreak <- xLarge
-  }else{
+  } else {
     whichMaxDeriv <- which.max(derivVals)
-    highBreak <- uniroot(breakFun,c(xDeriv[whichMaxDeriv],xLarge))$root
+    highBreak <- uniroot(breakFun, c(xDeriv[whichMaxDeriv], xLarge))$root
   }
-  breaks <- c(xTiny,xSmall,lowBreak,highBreak,xLarge,xHuge,modeDist)
-  breaks <- list(xTiny = breaks[1], xSmall =  breaks[2],
-                 lowBreak =  breaks[3], highBreak =  breaks[4],
-                 xLarge =  breaks[5], xHuge =  breaks[6],
-                 modeDist =  breaks[7])
+
+  breaks <- c(xTiny, xSmall, lowBreak, highBreak, xLarge, xHuge, modeDist)
+  breaks <- list(xTiny = breaks[1], xSmall = breaks[2],
+                 lowBreak = breaks[3], highBreak = breaks[4],
+                 xLarge = breaks[5], xHuge = breaks[6],
+                 modeDist = breaks[7])
   return(breaks)
 } ## End of ghypBreaks()
 
@@ -506,7 +545,7 @@ rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
                   Theta = c(mu, delta, alpha, beta, lambda)) {
 
   # Lambda defaults to one if omitted from Theta vector
-  if(length(Theta) == 4)
+  if (length(Theta) == 4)
     Theta <- c(Theta, 1)
 
   ## check parameters
@@ -523,7 +562,7 @@ rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   alpha <- Theta[3]
   beta <- Theta[4]
   lambda <- Theta[5]
-   
+
   ## check parameters
   parResult <- gigCheckPars(Theta)
   case <- parResult$case
@@ -540,10 +579,10 @@ rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   } else {
     X <- rgig(n, chi, psi, lambda)
   }
-  
+
   sigma <- sqrt(X)
   Z <- rnorm(n)
-  Y <- mu + beta*sigma^2 + sigma*Z
+  Y <- mu + beta * sigma^2 + sigma * Z
 
   Y
 } ## End of rghyp()
