@@ -1,17 +1,22 @@
 ### Function to calculate the density of the
 ### generalized hyperbolic distribution
-dghyp <- function(x, Theta)
-{
-  if(length(Theta) == 4) Theta <- c(1, Theta)
+dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
+                  lambda = 1, Theta = c(mu, delta, alpha, beta, lambda)) {
+
+  # Lambda defaults to one if omitted from Theta vector
+  if (length(Theta) == 4)
+    Theta <- c(Theta, 1)
+
   if(length (Theta) != 5){
     stop("parameter vector must contain 5 values") 
   }
+
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
-  delta <- Theta[4]
-  mu <- Theta[5]
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
   
   if (alpha <= 0) {
     stop("alpha must be positive")
@@ -58,20 +63,25 @@ dghyp <- function(x, Theta)
 ### Calls ghypBreaks to determine the breaks
 ###
 ### DJS 07/01/07
-pghyp <- function(q, Theta, small = 10^(-6), tiny = 10^(-10),
-                    deriv = 0.3, subdivisions = 100,
-                    accuracy = FALSE, ...){
+pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                  Theta = c(mu, delta, alpha, beta, lambda), small = 10^(-6),
+                  tiny = 10^(-10), deriv = 0.3, subdivisions = 100,
+                  accuracy = FALSE, ...) {
 
-  if(length(Theta) == 4) Theta <- c(1, Theta)
+  # Lambda defaults to one if omitted from Theta vector
+  if (length(Theta) == 4)
+    Theta <- c(Theta, 1)
+
   if(length (Theta) != 5){
     stop("parameter vector must contain 5 values") 
   }
+
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
-  delta <- Theta[4]
-  mu <- Theta[5]
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
   
   if (alpha <= 0) {
     stop("alpha must be positive")
@@ -119,7 +129,7 @@ pghyp <- function(q, Theta, small = 10^(-6), tiny = 10^(-10),
 
   ## Use safeIntegrate function between xTiny and xHuge in 6 sections
   dghypInt <- function(q){ 
-    dghyp(q, Theta)
+    dghyp(q, Theta = Theta)
   }
 
   ## Calculate integrals and errors to cut points
@@ -179,18 +189,25 @@ pghyp <- function(q, Theta, small = 10^(-6), tiny = 10^(-10),
 ### qghyp using breaks as for pghyp and splines as in original qghyp
 ###
 ### DJS 06/09/06
-qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
-                    deriv = 0.3, nInterpol = 100, subdivisions = 100, ...){ 
-  if(length(Theta) == 4) Theta <- c(1, Theta)
+qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                  Theta = c(mu, delta, alpha, beta, lambda), small = 10^(-6),
+                  tiny = 10^(-10), deriv = 0.3, nInterpol = 100,
+                  subdivisions = 100, ...) {
+
+  # Lambda defaults to one if omitted from Theta vector
+  if(length(Theta) == 4)
+    Theta <- c(Theta, 1)
+
   if(length (Theta) != 5){
     stop("parameter vector must contain 5 values") 
   }
+
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
-  delta <- Theta[4]
-  mu <- Theta[5]
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
   
   if (alpha <= 0) {
     stop("alpha must be positive")
@@ -211,23 +228,23 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   xHuge <- bks$xHuge
   modeDist <- bks$modeDist
 
-  yTiny <- pghyp(xTiny, Theta)
-  ySmall <- pghyp(xSmall, Theta)
-  yLowBreak <- pghyp(lowBreak, Theta)
-  yHighBreak <- pghyp(highBreak, Theta)
-  yLarge <- pghyp(xLarge, Theta)
-  yHuge <- pghyp(xHuge, Theta)
-  yModeDist <- pghyp(modeDist, Theta)
+  yTiny <- pghyp(xTiny, Theta = Theta)
+  ySmall <- pghyp(xSmall, Theta = Theta)
+  yLowBreak <- pghyp(lowBreak, Theta = Theta)
+  yHighBreak <- pghyp(highBreak, Theta = Theta)
+  yLarge <- pghyp(xLarge, Theta = Theta)
+  yHuge <- pghyp(xHuge, Theta = Theta)
+  yModeDist <- pghyp(modeDist, Theta = Theta)
 
   pSort <- sort(p)
-  pSmall <- which(pSort < pghyp(xSmall, Theta))
-  pTiny <- which(pSort < pghyp(xTiny, Theta))
-  pLarge <- which(pSort > pghyp(xLarge, Theta))
-  pHuge <- which(pSort > pghyp(xHuge, Theta))
-  pLow <- which(pSort < pghyp(lowBreak, Theta))
-  pHigh <- which(pSort > pghyp(highBreak, Theta))
-  pLessEqMode <- which(pSort <= pghyp(modeDist, Theta))
-  pGreatMode <- which(pSort > pghyp(modeDist, Theta))
+  pSmall <- which(pSort < pghyp(xSmall, Theta = Theta))
+  pTiny <- which(pSort < pghyp(xTiny, Theta = Theta))
+  pLarge <- which(pSort > pghyp(xLarge, Theta = Theta))
+  pHuge <- which(pSort > pghyp(xHuge, Theta = Theta))
+  pLow <- which(pSort < pghyp(lowBreak, Theta = Theta))
+  pHigh <- which(pSort > pghyp(highBreak, Theta = Theta))
+  pLessEqMode <- which(pSort <= pghyp(modeDist, Theta = Theta))
+  pGreatMode <- which(pSort > pghyp(modeDist, Theta = Theta))
 
   ## Break indices into 8 groups: beware of empty groups
   if (length(pLow) > 0) pLessEqMode <- pLessEqMode[pLessEqMode > max(pLow)]
@@ -244,7 +261,7 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   if (length(pTiny) > 0){
     for (i in pTiny){
       zeroFun<-function(x){ 
-        pghyp(x,Theta) - pSort[i] 
+        pghyp(x, Theta = Theta) - pSort[i] 
       }
       interval <- c(xTiny - (xSmall - xTiny),xTiny)
       while(zeroFun(interval[1])*zeroFun(interval[2])>0) {
@@ -255,8 +272,8 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   }
   if (length(pSmall) > 0){
     xValues <- seq(xTiny, xSmall, length = nInterpol)
-    pghypValues <- pghyp(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+    pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
+                         subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
     for(i in pSmall){ 
       zeroFun<-function(x){ 
@@ -275,8 +292,8 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   }
   if (length(pLow) > 0){
     xValues <- seq(xSmall, lowBreak, length = nInterpol)
-    pghypValues <- pghyp(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+    pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
+                         subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
     for(i in pLow){ 
       zeroFun<-function(x){ 
@@ -295,8 +312,8 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   }
   if (length(pLessEqMode) > 0){
     xValues <- seq(lowBreak, modeDist, length = nInterpol)
-    pghypValues <- pghyp(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+    pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
+                         subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
     for(i in pLessEqMode){ 
       zeroFun<-function(x){ 
@@ -316,8 +333,8 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   }
   if (length(pGreatMode) > 0){
     xValues <- seq(modeDist, highBreak, length = nInterpol)
-    pghypValues <- pghyp(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+    pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
+                         subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
     for(i in pGreatMode){ 
       zeroFun<-function(x){ 
@@ -337,8 +354,8 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   }
   if (length(pHigh) > 0){
     xValues <- seq(highBreak, xLarge, length = nInterpol)
-    pghypValues <- pghyp(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+    pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
+                         subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
     for(i in pHigh){ 
       zeroFun<-function(x){ 
@@ -358,8 +375,8 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   }
   if (length(pLarge) > 0){
     xValues <- seq(xLarge, xHuge, length = nInterpol)
-    pghypValues <- pghyp(xValues, Theta, small, tiny, deriv,
-                            subdivisions = subdivisions, accuracy = FALSE)
+    pghypValues <- pghyp(xValues, Theta = Theta, small = small, tiny = tiny, deriv = deriv,
+                         subdivisions = subdivisions, accuracy = FALSE)
     pghypSpline <- splinefun(xValues, pghypValues)
     for(i in pLarge){ 
       zeroFun<-function(x){ 
@@ -380,7 +397,7 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
   if (length(pHuge) > 0){
     for (i in pHuge){
       zeroFun<-function(x){ 
-        pghyp(x,Theta) - pSort[i] 
+        pghyp(x, Theta = Theta) - pSort[i] 
       }
       interval <- c(xHuge,xHuge + (xHuge - xLarge))
       while(zeroFun(interval[1])*zeroFun(interval[2])>0) {
@@ -394,17 +411,23 @@ qghyp <- function(p, Theta, small = 10^(-6), tiny = 10^(-10),
 } # End of qghyp()
 
 ### Derivative of the density
-ddghyp <- function(x, Theta){
-  if(length(Theta) == 4) Theta <- c(1, Theta)
+ddghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                   Theta = c(mu, delta, alpha, beta, lambda)) {
+
+  # Lambda defaults to one if omitted from Theta vector
+  if(length(Theta) == 4)
+    Theta <- c(Theta, 1)
+
   if(length (Theta) != 5){
     stop("parameter vector must contain 5 values") 
   }
+
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
-  delta <- Theta[4]
-  mu <- Theta[5]
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
 
   if (alpha <= 0) {
     stop("alpha must be positive")
@@ -432,16 +455,21 @@ ddghyp <- function(x, Theta){
 
 ### Function to set up breaks for pghyp and qghyp
 ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
-                         deriv = 0.3, ...){
-  if(length(Theta) == 4) Theta <- c(1, Theta)
+                       deriv = 0.3, ...) {
+
+  # Lambda defaults to one if omitted from Theta vector
+  if(length(Theta) == 4)
+    Theta <- c(Theta, 1)
+
   if(length (Theta) != 5){
     stop("parameter vector must contain 5 values") 
   }
-  lambda <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
-  delta <- Theta[4]
-  mu <- Theta[5]
+
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
 
   if (alpha <= 0) {
     stop("alpha must be positive")
@@ -458,15 +486,15 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   xLarge <- ghypCalcRange(Theta, small, density = TRUE)[2]
   xHuge <- ghypCalcRange(Theta, tiny, density = TRUE)[2]
 
-  modeDist <- ghypMode(Theta)
+  modeDist <- ghypMode(Theta = Theta)
   ## Determine break points, based on size of derivative
   xDeriv <- seq(xSmall, modeDist, length.out = 101)
-  derivVals <- ddghyp(xDeriv,Theta)
+  derivVals <- ddghyp(xDeriv,Theta = Theta)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv*maxDeriv
   breakFun <- function(x){ 
-    ddghyp(x, Theta) - breakSize
+    ddghyp(x, Theta = Theta) - breakSize
   }
   if ((maxDeriv < breakSize)||(derivVals[1] > breakSize)){
     lowBreak <- xSmall
@@ -476,12 +504,12 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   }
 
   xDeriv <- seq(modeDist, xLarge, length.out = 101)
-  derivVals <- -ddghyp(xDeriv,Theta)
+  derivVals <- -ddghyp(xDeriv, Theta = Theta)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv*maxDeriv
   breakFun <- function(x){ 
-    - ddghyp(x, Theta) - breakSize
+    - ddghyp(x, Theta = Theta) - breakSize
   }
   if ((maxDeriv < breakSize)||(derivVals[101] > breakSize)){
     highBreak <- xLarge
@@ -502,17 +530,23 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
 ### (generalized) hyperbolic distribution using the
 ### mixing property of the generalized inverse
 ### Gaussian distribution.
-rghyp <- function(n, Theta){
-  if(length(Theta) == 4) Theta <- c(1,Theta)
+rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                  Theta = c(mu, delta, alpha, beta, lambda)) {
+
+  # Lambda defaults to one if omitted from Theta vector
+  if(length(Theta) == 4)
+    Theta <- c(Theta, 1)
+
   if(length (Theta) != 5){
     stop("parameter vector must contain 5 values") 
   }
+
   Theta <- as.numeric(Theta)
-  lambda <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
-  delta <- Theta[4]
-  mu <- Theta[5]
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
    
   if (alpha <= 0) {
     stop("alpha must be positive")
@@ -527,10 +561,10 @@ rghyp <- function(n, Theta){
   chi <- delta^2
   psi <- alpha^2 - beta^2
 
-  if(lambda == 1){
-    X <- rgig1(n, c(lambda,chi,psi))
-  } else{
-    X <- rgig(n, c(lambda,chi,psi))
+  if (lambda == 1) {
+    X <- rgig1(n, chi, psi, lambda)
+  } else {
+    X <- rgig(n, chi, psi, lambda)
   }
   
   sigma <- sqrt(X)
