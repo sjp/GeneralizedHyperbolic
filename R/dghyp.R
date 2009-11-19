@@ -7,9 +7,13 @@ dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   if (length(Theta) == 4)
     Theta <- c(Theta, 1)
 
-  if(length (Theta) != 5){
-    stop("parameter vector must contain 5 values") 
-  }
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   mu <- Theta[1]
@@ -18,15 +22,6 @@ dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   beta <- Theta[4]
   lambda <- Theta[5]
   
-  if (alpha <= 0) {
-    stop("alpha must be positive")
-  }
-  if (delta <= 0) {
-    stop("delta must be positive")
-  }
-  if (abs(beta) >= alpha) {
-    stop("absolute value of beta must be less than alpha")
-  }
   gamma <- sqrt(alpha^2 - beta^2)
 
   ## Argument of Bessel K function in numerator
@@ -72,9 +67,13 @@ pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   if (length(Theta) == 4)
     Theta <- c(Theta, 1)
 
-  if(length (Theta) != 5){
-    stop("parameter vector must contain 5 values") 
-  }
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   mu <- Theta[1]
@@ -83,16 +82,6 @@ pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
   
-  if (alpha <= 0) {
-    stop("alpha must be positive")
-  }
-  if (delta <= 0) {
-    stop("delta must be positive")
-  }
-  if (abs(beta) >= alpha) {
-    stop("absolute value of beta must be less than alpha")
-  }
-
   bks <- ghypBreaks(Theta, small, tiny, deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
@@ -198,9 +187,13 @@ qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   if(length(Theta) == 4)
     Theta <- c(Theta, 1)
 
-  if(length (Theta) != 5){
-    stop("parameter vector must contain 5 values") 
-  }
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   mu <- Theta[1]
@@ -209,16 +202,6 @@ qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
   
-  if (alpha <= 0) {
-    stop("alpha must be positive")
-  }
-  if (delta <= 0) {
-    stop("delta must be positive")
-  }
-  if (abs(beta) >= alpha) {
-    stop("absolute value of beta must be less than alpha")
-  }
-
   bks <- ghypBreaks(Theta, small, tiny, deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
@@ -418,9 +401,13 @@ ddghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   if(length(Theta) == 4)
     Theta <- c(Theta, 1)
 
-  if(length (Theta) != 5){
-    stop("parameter vector must contain 5 values") 
-  }
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   mu <- Theta[1]
@@ -429,15 +416,6 @@ ddghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  if (alpha <= 0) {
-    stop("alpha must be positive")
-  }
-  if (delta <= 0) {
-    stop("delta must be positive")
-  }
-  if (abs(beta) >= alpha) {
-    stop("absolute value of beta must be less than alpha")
-  }
   ## Terms for simplification of programming
   t1 <- sqrt(delta^2 + (x - mu)^2)
   t2 <- sqrt(alpha^2 - beta^2)
@@ -461,9 +439,13 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   if(length(Theta) == 4)
     Theta <- c(Theta, 1)
 
-  if(length (Theta) != 5){
-    stop("parameter vector must contain 5 values") 
-  }
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   mu <- Theta[1]
   delta <- Theta[2]
@@ -471,16 +453,6 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  if (alpha <= 0) {
-    stop("alpha must be positive")
-  }
-  if (delta <= 0) {
-    stop("delta must be positive")
-  }
-  if (abs(beta) >= alpha) {
-    stop("absolute value of beta must be less than alpha")
-  }
-  
   xTiny <- ghypCalcRange(Theta, tiny, density = TRUE)[1] 
   xSmall <- ghypCalcRange(Theta, small, density = TRUE)[1]
   xLarge <- ghypCalcRange(Theta, small, density = TRUE)[2]
@@ -489,7 +461,7 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
   modeDist <- ghypMode(Theta = Theta)
   ## Determine break points, based on size of derivative
   xDeriv <- seq(xSmall, modeDist, length.out = 101)
-  derivVals <- ddghyp(xDeriv,Theta = Theta)
+  derivVals <- ddghyp(xDeriv, Theta = Theta)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv*maxDeriv
@@ -537,9 +509,13 @@ rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   if(length(Theta) == 4)
     Theta <- c(Theta, 1)
 
-  if(length (Theta) != 5){
-    stop("parameter vector must contain 5 values") 
-  }
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   Theta <- as.numeric(Theta)
   mu <- Theta[1]
@@ -548,15 +524,13 @@ rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
    
-  if (alpha <= 0) {
-    stop("alpha must be positive")
-  }
-  if (delta <= 0) {
-    stop("delta must be positive")
-  }
-  if (abs(beta) >= alpha) {
-    stop("absolute value of beta must be less than alpha")
-  }
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
 
   chi <- delta^2
   psi <- alpha^2 - beta^2
