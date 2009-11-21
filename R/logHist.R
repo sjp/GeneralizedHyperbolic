@@ -8,7 +8,7 @@ logHist <- function (x, breaks = "Sturges",
                      htype = "b", ...) {
 
     xName <- paste(deparse(substitute(x), 500), collapse = "\n")
-    histInfor <- hist.default(x, plot=FALSE)
+    histInfor <- hist.default(x, plot = FALSE)
     logDensity <- log(histInfor$density)
     breaks <- histInfor$breaks
     mids <- histInfor$mids
@@ -26,7 +26,7 @@ logHist <- function (x, breaks = "Sturges",
       ylim <- range(base, yMax)
 
     plot(mids, logDensity, xlim = xlim, ylim = ylim,
-         type="n", xlab=xlab, ylab=ylab, main=main, ...)
+         type = "n", xlab = xlab, ylab = ylab, main = main, ...)
 
     if (htype == "b" | htype == "p")
       points(mids, logDensity, ...)
