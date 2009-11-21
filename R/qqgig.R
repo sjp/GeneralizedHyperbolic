@@ -28,7 +28,7 @@ qqgig <- function(y, Theta, main = "GIG Q-Q Plot",
           round(Theta[3], 3), ")", sep = ""))
 
     if(line)
-      abline(0,1)
+      abline(0, 1)
   }
 
   invisible(list(x = x, y = y))
@@ -62,13 +62,13 @@ ppgig <- function(y, Theta, main = "GIG P-P Plot",
 
   if (plot.it) {
     plot(xvals, yvals, main = main, xlab = xlab, ylab = ylab,
-         ylim = c(0,1), xlim = c(0,1), ...)
+         ylim = c(0, 1), xlim = c(0, 1), ...)
     title(sub = paste("Theta = (",
           round(Theta[1], 3), ", ", round(Theta[2], 3), ", ",
           round(Theta[3], 3), ")", sep = ""))
 
     if (line)
-      abline(0,1)
+      abline(0, 1)
   }
 
   invisible(list(x = xvals, y = yvals))

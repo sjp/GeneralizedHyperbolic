@@ -28,7 +28,7 @@ qqskewlap <- function(y, Theta, main = "Skew-Laplace Q-Q Plot",
           round(Theta[3], 3), ")", sep = ""))
 
     if (line)
-      abline(0,1)
+      abline(0, 1)
   }
 
   invisible(list(x = x, y = y))
@@ -68,7 +68,7 @@ ppskewlap <- function(y, Theta, main = "Skew-Laplace P-P Plot",
           round(Theta[3], 3), ")", sep = ""))
 
     if (line)
-      abline(0,1)
+      abline(0, 1)
   }
 
   invisible(list(x = xvals, y = yvals))
