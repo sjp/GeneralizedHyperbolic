@@ -1,8 +1,14 @@
 ### Change parameterizations of the generalized inverse Gaussian distribution
 gigChangePars <- function (from, to, Theta, noNames = FALSE) {
 
+  Theta <- as.numeric(Theta)
+
+  # If lambda is ommitted from the Theta vector, it defaults to 1
+  if (length(Theta) == 2)
+    Theta <- c(Theta, 1)
+
   if (length(Theta) != 3)
-    stop("parameter vector must contain 3 values")
+    stop("Theta vector must contain 3 values")
 
   if ((from != 1) & (from != 2) & (from != 3) & (from != 4))
     stop("the argument 'from' must be either 1, 2, 3 or 4")
