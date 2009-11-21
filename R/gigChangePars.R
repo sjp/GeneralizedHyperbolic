@@ -73,56 +73,67 @@ gigChangePars <- function (from, to, Theta, noNames = FALSE) {
     beta <- sqrt(chi * psi)
     output <- c(alpha = alpha, beta = beta, lambda = lambda)
   }
+
   if (from == 1 && to == 4) {
     omega <- sqrt(chi * psi)
     eta <- sqrt(chi / psi)
     output <- c(omega = omega, eta = eta, lambda = lambda)
   }
+
   if (from == 2 && to == 1) {
     chi <- delta^2
     psi <- gamma^2
     output <- c(chi = chi, psi = psi, lambda = lambda)
   }
+
   if (from == 2 && to == 3) {
     alpha <- gamma / delta
     beta <- gamma * delta
     output <- c(alpha = alpha, beta = beta, lambda = lambda)
   }
+
   if (from == 2 && to == 4) {
     omega <- delta * gamma
     eta <- delta / gamma
     output <- c(omega = omega, eta = eta, lambda = lambda)
   }
+
   if (from == 3 && to == 1) {
     chi <- beta / alpha
     psi <- alpha * beta
     output <- c(chi = chi, psi = psi, lambda = lambda)
   }
+
   if (from == 3 && to == 2) {
     delta <- sqrt(beta / alpha)
     gamma <- sqrt(alpha * beta)
     output <- c(delta = delta, gamma = gamma, lambda = lambda)
   }
+
   if (from == 3 && to == 4) {
     omega <- beta
     eta <- 1 / alpha
     output <- c(omega = omega, eta = eta, lambda = lambda)
   }
+
   if (from == 4 && to == 1) {
     chi <- omega * eta
     psi <- omega / eta
     output <- c(chi = chi, psi = psi, lambda = lambda)
   }
+
   if (from == 4 && to == 2) {
     delta <- sqrt(omega * eta)
     gamma <- sqrt(omega / eta)
     output <- c(delta = delta, gamma = gamma, lambda = lambda)
   }
+
   if (from == 4 && to == 3) {
     alpha <- 1 / eta
     beta <- omega
     output <- c(alpha = alpha, beta = beta, lambda = lambda)
   }
+
   if (from == to) {
     if (from == 1)
       output <- c(chi = chi, psi = psi, lambda = lambda)
