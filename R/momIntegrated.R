@@ -13,7 +13,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
          }
          if (distname == "ghyp" || distname == "generalized hyperbolic") {
              if (is.null(param)) {
-                 param <- c(1,1,0,1,0)
+                 param <- c(0, 1, 1, 0, 1)
              }
              if (absolute == FALSE) {
                  ddist <- function(x, order, param, about) {
@@ -26,7 +26,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
              }
          } else if (distname == "hyperb" || distname == "hyperbolic") {
              if (is.null(param)) {
-                 param <- c(0,1,1,0)
+                 param <- c(0, 1, 1, 0)
              }
              if (absolute == FALSE) {
                  ddist <- function(x, order, param, about) {
@@ -40,7 +40,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
          } else  if (distname == "gig" ||
                      distname == "generalized inverse gaussian") {
              if (is.null(param)) {
-                 param <- c(1,1,1)
+                 param <- c(1, 1, 1)
              }
              low <- 0
              if (absolute == FALSE) {
@@ -57,7 +57,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
                  stop("Order must be greater than shape parameter for gamma")
              }
              if (is.null(param)) {
-                 param <- c(1,1)
+                 param <- c(1, 1)
              }
              low <- 0
              if (absolute == FALSE) {
@@ -74,7 +74,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
          } else  if (distname == "invgamma" ||
                      distname == "inverse gamma"){
              if (is.null(param)) {
-                 param <- c(-1,1)
+                 param <- c(-1, 1)
              }
              if (param[1] <= order){
                  stop("Order must be less than shape parameter for inverse gamma")
@@ -104,7 +104,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
                  stop("package Variance Gamma needs to be loaded")
              }
              if (is.null(param)) {
-                 param <- c(0,1,0,1)
+                 param <- c(0, 1, 0, 1)
              }
              if (absolute == FALSE) {
                  ddist <- function(x, order, param, about) {
