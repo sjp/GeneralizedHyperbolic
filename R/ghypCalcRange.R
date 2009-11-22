@@ -16,27 +16,29 @@ ghypCalcRange <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  if (density == FALSE){
+  if (density == FALSE) {
     ## bounds are for distribution function
     stop("Distribution function bounds not yet implemented")
-  }else{
+  } else {
     ## bounds are for the density function
     mode <- ghypMode(Theta = Theta)
     xHigh <- mode + sqrt(ghypVar(Theta = Theta))
-    while (dghyp(xHigh, Theta = Theta) > tol){
+
+    while (dghyp(xHigh, Theta = Theta) > tol) {
       xHigh <- xHigh + sqrt(ghypVar(Theta = Theta))
     }
-    zeroFun<-function(x){ 
-       dghyp(x, Theta = Theta) - tol 
-     } 
+
+    zeroFun <- function(x) {
+      dghyp(x, Theta = Theta) - tol
+    }
+
     xUpper <- uniroot(zeroFun, interval = c(mode, xHigh), ...)$root
     xLow <- mode - sqrt(ghypVar(Theta = Theta))
+
     while (dghyp(xLow, Theta = Theta) > tol){
       xLow <- xLow - sqrt(ghypVar(Theta = Theta))
     }
-    zeroFun<-function(x){ 
-       dghyp(x, Theta = Theta) - tol 
-     } 
+
     xLower <- uniroot(zeroFun, interval = c(xLow, mode), ...)$root
     range <- c(xLower, xUpper)
   }
