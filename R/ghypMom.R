@@ -3,10 +3,12 @@
 ### if only momType is defined, then calculate moments according to momType.
 ### if only about is defined, then calculate moment according to about.
 ### if users define both momType and about(contradictive or not), then 
-### the about value would always overwrites momType. Thus, calculate momoents 
+### the about value would always overwrites momType. Thus, calculate moments 
 ### about "about".
 
-ghypMom <- function(order, Theta, momType = "raw", about = 0) {
+ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                    Theta = c(mu, delta, alpha, beta, lambda),
+                    momType = "raw", about = 0) {
   
   ## check order is whole number 
   if (!is.wholenumber(order)){
@@ -25,12 +27,23 @@ ghypMom <- function(order, Theta, momType = "raw", about = 0) {
   
   ## unpack parameters
   Theta <- as.numeric(Theta)
-  if (length(Theta) == 4) Theta <- c(1,Theta)
-  lambda <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
-  delta <- Theta[4]
-  mu <- Theta[5]
+
+  if (length(Theta) == 4)
+    Theta <- c(Theta, 1)
+
+  ## check parameters
+  parResult <- ghypCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
+
+  mu <- Theta[1]
+  delta <- Theta[2]
+  alpha <- Theta[3]
+  beta <- Theta[4]
+  lambda <- Theta[5]
 
   gamma <- sqrt(alpha^2 - beta^2)
   zeta <- delta*gamma
@@ -66,7 +79,7 @@ ghypMom <- function(order, Theta, momType = "raw", about = 0) {
       mom <- momChangeAbout(order = order, oldMom = muMom, 
                             oldAbout = mu, newAbout = about)
     } else if (momType == "central") {
-      about <- ghypMean(Theta)
+      about <- ghypMean(Theta = Theta)
       mom <- momChangeAbout(order = order, oldMom = muMom, 
                             oldAbout = mu, newAbout = about)
     }
