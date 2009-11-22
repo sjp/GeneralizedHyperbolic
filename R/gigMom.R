@@ -1,6 +1,8 @@
 ### Function to calculate the theoretical raw moments (moments about 0)
 ### of a generalized inverse Gaussian distribution given its parameters.
-gigRawMom <- function(order, Theta) {
+gigRawMom <- function(order, chi = 1, psi = 1, lambda = 1,
+                      Theta = c(chi, psi, lambda)) {
+
     Theta <- as.numeric(Theta)
     parResult <- gigCheckPars(Theta)
     case <- parResult$case
@@ -8,26 +10,28 @@ gigRawMom <- function(order, Theta) {
     if (case == "error"){
         stop(errMessage)
     } else if (case =="normal"){
-        lambda <- Theta[1]
-        chi <- Theta[2]
-        psi <- Theta[3]
+        chi <- Theta[1]
+        psi <- Theta[2]
+        lambda <- Theta[3]
         omega <- sqrt(chi*psi)
         eta <- sqrt(chi/psi)
         mom <- eta^order*besselRatio(omega, lambda, order)
     } else if (case == "gamma") {
-        shape <- Theta[1]
-        scale <- Theta[3]/2
+        shape <- Theta[3]
+        scale <- Theta[2]/2
         mom <- gammaRawMom(order, shape, scale)
     } else if (case == "invgamma"){
-        shape <- -Theta[1]
-        scale <- 2/Theta[2]
+        shape <- -Theta[3]
+        scale <- 2/Theta[1]
         mom <- gammaRawMom(-order, shape, scale)
     }
     return(mom)
 }## End of gigRawMom()
 
 
-gigMom <- function(order, Theta, about = 0) {
+gigMom <- function(order, chi = 1, psi = 1, lambda = 1,
+                   Theta = c(chi, psi, lambda), about = 0) {
+
     if ((about != 0)&(!is.wholenumber(order))&(length(order)==1)){
         stop("Order must be a whole number except for moments about 0")
     }
@@ -35,13 +39,13 @@ gigMom <- function(order, Theta, about = 0) {
         stop("Order must be positive except for moments about 0")
     }
     Theta <- as.numeric(Theta)
-    lambda <- Theta[1]
-    chi <- Theta[2]
-    psi <- Theta[3]
+    chi <- Theta[1]
+    psi <- Theta[2]
+    lambda <- Theta[3]
     omega <- sqrt(chi*psi)
     eta <- sqrt(chi/psi)
     if (about == 0){
-        mom <- gigRawMom(order, Theta)
+        mom <- gigRawMom(order, Theta = Theta)
     } else {
         if (order == 0) {
             mom <- 1
