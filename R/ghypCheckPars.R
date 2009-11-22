@@ -18,7 +18,6 @@ ghypCheckPars <- function(Theta, ...) {
     errMessage <- "Theta vector must contain 5 values"
   } else {
     if (lambda == 0) {
-
       if (abs(beta) >= alpha) {
         case <- "error"
         errMessage <- "absolute value of beta must be less than alpha when lambda = 0"
@@ -36,7 +35,6 @@ ghypCheckPars <- function(Theta, ...) {
     }
 
     if (lambda > 0) {
-
       if (abs(beta) >= alpha) {
         case <- "error"
         errMessage <- "absolute value of beta must be less than alpha when lambda > 0"
@@ -54,7 +52,6 @@ ghypCheckPars <- function(Theta, ...) {
     }
 
     if (lambda < 0) {
-
       if (abs(beta) != alpha) {
         case <- "error"
         errMessage <- "absolute value of beta must be equal to alpha when lambda < 0"

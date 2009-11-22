@@ -22,7 +22,7 @@ ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   momType <- tolower(momType)
 
   if (momType != "raw" & momType != "central" & momType != "mu")
-    stop ("Unrecognised moment type")
+    stop("Unrecognised moment type")
 
   ## unpack parameters
   Theta <- as.numeric(Theta)

@@ -43,7 +43,7 @@ gigMom <- function(order, chi = 1, psi = 1, lambda = 1,
   if (about != 0 & !is.wholenumber(order) & length(order) == 1)
     stop("Order must be a whole number except for moments about 0")
 
-  if ((order < 0)&(about != 0))
+  if (order < 0 & about != 0)
     stop("Order must be positive except for moments about 0")
 
   Theta <- as.numeric(Theta)

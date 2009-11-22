@@ -576,13 +576,13 @@ gigBreaks <- function(chi = 1, psi = 1, lambda = 1,
   modeDist <- gigMode(Theta = ThetaStand)
   ## Determine break points, based on size of derivative
   xDeriv <- seq(xSmall, modeDist, length.out = 101)
-  derivVals <- ddgig(xDeriv, Theta = ThetaStand, KOmega)
+  derivVals <- ddgig(xDeriv, Theta = ThetaStand, KOmega = KOmega)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv * maxDeriv
 
   breakFun <- function(x) {
-    ddgig(x, Theta = ThetaStand, KOmega) - breakSize
+    ddgig(x, Theta = ThetaStand, KOmega = KOmega) - breakSize
   }
 
   if ((maxDeriv < breakSize) | (derivVals[1] > breakSize)) {
@@ -593,13 +593,13 @@ gigBreaks <- function(chi = 1, psi = 1, lambda = 1,
   }
 
   xDeriv <- seq(modeDist, xLarge, length.out = 101)
-  derivVals <- -ddgig(xDeriv, Theta = ThetaStand, KOmega)
+  derivVals <- -ddgig(xDeriv, Theta = ThetaStand, KOmega = KOmega)
   maxDeriv <- max(derivVals)
   minDeriv <- min(derivVals)
   breakSize <- deriv * maxDeriv
 
   breakFun <- function(x) {
-    -ddgig(x, Theta = ThetaStand, KOmega) - breakSize
+    -ddgig(x, Theta = ThetaStand, KOmega = KOmega) - breakSize
   }
 
   if ((maxDeriv < breakSize) | (derivVals[101] > breakSize)) {

@@ -17,12 +17,12 @@ gigCalcRange <- function(Theta, tol = 10^(-5), density = TRUE, ...) {
     mode <- gigMode(Theta = Theta)
     xHigh <- mode + sqrt(gigVar(Theta = Theta))
 
-    while (dgig(xHigh, Theta) > tol) {
+    while (dgig(xHigh, Theta = Theta) > tol) {
       xHigh <- xHigh + sqrt(gigVar(Theta = Theta))
     }
 
     zeroFun <- function(x) {
-       dgig(x, Theta) - tol
+       dgig(x, Theta = Theta) - tol
      }
 
     xUpper <- uniroot(zeroFun, interval = c(mode, xHigh), ...)$root
