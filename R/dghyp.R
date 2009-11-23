@@ -8,7 +8,7 @@ dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
     Theta <- c(Theta, 1)
 
   ## check parameters
-  parResult <- gigCheckPars(Theta)
+  parResult <- ghypCheckPars(Theta)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
@@ -36,7 +36,7 @@ dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
     expTerm <- exp(delta * gamma - y + bx)
     besselRatio <- besselK(x = y, nu = lambda - 1 / 2, expon.scaled = TRUE) /
                            besselK(x = delta * gamma, nu = lambda, expon.scaled = TRUE)
-    expAndBessel <- expTerm*besselRatio
+    expAndBessel <- expTerm * besselRatio
   } else {
     expAndBessel <- ifelse(y > 700 | bx > 700, # underflow in variable part
                            exp(delta * gamma - y + bx) *
@@ -71,7 +71,7 @@ pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     Theta <- c(Theta, 1)
 
   ## check parameters
-  parResult <- gigCheckPars(Theta)
+  parResult <- ghypCheckPars(Theta)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
@@ -196,7 +196,7 @@ qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     Theta <- c(Theta, 1)
 
   ## check parameters
-  parResult <- gigCheckPars(Theta)
+  parResult <- ghypCheckPars(Theta)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
@@ -436,7 +436,7 @@ ddghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     Theta <- c(Theta, 1)
 
   ## check parameters
-  parResult <- gigCheckPars(Theta)
+  parResult <- ghypCheckPars(Theta)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
@@ -474,7 +474,7 @@ ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
     Theta <- c(Theta, 1)
 
   ## check parameters
-  parResult <- gigCheckPars(Theta)
+  parResult <- ghypCheckPars(Theta)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
@@ -549,7 +549,7 @@ rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     Theta <- c(Theta, 1)
 
   ## check parameters
-  parResult <- gigCheckPars(Theta)
+  parResult <- ghypCheckPars(Theta)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
