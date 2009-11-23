@@ -7,9 +7,8 @@ dhyperb <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
     stop("Theta vector must contain 4 values")
 
   Theta <- as.numeric(Theta)
-  hyperbDens <- dghyp(x, Theta = c(Theta, 1))
 
-  as.numeric(hyperbDens)
+  dghyp(x, Theta = c(Theta, 1))
 } ## End of dhyperb()
 
 
