@@ -1,14 +1,14 @@
-\name{HyperbolicDistribution}
+\name{GeneralizedHyperbolicDistribution}
 \docType{package}
-\alias{HyperbolicDist-package}
-\alias{HyperbolicDistribution}
+\alias{GeneralizedHyperbolic-package}
+\alias{GeneralizedHyperbolicDistribution}
 
 \title{
-  The Package `HyperbolicDist': Summary Information
+  The Package `GeneralizedHyperbolic': Summary Information
 }
 
 \description{
-This package provides a collection of functions for working with the
+This package provides a collection of functions for working with the generalized
 hyperbolic and related distributions.
 
 For the hyperbolic distribution functions are provided for the density
