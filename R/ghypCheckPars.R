@@ -62,7 +62,7 @@ ghypCheckPars <- function(Theta, ...) {
         errMessage <- "delta must be greater than zero when lambda < 0"
       }
 
-      if (abs(beta) ! alpha & delta <= 0) {
+      if (abs(beta) != alpha & delta <= 0) {
         case <- "error"
         errMessage <- "absolute value of beta must be equal to alpha and delta must be greater than zero when lambda < 0"
       }
