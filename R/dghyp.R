@@ -85,7 +85,7 @@ pghyp <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  bks <- ghypBreaks(Theta, small, tiny, deriv, ...)
+  bks <- ghypBreaks(Theta = Theta, small = small, tiny = tiny, deriv = deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
   lowBreak <- bks$lowBreak
@@ -210,7 +210,7 @@ qghyp <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  bks <- ghypBreaks(Theta, small, tiny, deriv, ...)
+  bks <- ghypBreaks(Theta = Theta, small = small, tiny = tiny, deriv = deriv, ...)
   xTiny <- bks$xTiny
   xSmall <- bks$xSmall
   lowBreak <- bks$lowBreak

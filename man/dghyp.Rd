@@ -37,7 +37,7 @@ ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 }
 
 \arguments{
-  \item{x,q}{Vector of quantiles.}
+  \item{x, q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
   \item{Theta}{Parameter vector taking the form

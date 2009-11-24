@@ -11,19 +11,21 @@
   random number generation for the skew-Laplace distribution.
 }
 \usage{
-dskewlap(x, Theta, logPars = FALSE)
-pskewlap(q, Theta)
-qskewlap(p, Theta)
-rskewlap(n, Theta)
+dskewlap(x, mu = 0, alpha = 1, beta = 1,
+         Theta = c(mu, alpha, beta))
+pskewlap(q, mu = 0, alpha = 1, beta = 1,
+         Theta = c(mu, alpha, beta))
+qskewlap(p, mu = 0, alpha = 1, beta = 1,
+         Theta = c(mu, alpha, beta))
+rskewlap(n, mu = 0, alpha = 1, beta = 1,
+         Theta = c(mu, alpha, beta))
 }
 \arguments{
   \item{x, q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
   \item{Theta}{Vector of parameters of the skew-Laplace distribution:
-    \eqn{\alpha}{alpha},  \eqn{\beta}{beta} and \eqn{\mu}{mu}}.
-  \item{logPars}{Logical. If \code{TRUE} the first and second components
-    of Theta are taken to be log(alpha) and log(beta) respectively.}
+    \eqn{\mu}{mu}, \eqn{\alpha}{alpha} and \eqn{\beta}{beta}}.
 }
 \details{
   The central skew-Laplace has mode zero, and is a mixture of a (negative)
@@ -62,20 +64,20 @@ Ai-Wei Lee, Richard Trendall}
 \seealso{\code{\link{hyperbFitStart}}}
 
 \examples{
-Theta <- c(1,2,1)
-par(mfrow = c(1,2))
-curve(dskewlap(x, Theta), from = -5, to = 8, n = 1000)
+Theta <- c(1, 1, 2)
+par(mfrow = c(1, 2))
+curve(dskewlap(x, Theta = Theta), from = -5, to = 8, n = 1000)
 title("Density of the\n Skew-Laplace Distribution")
-curve(pskewlap(x, Theta), from = -5, to = 8, n = 1000)
+curve(pskewlap(x, Theta = Theta), from = -5, to = 8, n = 1000)
 title("Distribution Function of the\n Skew-Laplace Distribution")
-dataVector <- rskewlap(500, Theta)
-curve(dskewlap(x, Theta), range(dataVector)[1], range(dataVector)[2],
+dataVector <- rskewlap(500, Theta = Theta)
+curve(dskewlap(x, Theta = Theta), range(dataVector)[1], range(dataVector)[2],
       n = 500)
-hist(dataVector, freq = FALSE, add =TRUE)
+hist(dataVector, freq = FALSE, add = TRUE)
 title("Density and Histogram\n of the Skew-Laplace Distribution")
 logHist(dataVector, main =
         "Log-Density and Log-Histogram\n of the Skew-Laplace Distribution")
-curve(log(dskewlap(x, Theta)), add = TRUE,
+curve(log(dskewlap(x, Theta = Theta)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
 }
 \keyword{distribution} 
