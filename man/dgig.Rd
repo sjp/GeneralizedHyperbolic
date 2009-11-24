@@ -19,23 +19,28 @@
 }
 
 \usage{
-dgig(x, Theta, KOmega = NULL)
-pgig(q, Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3,
+dgig(x, chi = 1, psi = 1, lambda = 1,
+     Theta = c(chi, psi, lambda), KOmega = NULL)
+pgig(q, chi = 1, psi = 1, lambda = 1,
+     Theta = c(chi, psi, lambda),
+     small = 10^(-6), tiny = 10^(-10), deriv = 0.3,
      subdivisions = 100, accuracy = FALSE, ...)
 qgig(p, Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3,
      nInterpol = 100, subdivisions = 100, ...)
-rgig(n, Theta)
-rgig1(n, Theta)
-ddgig(x, Theta, KOmega = NULL, ...)
-gigBreaks (Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
+rgig(n, chi = 1, psi = 1, lambda = 1,
+     Theta = c(chi, psi, lambda))
+rgig1(n, chi = 1, psi = 1, Theta = (chi, psi))
+ddgig(x, chi = 1, psi = 1, lambda = 1,
+      Theta = c(chi, psi, lambda), KOmega = NULL, ...)
+gigBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
 \arguments{
   \item{x, q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
-  \item{Theta}{Parameter vector taking the form \code{c(lambda,chi,psi)}
-    for \code{rgig}, or \code{c(chi,psi)} for \code{rgig1}.}
+  \item{Theta}{Parameter vector taking the form \code{c(chi, psi, lambda)}
+    for \code{rgig}, or \code{c(chi, psi)} for \code{rgig1}.}
   \item{KOmega}{Sets the value of the Bessel function in the density or
     derivative of the density. See \bold{Details}.}
   \item{small}{Size of a small difference between the distribution
@@ -73,10 +78,10 @@ gigBreaks (Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
   detail in \enc{Jörgensen}{Jorgensen} (1982).
 
   Use \code{gigChangePars} to convert from the
-  \eqn{(\delta,\gamma)}{(delta,gamma)},
-  \eqn{(\alpha,\beta)}{(alpha,beta)}, or
-  \eqn{(\omega,\eta)}{(omega,eta)} parameterisations to the
-  \eqn{(\chi,\psi)}{(chi,psi)}, parameterisation used above.
+  \eqn{(\delta,\gamma)}{(delta, gamma)},
+  \eqn{(\alpha,\beta)}{(alpha, beta)}, or
+  \eqn{(\omega,\eta)}{(omega, eta)} parameterisations to the
+  \eqn{(\chi,\psi)}{(chi, psi)}, parameterisation used above.
 
   \code{pgig} breaks the real line into eight regions in order to
   determine the integral of \code{dgig}. The break points determining
@@ -116,7 +121,7 @@ gigBreaks (Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
   \code{dgig} gives the density, \code{pgig} gives the distribution
   function, \code{qgig} gives the quantile function, and \code{rgig}
   generates random variates. \code{rgig1} generates random variates in
-  the special case where \eqn{\lambda=1}{lambda=1}. An estimate of the
+  the special case where \eqn{\lambda = 1}{lambda = 1}. An estimate of the
   accuracy of the approximation to the distribution function may be
   found by setting \code{accuracy = TRUE} in the call to \code{phyperb}
   which then returns a list with components \code{value} and
@@ -164,36 +169,36 @@ gigBreaks (Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
 \examples{
-Theta <- c(1,2,3)
-gigRange <- gigCalcRange(Theta, tol = 10^(-3))
-par(mfrow = c(1,2))
-curve(dgig(x, Theta), from = gigRange[1], to = gigRange[2],
+Theta <- c(2, 3, 1)
+gigRange <- gigCalcRange(Theta = Theta, tol = 10^(-3))
+par(mfrow = c(1, 2))
+curve(dgig(x, Theta = Theta), from = gigRange[1], to = gigRange[2],
       n = 1000)
 title("Density of the\n Generalized Inverse Gaussian")
-curve(pgig(x, Theta), from = gigRange[1], to = gigRange[2],
+curve(pgig(x, Theta = Theta), from = gigRange[1], to = gigRange[2],
       n = 1000)
 title("Distribution Function of the\n Generalized Inverse Gaussian")
-dataVector <- rgig(500, Theta)
-curve(dgig(x, Theta), range(dataVector)[1], range(dataVector)[2],
+dataVector <- rgig(500, Theta = Theta)
+curve(dgig(x, Theta = Theta), range(dataVector)[1], range(dataVector)[2],
       n = 500)
-hist(dataVector, freq = FALSE, add =TRUE)
+hist(dataVector, freq = FALSE, add = TRUE)
 title("Density and Histogram\n of the Generalized Inverse Gaussian")
 logHist(dataVector, main =
-   "Log-Density and Log-Histogram\n of the Generalized Inverse Gaussian")
+        "Log-Density and Log-Histogram\n of the Generalized Inverse Gaussian")
 curve(log(dgig(x, Theta)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
-par(mfrow = c(2,1))
-curve(dgig(x, Theta), from = gigRange[1], to = gigRange[2],
+par(mfrow = c(2, 1))
+curve(dgig(x, Theta = Theta), from = gigRange[1], to = gigRange[2],
       n = 1000)
 title("Density of the\n Generalized Inverse Gaussian")
-curve(ddgig(x, Theta), from = gigRange[1], to = gigRange[2],
+curve(ddgig(x, Theta = Theta), from = gigRange[1], to = gigRange[2],
       n = 1000)
 title("Derivative of the Density\n of the Generalized Inverse Gaussian")
-par(mfrow = c(1,1))
-gigRange <- gigCalcRange(Theta, tol = 10^(-6))
-curve(dgig(x, Theta), from = gigRange[1], to = gigRange[2],
+par(mfrow = c(1, 1))
+gigRange <- gigCalcRange(Theta = Theta, tol = 10^(-6))
+curve(dgig(x, Theta = Theta), from = gigRange[1], to = gigRange[2],
       n = 1000)
-bks <- gigBreaks(Theta)
+bks <- gigBreaks(Theta = Theta)
 abline(v = bks)
 }
 

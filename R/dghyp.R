@@ -466,8 +466,9 @@ ddghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 } ## End of ddghyp()
 
 ### Function to set up breaks for pghyp and qghyp
-ghypBreaks <- function(Theta, small = 10^(-6), tiny = 10^(-10),
-                       deriv = 0.3, ...) {
+ghypBreaks <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                       Theta = c(mu, delta, alpha, beta, lambda),
+                       small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...) {
 
   # Lambda defaults to one if omitted from Theta vector
   if (length(Theta) == 4)

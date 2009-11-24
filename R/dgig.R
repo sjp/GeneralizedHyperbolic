@@ -380,8 +380,7 @@ qgig <- function(p, chi = 1, psi = 1, lambda = 1,
 # Modified version of rgig to generate random observations
 # from a generalized inverse Gaussian distribution in the
 # special case where lambda = 1.
-rgig1 <- function(n, chi = 1, psi = 1, lambda = 1,
-                  Theta = c(chi, psi, lambda)) {
+rgig1 <- function(n, chi = 1, psi = 1, Theta = c(chi, psi)) {
 
   if (length(Theta) == 2)
     Theta <- c(Theta, 1)

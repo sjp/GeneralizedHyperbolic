@@ -31,7 +31,9 @@ rghyp(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
       Theta = c(mu, delta, alpha, beta, lambda))
 ddghyp(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
        Theta = c(mu, delta, alpha, beta, lambda))
-ghypBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
+ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+           Theta = c(mu, delta, alpha, beta, lambda),
+           small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
 \arguments{
@@ -214,7 +216,7 @@ par(mfrow = c(1, 1))
 ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-6))
 curve(dghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
-bks <- ghypBreaks(Theta)
+bks <- ghypBreaks(Theta = Theta)
 abline(v = bks)
 }
 
