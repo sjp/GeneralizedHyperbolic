@@ -8,7 +8,7 @@ ghypChangePars <- function(from, to, Theta, noNames = FALSE) {
     Theta <- c(Theta, 1)
 
   if (length(Theta) != 5)
-      stop("Theta vector must contain 4 or 5 values")
+    stop("Theta vector must contain 4 or 5 values")
 
   if ((from != 1) & (from != 2) & (from != 3) & (from != 4))
     stop("the argument 'from' must be either 1, 2, 3 or 4")
