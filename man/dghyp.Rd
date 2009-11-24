@@ -17,13 +17,20 @@
 }
 
 \usage{
-dghyp(x, Theta)
-pghyp(q, Theta, small = 10^(-6), tiny = 10^(-10),
+dghyp(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+      Theta = c(mu, delta, alpha, beta, lambda))
+pghyp(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+      Theta = c(mu, delta, alpha, beta, lambda),
+      small = 10^(-6), tiny = 10^(-10),
       deriv = 0.3, subdivisions = 100, accuracy = FALSE, ...)
-qghyp(p, Theta, small = 10^(-6), tiny = 10^(-10),
+qghyp(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+      Theta = c(mu, delta, alpha, beta, lambda),
+      small = 10^(-6), tiny = 10^(-10),
       deriv = 0.3, nInterpol = 100, subdivisions = 100, ...)
-rghyp(n, Theta)
-ddghyp(x, Theta)
+rghyp(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+      Theta = c(mu, delta, alpha, beta, lambda))
+ddghyp(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+       Theta = c(mu, delta, alpha, beta, lambda))
 ghypBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
@@ -32,7 +39,7 @@ ghypBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
   \item{Theta}{Parameter vector taking the form
-    \code{c(lambda,alpha,beta,delta,mu)}.}
+    \code{c(mu, delta, alpha, beta, lambda)}.}
   \item{small}{Size of a small difference between the distribution
     function and zero or one. See \bold{Details}.}
   \item{tiny}{Size of a tiny difference between the distribution
@@ -40,7 +47,7 @@ ghypBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
   \item{deriv}{Value between 0 and 1. Determines the point where the
     derivative becomes substantial, compared to its maximum value. See
     \bold{Details}.}
-  \item{accuracy}{Uses accuracy calculated by~\code{\link{integrate}}
+  \item{accuracy}{Uses accuracy calculated by \code{\link{integrate}}
     to try and determine the accuracy of the distribution function
     calculation.}
   \item{subdivisions}{The maximum number of subdivisions used to
@@ -120,7 +127,7 @@ ghypBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
   function, \code{qghyp} gives the quantile function and \code{rghyp}
   generates random variates. An estimate of the accuracy of the
   approximation to the distribution function may be found by setting
-  \code{accuracy=TRUE} in the call to \code{pghyp} which then returns
+  \code{accuracy = TRUE} in the call to \code{pghyp} which then returns
   a list with components \code{value} and \code{error}.
 
   \code{ddghyp} gives the derivative of \code{dghyp}.
@@ -178,34 +185,34 @@ ghypBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
 \examples{
-Theta <- c(1/2,3,1,1,0)
-ghypRange <- ghypCalcRange(Theta, tol = 10^(-3))
-par(mfrow = c(1,2))
-curve(dghyp(x, Theta), from = ghypRange[1], to = ghypRange[2],
+Theta <- c(0, 1, 3, 1, 1 / 2)
+ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-3))
+par(mfrow = c(1, 2))
+curve(dghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Density of the\n Generalized Hyperbolic Distribution")
-curve(pghyp(x, Theta), from = ghypRange[1], to = ghypRange[2],
+curve(pghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Distribution Function of the\n Generalized Hyperbolic Distribution")
-dataVector <- rghyp(500, Theta)
-curve(dghyp(x, Theta), range(dataVector)[1], range(dataVector)[2],
+dataVector <- rghyp(500, Theta = Theta)
+curve(dghyp(x, Theta = Theta), range(dataVector)[1], range(dataVector)[2],
       n = 500)
-hist(dataVector, freq = FALSE, add =TRUE)
+hist(dataVector, freq = FALSE, add = TRUE)
 title("Density and Histogram of the\n Generalized Hyperbolic Distribution")
 logHist(dataVector, main =
-   "Log-Density and Log-Histogramof the\n Generalized Hyperbolic Distribution")
-curve(log(dghyp(x, Theta)), add = TRUE,
+        "Log-Density and Log-Histogramof the\n Generalized Hyperbolic Distribution")
+curve(log(dghyp(x, Theta = Theta)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
-par(mfrow = c(2,1))
-curve(dghyp(x, Theta), from = ghypRange[1], to = ghypRange[2],
+par(mfrow = c(2, 1))
+curve(dghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Density of the\n Generalized Hyperbolic Distribution")
-curve(ddghyp(x, Theta), from = ghypRange[1], to = ghypRange[2],
+curve(ddghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Derivative of the Density of the\n Generalized Hyperbolic Distribution")
-par(mfrow = c(1,1))
-ghypRange <- ghypCalcRange(Theta, tol = 10^(-6))
-curve(dghyp(x, Theta), from = ghypRange[1], to = ghypRange[2],
+par(mfrow = c(1, 1))
+ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-6))
+curve(dghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 bks <- ghypBreaks(Theta)
 abline(v = bks)
