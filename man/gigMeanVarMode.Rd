@@ -12,11 +12,16 @@
 }
 
 \usage{
-gigMean(Theta)
-gigVar(Theta)
-gigSkew(Theta)
-gigKurt(Theta)
-gigMode(Theta)
+gigMean(chi = 1, psi = 1, lambda = 1,
+        Theta = c(chi, psi, lambda))
+gigVar(chi = 1, psi = 1, lambda = 1,
+       Theta = c(chi, psi, lambda))
+gigSkew(chi = 1, psi = 1, lambda = 1,
+        Theta = c(chi, psi, lambda))
+gigKurt(chi = 1, psi = 1, lambda = 1,
+        Theta = c(chi, psi, lambda))
+gigMode(chi = 1, psi = 1, lambda = 1,
+        Theta = c(chi, psi, lambda))
 }
 \arguments{
   \item{Theta}{Parameter vector of the generalized inverse Gaussian
@@ -52,11 +57,11 @@ gigMode(Theta)
 }
 
 \examples{
-Theta <- c(-0.5,5,2.5)
-gigMean(Theta)
-gigVar(Theta)
-gigSkew(Theta)
-gigKurt(Theta)
-gigMode(Theta)
+Theta <- c(5, 2.5, -0.5)
+gigMean(Theta = Theta)
+gigVar(Theta = Theta)
+gigSkew(Theta = Theta)
+gigKurt(Theta = Theta)
+gigMode(Theta = Theta)
 }
 \keyword{distribution}
