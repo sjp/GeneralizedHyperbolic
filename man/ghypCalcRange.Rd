@@ -35,7 +35,7 @@ ghypCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   sections over which numerical integration is used to determine the
   distribution function. The points are found by using
   \code{\link{uniroot}} on the density function.
-  
+
   If \code{density = FALSE}, the function returns the message:
   "\code{Distribution function bounds not yet implemented}".
 }
@@ -43,12 +43,12 @@ ghypCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 \value{
   A two-component vector giving the lower and upper ends of the range.
 }
-\references{ 
+\references{
   Barndorff-Nielsen, O. and \enc{Blæsild}{Blaesild}, P (1983).
-  Hyperbolic distributions. 
-  In \emph{Encyclopedia of Statistical Sciences}, 
+  Hyperbolic distributions.
+  In \emph{Encyclopedia of Statistical Sciences},
   eds., Johnson, N. L., Kotz, S. and Read, C. B., Vol. 3,
-  pp. 700--707. New York: Wiley. 
+  pp. 700--707. New York: Wiley.
 }
 \author{David Scott \email{d.scott@auckland.ac.nz}}
 

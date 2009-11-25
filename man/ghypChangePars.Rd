@@ -7,14 +7,14 @@
   This function interchanges between the following 4 parameterizations
   of the generalized hyperbolic distribution:
 
-  1. \eqn{\lambda, \alpha, \beta, \delta, \mu}{lambda, alpha, beta, delta, mu}
+  1. \eqn{\mu, \delta, \alpha, \beta, \lambda}{mu, delta, alpha, beta, lambda}
 
-  2. \eqn{\lambda, \zeta, \rho, \delta, \mu}{lambda, zeta, rho, delta, mu}
+  2. \eqn{\mu, \delta, \zeta, \rho, \lambda}{mu, delta, zeta, rho, lambda}
 
-  3. \eqn{\lambda, \xi, \chi, \delta, \mu}{lambda, xi, chi, delta, mu}
+  3. \eqn{\mu, \delta, \xi, \chi, \lambda}{mu, delta, xi, chi, lambda}
 
-  4. \eqn{\lambda, \bar\alpha, \bar\beta, \delta, \mu}{%
-    lambda, alpha bar, beta bar, delta, mu}
+  4. \eqn{\mu, \delta, \bar\alpha, \bar\beta, \lambda}{%
+    mu, delta, alpha bar, beta bar, lambda}
 
   These are the parameterizations given in Prause (1999)
 }
@@ -74,7 +74,7 @@ Jennifer Tso, Richard Trendall}
 \seealso{\code{\link{dghyp}}}
 
 \examples{
-Theta1 <- c(2,2,1,3,0)                   # Parameterization 1
+Theta1 <- c(0, 3, 2, 1, 2)                   # Parameterization 1
 Theta2 <- ghypChangePars(1, 2, Theta1)   # Convert to parameterization 2
 Theta2                                   # Parameterization 2
 ghypChangePars(2, 1, as.numeric(Theta2)) # Convert back to parameterization 1
