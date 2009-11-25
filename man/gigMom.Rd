@@ -10,9 +10,11 @@
   gamma and inverse gamma distributions as special cases.
 }
 \usage{
-gigRawMom(order, Theta)
-gigMom(order, Theta, about = 0)
-gammaRawMom(order, shape = 1, rate = 1, scale = 1/rate)
+gigRawMom(order, chi = 1, psi = 1, lambda = 1,
+          Theta = c(chi, psi, lambda))
+gigMom(order, chi = 1, psi = 1, lambda = 1,
+       Theta = c(chi, psi, lambda), about = 0)
+gammaRawMom(order, shape = 1, rate = 1, scale = 1 / rate)
 }
 
 \arguments{
@@ -20,7 +22,7 @@ gammaRawMom(order, shape = 1, rate = 1, scale = 1/rate)
     permitted to be a vector. Must be a positive whole number except for
     moments about zero.}
   \item{Theta}{Numeric. The parameter vector specifying the GIG
-    distribution. Of the form \code{c(lambda, chi, psi)} (see
+    distribution. Of the form \code{c(chi, psi, lambda)} (see
     \code{\link{dgig}}).}
   \item{about}{Numeric. The point around which the moment is to be
     calculated.}
@@ -93,23 +95,23 @@ gammaRawMom(order, shape = 1, rate = 1, scale = 1/rate)
 
 \examples{
 ### Raw moments of the generalized inverse Gaussian distribution
-Theta <- c(-0.5,5,2.5)
-gigRawMom(1, Theta)
+Theta <- c(5, 2.5, -0.5)
+gigRawMom(1, Theta = Theta)
 momIntegrated("gig", order = 1, param = Theta, about = 0)
-gigRawMom(2, Theta)
+gigRawMom(2, Theta = Theta)
 momIntegrated("gig", order = 2, param = Theta, about = 0)
-gigRawMom(10, Theta)
+gigRawMom(10, Theta = Theta)
 momIntegrated("gig", order = 10, param = Theta, about = 0)
-gigRawMom(2.5, Theta)
+gigRawMom(2.5, Theta = Theta)
 
 ### Moments of the generalized inverse Gaussian distribution
-Theta <- c(-0.5,5,2.5)
-(m1 <- gigRawMom(1, Theta))
-gigMom(1, Theta)
-gigMom(2, Theta, m1)
+Theta <- c(5, 2.5, -0.5)
+(m1 <- gigRawMom(1, Theta = Theta))
+gigMom(1, Theta = Theta)
+gigMom(2, Theta = Theta, about = m1)
 (m2 <- momIntegrated("gig", order = 2, param = Theta, about = m1))
-gigMom(1, Theta, m1)
-gigMom(3, Theta, m1)
+gigMom(1, Theta = Theta, about = m1)
+gigMom(3, Theta = Theta, about = m1)
 momIntegrated("gig", order = 3, param = Theta, about = m1)
 
 ### Raw moments of the gamma distribution
@@ -124,15 +126,15 @@ gammaRawMom(10, shape, rate)
 momIntegrated("gamma", order = 10, param = Theta, about = 0)
 
 ### Moments of the inverse gamma distribution
-Theta <- c(-0.5,5,0)
-gigRawMom(2, Theta)              # Inf
-gigRawMom(-2, Theta)
+Theta <- c(5, 0, -0.5)
+gigRawMom(2, Theta = Theta)             # Inf
+gigRawMom(-2, Theta = Theta)
 momIntegrated("invgamma", order = -2,
-              param = c(-Theta[1],Theta[2]/2), about = 0)
+              param = c(-Theta[3], Theta[1] / 2), about = 0)
 
 ### An example where the moment is infinite: inverse gamma
-Theta <- c(-0.5,5,0)
-gigMom(1, Theta)
-gigMom(2, Theta)
+Theta <- c(5, 0, -0.5)
+gigMom(1, Theta = Theta)
+gigMom(2, Theta = Theta)
 }
 \keyword{distribution}
