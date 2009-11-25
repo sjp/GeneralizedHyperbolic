@@ -5,17 +5,19 @@
   Given the parameter vector Theta of a generalized hyperbolic distribution,
   this function determines the range outside of which the density
   function is negligible, to a specified tolerance. The parameterization used
-  is the \eqn{(\alpha,\beta)}{(alpha,beta)} one (see
+  is the \eqn{(\alpha, \beta)}{(alpha, beta)} one (see
   \code{\link{dghyp}}). To use another parameterization, use
   \code{\link{ghypChangePars}}.
 }
 
 \usage{
-ghypCalcRange(Theta, tol = 10^(-5), density = TRUE, ...)
+ghypCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+              Theta = c(mu, delta, alpha, beta, lambda),
+              tol = 10^(-5), density = TRUE, ...)
 }
 \arguments{
-  \item{Theta}{Value of parameter vector specifying the hyperbolic
-    distribution.}
+  \item{Theta}{Value of parameter vector specifying the generalized
+    hyperbolic distribution.}
   \item{tol}{Tolerance.}
   \item{density}{Logical. If \code{TRUE}, the bounds are for the density
     function. If \code{FALSE}, they should be for the probability
@@ -55,11 +57,11 @@ ghypCalcRange(Theta, tol = 10^(-5), density = TRUE, ...)
 }
 
 \examples{
-Theta <- c(1,5,3,1,0)
-maxDens <- dghyp(ghypMode(Theta), Theta)
-ghypRange <- ghypCalcRange(Theta, tol = 10^(-3)*maxDens)
+Theta <- c(0, 1, 5, 3, 1)
+maxDens <- dghyp(ghypMode(Theta = Theta), Theta = Theta)
+ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-3) * maxDens)
 ghypRange
-curve(dghyp(x, Theta), ghypRange[1], ghypRange[2])
-\dontrun{ghypCalcRange(Theta, tol = 10^(-3), density = FALSE)}
+curve(dghyp(x, Theta = Theta), ghypRange[1], ghypRange[2])
+\dontrun{ghypCalcRange(Theta = Theta, tol = 10^(-3), density = FALSE)}
 }
 \keyword{distribution}
