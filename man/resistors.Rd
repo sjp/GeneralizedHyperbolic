@@ -40,7 +40,7 @@ logHist(resistances)
 hyperbFit(resistances) 
 
 ## Actually fit.hyperb can deal with frequency data
-hyperbFit(midpoints, freq=counts)
+hyperbFit(midpoints, freq = counts)
 
 }
 \keyword{datasets}

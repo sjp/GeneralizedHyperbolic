@@ -21,7 +21,7 @@
   lies. Sizes (in mm) are then converted into psi units by taking the
   base 2 logarithm of the size. The midpoints specified are the midpoints
   of the psi unit ranges, and counts gives the number of observations
-  in each size range. The classes are of length 0.5 psi units. 
+  in each size range. The classes are of length 0.5 psi units.
   There are 3574 observations.
 }
 \source{
@@ -44,6 +44,6 @@ barplot(table(psi))
 hyperbFit(psi)
 
 ### Actually hyperbFit can deal with frequency data
-hyperbFit(midpoints, freq=counts)
+hyperbFit(midpoints, freq = counts)
 }
 \keyword{datasets}
