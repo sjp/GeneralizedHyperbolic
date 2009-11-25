@@ -10,15 +10,16 @@
   distribution. 
 }
 \usage{
-ghypMom(order, Theta, momType = "raw", about = 0)
+ghypMom(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+        Theta = c(mu, delta, alpha, beta, lambda), momType = "raw", about = 0)
 }
 
 \arguments{
   \item{order}{Numeric. The order of the moment to be calculated. Not
     permitted to be a vector. Must be a positive whole number except for
     moments about zero.}
-  \item{Theta}{Numeric. The parameter vector specifying the GIG
-    distribution. Of the form \code{c(lambda, alpha, beta, delta, mu)}
+  \item{Theta}{Numeric. The parameter vector specifying the GHyp
+    distribution. Of the form \code{c(mu, delta, alpha, beta, lambda)}
     (see \code{\link{dghyp}}).}
   \item{momType}{Common types of moments to be calculated, default is "raw". 
     See \bold{Details}.}  
@@ -63,34 +64,34 @@ ghypMom(order, Theta, momType = "raw", about = 0)
 
 
 \examples{
-Theta <- c(2,2,1,2,1)
-mu <- Theta[5]
+Theta <- c(1, 2, 2, 1, 2)
+mu <- Theta[1]
 ### mu moments
-(m1 <- ghypMean(Theta))
+(m1 <- ghypMean(Theta = Theta))
 m1 - mu
-ghypMom(1, Theta, momType = "mu")
+ghypMom(1, Theta = Theta, momType = "mu")
 momIntegrated("ghyp", order = 1, param = Theta, about = mu)
-ghypMom(2, Theta, momType = "mu")
+ghypMom(2, Theta = Theta, momType = "mu")
 momIntegrated("ghyp", order = 2, param = Theta, about = mu)
-ghypMom(10, Theta, momType = "mu")
+ghypMom(10, Theta = Theta, momType = "mu")
 momIntegrated("ghyp", order = 10, param = Theta, about = mu)
 
 ### raw moments
-ghypMean(Theta)
-ghypMom(1, Theta, momType = "raw")
+ghypMean(Theta = Theta)
+ghypMom(1, Theta = Theta, momType = "raw")
 momIntegrated("ghyp", order = 1, param = Theta, about = 0)
-ghypMom(2, Theta, momType = "raw")
+ghypMom(2, Theta = Theta, momType = "raw")
 momIntegrated("ghyp", order = 2, param = Theta, about = 0)
-ghypMom(10, Theta, momType = "raw")
+ghypMom(10, Theta = Theta, momType = "raw")
 momIntegrated("ghyp", order = 10, param = Theta, about = 0)
 
 ### central moments
-ghypMom(1, Theta, momType = "central")
+ghypMom(1, Theta = Theta, momType = "central")
 momIntegrated("ghyp", order = 1, param = Theta, about = m1)
-ghypVar(Theta)
-ghypMom(2, Theta, momType = "central")
+ghypVar(Theta = Theta)
+ghypMom(2, Theta = Theta, momType = "central")
 momIntegrated("ghyp", order = 2, param = Theta, about = m1)
-ghypMom(10, Theta, momType = "central")
+ghypMom(10, Theta = Theta, momType = "central")
 momIntegrated("ghyp", order = 10, param = Theta, about = m1)
 
 }
