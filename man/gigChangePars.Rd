@@ -8,13 +8,13 @@
   This function interchanges between the following 4 parameterizations
   of the generalized inverse Gaussian distribution:
 
-  1. \eqn{(\lambda,\chi,\psi)}{(lambda, chi, psi)}
+  1. \eqn{(\chi, \psi, \lambda)}{(chi, psi, lambda)}
 
-  2. \eqn{(\lambda,\delta,\gamma)}{(lambda, delta, gamma)}
+  2. \eqn{(delta, \gamma, \lambda)}{(delta, gamma, lambda)}
 
-  3. \eqn{(\lambda,\alpha,\beta)}{(lambda, alpha, beta)}
+  3. \eqn{(\alpha, \beta, \lambda)}{(alpha, beta, lambda)}
 
-  4. \eqn{(\lambda,\omega,\eta)}{(lambda, omega, eta)}
+  4. \eqn{(\omega, \eta, \lambda)}{(omega, eta, lambda)}
 
   See \enc{Jörgensen}{Jorgensen} (1982) and Dagpunar (1989)
 }
@@ -59,7 +59,7 @@ gigChangePars(from, to, Theta, noNames = FALSE)
 \seealso{\code{\link{dgig}}}
 
 \examples{
-Theta1 <- c(-0.5,5,2.5)                 # Parameterisation 1
+Theta1 <- c(2.5, -0.5, 5)               # Parameterisation 1
 Theta2 <- gigChangePars(1, 2, Theta1)   # Convert to parameterization 2
 Theta2                                  # Parameterization 2
 gigChangePars(2, 1, as.numeric(Theta2)) # Convert back to parameterization 1
