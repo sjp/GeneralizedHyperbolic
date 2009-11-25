@@ -101,7 +101,7 @@ ghypMode <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   Theta <- as.numeric(Theta)
 
   if (length(Theta) == 4)
-    Theta <- c(1, Theta)
+    Theta <- c(Theta, 1)
 
   ## check parameters
   parResult <- ghypCheckPars(Theta)

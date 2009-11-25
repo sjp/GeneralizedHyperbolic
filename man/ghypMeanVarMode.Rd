@@ -10,11 +10,16 @@
   of a specific generalized hyperbolic distribution.
 }
 \usage{
-ghypMean(Theta)
-ghypVar(Theta)
-ghypSkew(Theta)
-ghypKurt(Theta)
-ghypMode(Theta)
+ghypMean(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+         Theta = c(mu, delta, alpha, beta, lambda))
+ghypVar(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+        Theta = c(mu, delta, alpha, beta, lambda))
+ghypSkew(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+         Theta = c(mu, delta, alpha, beta, lambda))
+ghypKurt(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+         Theta = c(mu, delta, alpha, beta, lambda))
+ghypMode(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+         Theta = c(mu, delta, alpha, beta, lambda))
 }
 \arguments{
   \item{Theta}{Parameter vector of the generalized hyperbolic distribution.}
@@ -35,7 +40,7 @@ ghypMode(Theta)
   \code{\link{hyperbMode}}.
    
   The parameterization of the generalized hyperbolic distribution used
-  for these functions is the \eqn{(\alpha,\beta)}{(alpha,beta)} one. See
+  for these functions is the \eqn{(\alpha, \beta)}{(alpha, beta)} one. See
   \code{\link{ghypChangePars}} to transfer between parameterizations.
 }
 \references{
@@ -52,16 +57,16 @@ ghypMode(Theta)
 }
 
 \examples{
-Theta <- c(2,2,1,2,2)
-ghypMean(Theta)
-ghypVar(Theta)
-ghypSkew(Theta)
-ghypKurt(Theta)
-ghypMode(Theta)
-maxDens <- dghyp(ghypMode(Theta), Theta)
-ghypRange <- ghypCalcRange(Theta, tol = 10^(-3)*maxDens)
-curve(dghyp(x, Theta), ghypRange[1], ghypRange[2])
-abline(v = ghypMode(Theta), col = "blue")
-abline(v = ghypMean(Theta), col = "red")
+Theta <- c(2, 2, 2, 1, 2)
+ghypMean(Theta = Theta)
+ghypVar(Theta = Theta)
+ghypSkew(Theta = Theta)
+ghypKurt(Theta = Theta)
+ghypMode(Theta = Theta)
+maxDens <- dghyp(ghypMode(Theta = Theta), Theta = Theta)
+ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-3) * maxDens)
+curve(dghyp(x, Theta = Theta), ghypRange[1], ghypRange[2])
+abline(v = ghypMode(Theta = Theta), col = "blue")
+abline(v = ghypMean(Theta = Theta), col = "red")
 }
 \keyword{distribution}
