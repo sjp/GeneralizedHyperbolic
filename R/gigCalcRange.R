@@ -1,9 +1,20 @@
 ### Function to calculate an effective range for the distribution function
 ### or for the density function
 ### DJS 10/01/07
-gigCalcRange <- function(Theta, tol = 10^(-5), density = TRUE, ...) {
+gigCalcRange <- function(chi = 1, psi = 1, lambda = 1,
+                         Theta = c(chi, psi, lambda),
+                         tol = 10^(-5), density = TRUE, ...) {
 
   Theta <- as.numeric(Theta)
+
+  ## check parameters
+  parResult <- gigCheckPars(Theta)
+  case <- parResult$case
+  errMessage <- parResult$errMessage
+
+  if (case == "error")
+    stop(errMessage)
+
   chi <- Theta[1]
   psi <- Theta[2]
   lambda <- Theta[3]
