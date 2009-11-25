@@ -16,7 +16,7 @@ gigCheckPars(Theta, ...)
   \item{...}{Further arguments for calls to \code{all.equal}.}
 }
 \details{
-  The vector \code{Theta} takes the form \code{c(lambda,chi,psi)}.
+  The vector \code{Theta} takes the form \code{c(chi, psi, lambda)}.
 
   If either \code{chi} or \code{psi} is negative, an error is returned.
 
@@ -50,15 +50,15 @@ gigCheckPars(Theta, ...)
 \author{David Scott \email{d.scott@auckland.ac.nz}}
 \seealso{\code{\link{dgig}}}
 \examples{
-gigCheckPars(c(-0.5,5,2.5))      # normal
-gigCheckPars(c(0.5,-5,2.5))      # error
-gigCheckPars(c(0.5,5,-2.5))      # error
-gigCheckPars(c(0.5,-5,-2.5))     # error
-gigCheckPars(c(0.5,0,2.5))       # gamma
-gigCheckPars(c(-0.5,0,2.5))      # error
-gigCheckPars(c(0.5,0,0))         # error
-gigCheckPars(c(-0.5,0,0))        # error
-gigCheckPars(c(0.5,5,0))         # error
-gigCheckPars(c(-0.5,5,0))        # invgamma
+gigCheckPars(c(5, 2.5, -0.5))      # normal
+gigCheckPars(c(-5, 2.5, 0.5))      # error
+gigCheckPars(c(5, -2.5, 0.5))      # error
+gigCheckPars(c(-5, -2.5, 0.5))     # error
+gigCheckPars(c(0, 2.5, 0.5))       # gamma
+gigCheckPars(c(0, 2.5, -0.5))      # error
+gigCheckPars(c(0, 0, 0.5))         # error
+gigCheckPars(c(0, 0, -0.5))        # error
+gigCheckPars(c(5, 0, 0.5))         # error
+gigCheckPars(c(5, 0, -0.5))        # invgamma
 }
 \keyword{distribution}
