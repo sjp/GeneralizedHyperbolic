@@ -38,18 +38,18 @@ momIntegrated(densFn, order, param = NULL, about = 0, absolute = FALSE)
 
   When \code{densFn="ghyp"} or \code{"generalized hyperbolic"} the
   density used is \code{dghyp}. The default value for \code{param} is
-  \code{c(1,1,0,1,0)}.
+  \code{c(0, 1, 1, 0, 1)}.
 
   When \code{densFn="hyperb"} or \code{"hyperbolic"} the density used is
   \code{dhyperb}. The default value for \code{param} is
-  \code{c(0,1,1,0)}.
+  \code{c(0, 1, 1, 0)}.
 
   When \code{densFn="gig"} or \code{"generalized inverse gaussian"} the
   density used is \code{dgig}. The default value for \code{param} is
-  \code{c(1,1,1)}.
+  \code{c(1, 1, 1)}.
 
   When \code{densFn="gamma"} the density used is \code{dgamma}. The
-  default value for \code{param} is \code{c(1,1)}.
+  default value for \code{param} is \code{c(1, 1)}.
 
   When \code{densFn="invgamma"} or \code{"inverse gamma"} the
   density used is the density of the inverse gamma distribution given by
@@ -59,14 +59,14 @@ momIntegrated(densFn, order, param = NULL, about = 0, absolute = FALSE)
 
   for \eqn{x > 0}, \eqn{\alpha > 0}{alpha > 0} and
   \eqn{\theta > 0}{theta > 0}.  The parameter vector
-  \code{param = c(shape,rate)} where \code{shape} \eqn{=\alpha}{=alpha} and
+  \code{param = c(shape, rate)} where \code{shape} \eqn{=\alpha}{=alpha} and
   \code{rate}\eqn{=1/\theta}{=1/theta}. The default value for
-  \code{param} is \code{c(-1,1)}.
+  \code{param} is \code{c(-1, 1)}.
 
-  When \code{densFn="vg"} or \code{"variance gamma"} the density used is
+  When \code{densFn = "vg"} or \code{"variance gamma"} the density used is
   \code{dvg} from the package \pkg{VarianceGamma}. In this case, the package
   \pkg{VarianceGamma} must be loaded or an error will result. The
-  default value for \code{param} is \code{c(0,1,0,1)}.
+  default value for \code{param} is \code{c(0, 1, 0, 1)}.
 
 }
 \value{
@@ -83,21 +83,21 @@ momIntegrated(densFn, order, param = NULL, about = 0, absolute = FALSE)
 \examples{
 ### Calculate the mean of a generalized hyperbolic distribution
 ### Compare the use of integration and the formula for the mean
-m1 <- momIntegrated("ghyp", param = c(1/2,3,1,1,0), order = 1, about = 0)
+m1 <- momIntegrated("ghyp", param = c(0, 1, 3, 1, 1 / 2), order = 1, about = 0)
 m1
-ghypMean(c(1/2,3,1,1,0))
+ghypMean(Theta = c(0, 1, 3, 1, 1 / 2))
 ### The first moment about the mean should be zero
-momIntegrated("ghyp", order = 1, param = c(1/2,3,1,1,0), about = m1)
+momIntegrated("ghyp", order = 1, param = c(0, 1, 3, 1, 1 / 2), about = m1)
 ### The variance can be calculated from the raw moments
-m2 <- momIntegrated("ghyp", order = 2, param = c(1/2,3,1,1,0), about = 0)
+m2 <- momIntegrated("ghyp", order = 2, param = c(0, 1, 3, 1, 1 / 2), about = 0)
 m2
 m2 - m1^2
 ### Compare with direct calculation using integration
-momIntegrated("ghyp", order = 2, param = c(1/2,3,1,1,0), about = m1)
-momIntegrated("generalized hyperbolic", param = c(1/2,3,1,1,0), order = 2,
+momIntegrated("ghyp", order = 2, param = c(0, 1, 3, 1, 1 / 2), about = m1)
+momIntegrated("generalized hyperbolic", param = c(0, 1, 3, 1, 1 / 2), order = 2,
               about = m1)
 ### Compare with use of the formula for the variance
-ghypVar(c(1/2,3,1,1,0))
+ghypVar(Theta = c(0, 1, 3, 1, 1 / 2))
 }
 \keyword{distribution}
 \keyword{univar}
