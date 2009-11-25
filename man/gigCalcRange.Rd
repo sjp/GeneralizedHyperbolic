@@ -6,13 +6,15 @@
   Given the parameter vector Theta of a generalized inverse Gaussian
   distribution, this function determines the range outside of which the density
   function is negligible, to a specified tolerance. The parameterization
-  used is the \eqn{(\chi,\psi)}{(chi, psi)} one (see
+  used is the \eqn{(\chi, \psi)}{(chi, psi)} one (see
   \code{\link{dgig}}). To use another parameterization, use
   \code{\link{gigChangePars}}.
 }
 
 \usage{
-gigCalcRange(Theta, tol = 10^(-5), density = TRUE, ...)
+gigCalcRange(chi = 1, psi = 1, lambda = 1,
+             Theta = c(chi, psi, lambda),
+             tol = 10^(-5), density = TRUE, ...)
 }
 \arguments{
   \item{Theta}{Value of parameter vector specifying the generalized
@@ -54,11 +56,11 @@ gigCalcRange(Theta, tol = 10^(-5), density = TRUE, ...)
 }
 
 \examples{
-Theta <- c(-0.5,5,2.5)
-maxDens <- dgig(gigMode(Theta), Theta)
-gigRange <- gigCalcRange(Theta, tol = 10^(-3)*maxDens)
+Theta <- c(2.5, -0.5, 5)
+maxDens <- dgig(gigMode(Theta = Theta), Theta = Theta)
+gigRange <- gigCalcRange(Theta = Theta, tol = 10^(-3) * maxDens)
 gigRange
-curve(dgig(x, Theta), gigRange[1], gigRange[2])
-\dontrun{gigCalcRange(Theta, tol = 10^(-3), density = FALSE)}
+curve(dgig(x, Theta = Theta), gigRange[1], gigRange[2])
+\dontrun{gigCalcRange(Theta = Theta, tol = 10^(-3), density = FALSE)}
 }
 \keyword{distribution}
