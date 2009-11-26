@@ -11,31 +11,40 @@
 \description{
   Density function, distribution function, quantiles and
   random number generation for the hyperbolic distribution
-  with parameter vector \code{Theta}. Utility routines are included for
-  the derivative of the density function and to find suitable break
-  points for use in determining the distribution function.
+  with parameter vector \code{Theta}. Theta has the \eqn{(\alpha, \beta)}{(alpha, beta)}
+  form of parameterization. All functions are simply wrappers to
+  their equivalent generalized hyperbolic distribution function.
 }
 
 \usage{
-dhyperb(x, Theta, KNu = NULL, logPars = FALSE)
-phyperb(q, Theta, small = 10^(-6), tiny = 10^(-10),
+dhyperb(x, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta))
+phyperb(q, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta),
+        small = 10^(-6), tiny = 10^(-10),
         deriv = 0.3, subdivisions = 100, accuracy = FALSE, ...)
-qhyperb(p, Theta, small = 10^(-6), tiny = 10^(-10),
+qhyperb(p, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta),
+        small = 10^(-6), tiny = 10^(-10),
         deriv = 0.3, nInterpol = 100, subdivisions = 100, ...)
-rhyperb(n, Theta)
-ddhyperb(x, Theta, KNu = NULL, ...)
-hyperbBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
+rhyperb(n, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta))
+ddhyperb(x, mu = 0, delta = 1, alpha = 1, beta = 0,
+         Theta = c(mu, delta, alpha, beta), ...)
 }
 
 \arguments{
   \item{x,q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
-  \item{Theta}{Parameter vector taking the form \code{c(pi,zeta,delta,mu)}.}
-  \item{KNu}{Sets the value of the Bessel function in the density or
-    derivative of the density. See \bold{Details}}.
-  \item{logPars}{Logical; if \code{TRUE} the second and third components
-    of Theta are taken to be log(zeta) and log(delta) respectively.}
+  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
+    set to 0.}
+  \item{delta}{\eqn{\delta}{delta} measures the peakedness of the distribution.
+    A default value of 1 has been set.}
+  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
+  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
+  \item{Theta}{Parameter vector taking the form
+    \code{c(mu, delta, alpha, beta)}.}
   \item{small}{Size of a small difference between the distribution
     function and zero or one. See \bold{Details}.}
   \item{tiny}{Size of a tiny difference between the distribution
@@ -67,15 +76,15 @@ hyperbBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 
   A succinct description of the hyperbolic distribution is given in
   Barndorff-Nielsen and \enc{Blæsild}{Blaesild} (1983). Three different
-  possibleparameterisations are described in that paper. A fourth
+  possible parameterisations are described in that paper. A fourth
   parameterization is given in Prause (1999). All use location and scale
   parameters \eqn{\mu}{mu} and \eqn{\delta}{delta}. There are two other
   parameters in each case.
 
   Use \code{hyperbChangePars} to convert from the
-  \eqn{(\alpha,\beta)}{(alpha,beta)} \eqn{(\phi,\gamma)}{(phi,gamma)} or
-  \eqn{(\xi,\chi)}{xi,chi)} parameterisations to the
-  \eqn{(\pi,\zeta)}{(pi,zeta)} parameterisation used above.
+  \eqn{(\pi, \zeta)}{(pi, zeta)} \eqn{(\phi, \gamma)}{(phi, gamma)} or
+  \eqn{(\xi, \chi)}{xi, chi)} parameterisations to the
+  \eqn{(\alpha, \beta)}{(alpha, beta)} parameterisation used above.
 
   \code{phyperb} breaks the real line into eight regions in order to
   determine the integral of \code{dhyperb}. The break points determining
@@ -116,7 +125,7 @@ hyperbBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
   distribution is the generalized inverse Gaussian.  \code{rhyperb} uses
   this representation to generate observations from the hyperbolic
   distribution. Generalized inverse Gaussian observations are obtained
-  via the algorithm of Dagpunar (1989).  }
+  via the algorithm of Dagpunar (1989).}
 
 \value{
   \code{dhyperb} gives the density, \code{phyperb} gives the distribution
