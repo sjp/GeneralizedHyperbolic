@@ -15,15 +15,18 @@
   and \code{ppghyp}.
 }
 \usage{
-qqghyp(y, Theta, main = "Generalized Hyperbolic Q-Q Plot",
-  xlab = "Theoretical Quantiles",
-  ylab = "Sample Quantiles",
-  plot.it = TRUE, line = TRUE, \dots)
+qqghyp(y, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+       Theta = c(mu, delta, alpha, beta, lambda), main = "Generalized Hyperbolic Q-Q Plot",
+       xlab = "Theoretical Quantiles",
+       ylab = "Sample Quantiles",
+       plot.it = TRUE, line = TRUE, \dots)
 
-ppghyp(y, Theta, main = "Generalized Hyperbolic P-P Plot",
-  xlab = "Uniform Quantiles",
-  ylab = "Probability-integral-transformed Data",
-  plot.it = TRUE, line = TRUE, \dots)
+ppghyp(y, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+       Theta = c(mu, delta, alpha, beta, lambda),
+       main = "Generalized Hyperbolic P-P Plot",
+       xlab = "Uniform Quantiles",
+       ylab = "Probability-integral-transformed Data",
+       plot.it = TRUE, line = TRUE, \dots)
 }
 
 \arguments{
@@ -53,11 +56,11 @@ ppghyp(y, Theta, main = "Generalized Hyperbolic P-P Plot",
 
 
 \examples{
-par(mfrow = c(1,2))
-y <- rghyp(200, c(2,2,1,2,2))
-qqghyp(y, c(2,2,1,2,2),line = FALSE)
+par(mfrow = c(1, 2))
+y <- rghyp(200, c(2, 2, 2, 1, 2))
+qqghyp(y, c(2, 2, 2, 1, 2), line = FALSE)
 abline(0, 1, col = 2)
-ppghyp(y, c(2,2,1,2,2))
+ppghyp(y, c(2, 2, 2, 1, 2))
 }
 \keyword{hplot}
 \keyword{distribution}

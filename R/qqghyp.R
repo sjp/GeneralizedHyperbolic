@@ -1,5 +1,7 @@
 ### Q-Q plot for generalized hyperbolic distribution
-qqghyp <- function(y, Theta, main = "Generalized Hyperbolic Q-Q Plot",
+qqghyp <- function(y, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                   Theta = c(mu, delta, alpha, beta, lambda),
+                   main = "Generalized Hyperbolic Q-Q Plot",
                    xlab = "Theoretical Quantiles",
                    ylab = "Sample Quantiles",
                    plot.it = TRUE, line = TRUE, ...) {
@@ -36,7 +38,9 @@ qqghyp <- function(y, Theta, main = "Generalized Hyperbolic Q-Q Plot",
 } ## End of qqghyp()
 
 ### P-P plot for generalized hyperbolic distribution
-ppghyp <- function(y, Theta, main = "Generalized Hyperbolic P-P Plot",
+ppghyp <- function(y, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
+                   Theta = c(mu, delta, alpha, beta, lambda),
+                   main = "Generalized Hyperbolic P-P Plot",
                    xlab = "Uniform Quantiles",
                    ylab = "Probability-integral-transformed Data",
                    plot.it = TRUE, line = TRUE, ...) {
