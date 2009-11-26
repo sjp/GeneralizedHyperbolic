@@ -185,7 +185,7 @@ Ai-Wei Lee, Jennifer Tso, Richard Trendall}
 
 \examples{
 Theta <- c(2,1,1,0)
-hyperbRange <- hyperbCalcRange(Theta, tol = 10^(-3))
+hyperbRange <- hyperbCalcRange(Theta = Theta, tol = 10^(-3))
 par(mfrow = c(1,2))
 curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
