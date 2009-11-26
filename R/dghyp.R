@@ -488,10 +488,10 @@ ghypBreaks <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  xTiny <- ghypCalcRange(Theta, tiny, density = TRUE)[1]
-  xSmall <- ghypCalcRange(Theta, small, density = TRUE)[1]
-  xLarge <- ghypCalcRange(Theta, small, density = TRUE)[2]
-  xHuge <- ghypCalcRange(Theta, tiny, density = TRUE)[2]
+  xTiny <- ghypCalcRange(Theta = Theta, tol = tiny, density = TRUE)[1]
+  xSmall <- ghypCalcRange(Theta = Theta, tol = small, density = TRUE)[1]
+  xLarge <- ghypCalcRange(Theta = Theta, tol = small, density = TRUE)[2]
+  xHuge <- ghypCalcRange(Theta = Theta, tol = tiny, density = TRUE)[2]
 
   modeDist <- ghypMode(Theta = Theta)
   ## Determine break points, based on size of derivative

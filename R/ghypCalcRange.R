@@ -35,7 +35,7 @@ ghypCalcRange <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     xUpper <- uniroot(zeroFun, interval = c(mode, xHigh), ...)$root
     xLow <- mode - sqrt(ghypVar(Theta = Theta))
 
-    while (dghyp(xLow, Theta = Theta) > tol){
+    while (dghyp(xLow, Theta = Theta) > tol) {
       xLow <- xLow - sqrt(ghypVar(Theta = Theta))
     }
 
