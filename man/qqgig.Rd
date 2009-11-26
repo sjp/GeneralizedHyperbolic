@@ -18,15 +18,19 @@
   \code{ppgig}.
 }
 \usage{
-qqgig(y, Theta, main = "GIG Q-Q Plot",
-  xlab = "Theoretical Quantiles",
-  ylab = "Sample Quantiles",
-  plot.it = TRUE, line = TRUE, \dots)
+qqgig(y, chi = 1, psi = 1, lambda = 1,
+      Theta = c(chi, psi, lambda),
+      main = "GIG Q-Q Plot",
+      xlab = "Theoretical Quantiles",
+      ylab = "Sample Quantiles",
+      plot.it = TRUE, line = TRUE, \dots)
 
-ppgig(y, Theta, main = "GIG P-P Plot",
-  xlab = "Uniform Quantiles",
-  ylab = "Probability-integral-transformed Data",
-  plot.it = TRUE, line = TRUE, \dots)
+ppgig(y, chi = 1, psi = 1, lambda = 1,
+      Theta = c(chi, psi, lambda),
+      main = "GIG P-P Plot",
+      xlab = "Uniform Quantiles",
+      ylab = "Probability-integral-transformed Data",
+      plot.it = TRUE, line = TRUE, \dots)
 }
 
 \arguments{
@@ -55,11 +59,11 @@ ppgig(y, Theta, main = "GIG P-P Plot",
   \code{\link{ppoints}}, \code{\link{dgig}}.
 }
 \examples{
-par(mfrow=c(1,2))
-y <- rgig(1000,c(1,2,3))
-qqgig(y,c(1,2,3),line=FALSE)
-abline(0,1,col=2)
-ppgig(y,c(1,2,3))
+par(mfrow = c(1, 2))
+y <- rgig(1000, c(2, 3, 1))
+qqgig(y, c(2, 3, 1), line = FALSE)
+abline(0, 1, col = 2)
+ppgig(y, c(2, 3, 1))
 }
 \keyword{hplot}
 \keyword{distribution}

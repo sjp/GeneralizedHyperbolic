@@ -1,5 +1,7 @@
 # QQ-plot for generalised inverse gaussian distribution
-qqgig <- function(y, Theta, main = "GIG Q-Q Plot",
+qqgig <- function(y, chi = 1, psi = 1, lambda = 1,
+                  Theta = c(chi, psi, lambda),
+                  main = "GIG Q-Q Plot",
                   xlab = "Theoretical Quantiles",
                   ylab = "Sample Quantiles",
                   plot.it = TRUE, line = TRUE, ...) {
@@ -35,7 +37,9 @@ qqgig <- function(y, Theta, main = "GIG Q-Q Plot",
 } ## End of qqgig()
 
 ### PP-plot for generalised inverse gaussian distribution
-ppgig <- function(y, Theta, main = "GIG P-P Plot",
+ppgig <- function(y, chi = 1, psi = 1, lambda = 1,
+                  Theta = c(chi, psi, lambda),
+                  main = "GIG P-P Plot",
                   xlab = "Uniform Quantiles",
                   ylab = "Probability-integral-transformed Data",
                   plot.it = TRUE, line = TRUE, ...) {
