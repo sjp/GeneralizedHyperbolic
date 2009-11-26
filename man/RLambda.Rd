@@ -27,9 +27,9 @@ gammaLambda1(hyperbPi, zeta, lambda = 1)
 
 }
 \arguments{
-  \item{hyperbPi}{Value of the parameter  \eqn{\pi}{pi} of the
+  \item{hyperbPi}{Value of the parameter \eqn{\pi}{pi} of the
     hyperbolic distribution.}
-  \item{zeta}{Value of the parameter  \eqn{\zeta}{zeta} of the
+  \item{zeta}{Value of the parameter \eqn{\zeta}{zeta} of the
     hyperbolic distribution.}
   \item{lambda}{Parameter related to order of Bessel functions.}
 }

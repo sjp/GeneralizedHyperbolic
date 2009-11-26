@@ -40,6 +40,14 @@ ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   \item{x, q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
+  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
+    set to 0.}
+  \item{delta}{\eqn{\delta}{delta} measures the peakedness of the distribution.
+    A default value of 1 has been set.}
+  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
+  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
+  \item{lambda}{\eqn{\lambda}{lambda} is the shape parameter and dictates the
+    shape that the distribution shall take. Default value is 1.}
   \item{Theta}{Parameter vector taking the form
     \code{c(mu, delta, alpha, beta, lambda)}.}
   \item{small}{Size of a small difference between the distribution
@@ -82,8 +90,8 @@ ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 
   Use \code{ghypChangePars} to convert from the
   \eqn{(\zeta, \rho)}{(zeta, rho)},
-  \eqn{(\xi,\chi)}{xi,chi)}, or
-  \eqn{(\bar\alpha,\bar\beta)}{(alpha bar, beta bar)} parameterisations
+  \eqn{(\xi, \chi)}{xi, chi)}, or
+  \eqn{(\bar\alpha, \bar\beta)}{(alpha bar, beta bar)} parameterisations
   to the \eqn{(\alpha, \beta)}{(alpha, beta)} parameterisation used
   above.
 
