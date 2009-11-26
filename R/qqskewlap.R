@@ -1,5 +1,7 @@
 # QQ-plot for the skew-Laplace distribution
-qqskewlap <- function(y, Theta, main = "Skew-Laplace Q-Q Plot",
+qqskewlap <- function(y, mu = 0, alpha = 1, beta = 1,
+                      Theta = c(mu, alpha, beta),
+                      main = "Skew-Laplace Q-Q Plot",
                       xlab = "Theoretical Quantiles",
                       ylab = "Sample Quantiles",
                       plot.it = TRUE, line = TRUE, ...) {
@@ -35,7 +37,9 @@ qqskewlap <- function(y, Theta, main = "Skew-Laplace Q-Q Plot",
 } ## End of qqskewlap()
 
 ### PP-plot for the skew-Laplace distribution
-ppskewlap <- function(y, Theta, main = "Skew-Laplace P-P Plot",
+ppskewlap <- function(y, mu = 0, alpha = 1, beta = 1,
+                      Theta = c(mu, alpha, beta),
+                      main = "Skew-Laplace P-P Plot",
                       xlab = "Uniform Quantiles",
                       ylab = "Probability-integral-transformed Data",
                       plot.it = TRUE, line = TRUE, ...) {

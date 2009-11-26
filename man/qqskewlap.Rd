@@ -18,15 +18,19 @@
   \code{ppskewlap}.
 }
 \usage{
-qqskewlap(y, Theta, main = "Skew-Laplace Q-Q Plot",
-  xlab = "Theoretical Quantiles",
-  ylab = "Sample Quantiles",
-  plot.it = TRUE, line = TRUE, \dots)
+qqskewlap(y, mu = 0, alpha = 1, beta = 1,
+          Theta = c(mu, alpha, beta),
+          main = "Skew-Laplace Q-Q Plot",
+          xlab = "Theoretical Quantiles",
+          ylab = "Sample Quantiles",
+          plot.it = TRUE, line = TRUE, \dots)
 
-ppskewlap(y, Theta, main = "Skew-Laplace P-P Plot",
-  xlab = "Uniform Quantiles",
-  ylab = "Probability-integral-transformed Data",
-  plot.it = TRUE, line = TRUE, \dots)
+ppskewlap(y, mu = 0, alpha = 1, beta = 1,
+          Theta = c(mu, alpha, beta),
+          main = "Skew-Laplace P-P Plot",
+          xlab = "Uniform Quantiles",
+          ylab = "Probability-integral-transformed Data",
+          plot.it = TRUE, line = TRUE, \dots)
 }
 
 \arguments{
@@ -55,11 +59,11 @@ ppskewlap(y, Theta, main = "Skew-Laplace P-P Plot",
   \code{\link{ppoints}}, \code{\link{dskewlap}}.
 }
 \examples{
-par(mfrow=c(1,2))
-y <- rskewlap(1000,c(0.5,1,2))
-qqskewlap(y,c(0.5,1,2),line=FALSE)
-abline(0,1,col=2)
-ppskewlap(y,c(0.5,1,2))
+par(mfrow = c(1, 2))
+y <- rskewlap(1000, c(2, 0.5, 1))
+qqskewlap(y, c(2, 0.5, 1), line = FALSE)
+abline(0, 1, col = 2)
+ppskewlap(y, c(2, 0.5, 1))
 }
 \keyword{hplot}
 \keyword{distribution}
