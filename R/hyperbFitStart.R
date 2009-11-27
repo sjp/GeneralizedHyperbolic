@@ -105,53 +105,64 @@ hyperbFitStart <- function(x, breaks = NULL,
      
 } ## End of hyperbFitStart()
 
-hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...){
-  fun1 <- function(expTheta){
+hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
+
+  fun1 <- function(expTheta) {
     diff1 <- hyperbMean(expTheta) - mean(x)
-  diff1
+    diff1
   }
-  fun2 <- function(expTheta){
+
+  fun2 <- function(expTheta) {
     diff2 <- hyperbVar(expTheta) - var(x)
-  diff2
+    diff2
   }
-  fun3 <- function(expTheta){
+
+  fun3 <- function(expTheta) {
     diff3 <- hyperbSkew(expTheta) - skewness(x)
     diff3
   }
-  fun4 <- function(expTheta){ 
+
+  fun4 <- function(expTheta) { 
     diff4 <- hyperbKurt(expTheta) - kurtosis(x) 
     diff4
   }
-  MoMOptimFun <- function(Theta){
-    expTheta <-c(Theta[1],exp(Theta[2]),exp(Theta[3]),Theta[4])
+
+  MoMOptimFun <- function(Theta) {
+    expTheta <- c(Theta[1], exp(Theta[2]), Theta[3], exp(Theta[4]))
     (fun1(expTheta))^2 + (fun2(expTheta))^2 + 
     (fun3(expTheta))^2 + (fun4(expTheta))^2
   }
+
   ## Determine starting values for parameters using
   ## Barndorff-Nielsen et al "The Fascination of Sand" in
   ## A Celebration of Statistics pp.78--79
-  xi <- sqrt(kurtosis(x)/3)
-  chi <- skewness(x)/3  # Ensure 0 <= |chi| < xi < 1
-  if(xi >= 1) xi <- 0.999
+  xi <- sqrt(kurtosis(x) / 3)
+  chi <- skewness(x) / 3  # Ensure 0 <= |chi| < xi < 1
+
+  if (xi >= 1)
+    xi <- 0.999
+
   adjust <- 0.001
-  if(abs(chi) > xi){
-    if(xi < 0 ){
-    chi <- xi + adjust
-    }else{
-    chi <- xi - adjust
+
+  if (abs(chi) > xi) {
+    if (xi < 0 ) {
+      chi <- xi + adjust
+    } else {
+      chi <- xi - adjust
     }
   }
-  hyperbPi <- chi/sqrt(xi^2-chi^2)
-  zeta <- 3/xi^2 - 1
-  rho <- chi/xi
-  delta <- (sqrt(1 + zeta) - 1)* sqrt( 1 - rho^2)
+
+  hyperbPi <- chi / sqrt(xi^2 - chi^2)
+  zeta <- 3 / xi^2 - 1
+  rho <- chi / xi
+  delta <- (sqrt(1 + zeta) - 1) * sqrt(1 - rho^2)
   mu <- mean(x) - delta * hyperbPi * RLambda(zeta, lambda = 1)
-  startValuesMoM <- c(hyperbPi, log(zeta), log(delta), mu)
+  startValuesMoM <- c(mu, log(delta), hyperbPi, log(zeta))
   ## Get Method of Moments estimates
   MoMOptim <- optim(startValuesMoM, MoMOptimFun, method = startMethodMoM, ...)
   ThetaStart <- MoMOptim$par
-  ThetaStart
-} ## End of hyperbFitStartMoM
+  hyperbChangePars(from = 1, to = 2, Theta = ThetaStart, noNames = TRUE)
+} ## End of hyperbFitStartMoM()
 
 
 
