@@ -77,3 +77,14 @@ ddhyperb <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
 
   ddghyp(x, Theta = c(Theta, 1))
 } ## End of ddhyperb()
+
+hyperbBreaks <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
+                         Theta = c(mu, delta, alpha, beta),
+                         small = 10^(-6), tiny = 10^(-10),
+                         deriv = 0.3, ...) {
+
+  Theta <- as.numeric(Theta)
+
+  ghypBreaks(Theta = c(Theta, 1), small = small,
+             tiny = tiny, deriv = deriv, ...)
+} ## End of hyperbBreaks()

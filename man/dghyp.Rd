@@ -49,7 +49,7 @@ ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   \item{lambda}{\eqn{\lambda}{lambda} is the shape parameter and dictates the
     shape that the distribution shall take. Default value is 1.}
   \item{Theta}{Parameter vector taking the form
-    \code{c(mu, delta, alpha, beta, lambda)}.}
+    \code{c(\eqn{\mu, \delta, \alpha, \beta}{mu, delta, alpha, beta})}.}
   \item{small}{Size of a small difference between the distribution
     function and zero or one. See \bold{Details}.}
   \item{tiny}{Size of a tiny difference between the distribution

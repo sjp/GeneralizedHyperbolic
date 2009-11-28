@@ -31,6 +31,10 @@ rhyperb(n, mu = 0, delta = 1, alpha = 1, beta = 0,
         Theta = c(mu, delta, alpha, beta))
 ddhyperb(x, mu = 0, delta = 1, alpha = 1, beta = 0,
          Theta = c(mu, delta, alpha, beta), ...)
+hyperbBreaks(mu = 0, delta = 1, alpha = 1, beta = 0,
+             Theta = c(mu, delta, alpha, beta),
+             small = 10^(-6), tiny = 10^(-10),
+             deriv = 0.3, ...)
 }
 
 \arguments{
@@ -44,7 +48,7 @@ ddhyperb(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
   \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
   \item{Theta}{Parameter vector taking the form
-    \code{c(mu, delta, alpha, beta)}.}
+    \code{c(\eqn{\mu, \delta, \alpha, \beta}{mu, delta, alpha, beta})}.}
   \item{small}{Size of a small difference between the distribution
     function and zero or one. See \bold{Details}.}
   \item{tiny}{Size of a tiny difference between the distribution
@@ -122,7 +126,7 @@ ddhyperb(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   hyperbolic distribution (Barndorff-Nielsen and \enc{Blæsild}{Blaesild}
   (1983)). The generalized hyperbolic distribution can be represented as
   a particular mixture of the normal distribution where the mixing
-  distribution is the generalized inverse Gaussian.  \code{rhyperb} uses
+  distribution is the generalized inverse Gaussian. \code{rhyperb} uses
   this representation to generate observations from the hyperbolic
   distribution. Generalized inverse Gaussian observations are obtained
   via the algorithm of Dagpunar (1989).}
@@ -179,41 +183,41 @@ Ai-Wei Lee, Jennifer Tso, Richard Trendall}
   \code{\link{safeIntegrate}}, \code{\link{integrate}} for its
   shortfalls, \code{\link{splinefun}}, \code{\link{uniroot}} and
   \code{\link{hyperbChangePars}} for changing parameters to the
-  \eqn{(\pi,\zeta)}{(pi,zeta)} parameterisation, \code{\link{dghyp}} for
+  \eqn{(\alpha, \beta)}{(alpha, beta)} parameterisation, \code{\link{dghyp}} for
   the generalized hyperbolic distribution.
 }
 
 \examples{
-Theta <- c(2,1,1,0)
+Theta <- c(2, 1, 1, 0)
 hyperbRange <- hyperbCalcRange(Theta = Theta, tol = 10^(-3))
-par(mfrow = c(1,2))
-curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+par(mfrow = c(1, 2))
+curve(dhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Density of the\n Hyperbolic Distribution")
-curve(phyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+curve(phyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Distribution Function of the\n Hyperbolic Distribution")
-dataVector <- rhyperb(500, Theta)
-curve(dhyperb(x, Theta), range(dataVector)[1], range(dataVector)[2],
+dataVector <- rhyperb(500, Theta = Theta)
+curve(dhyperb(x, Theta = Theta), range(dataVector)[1], range(dataVector)[2],
       n = 500)
 hist(dataVector, freq = FALSE, add =TRUE)
 title("Density and Histogram\n of the Hyperbolic Distribution")
 logHist(dataVector, main =
         "Log-Density and Log-Histogram\n of the Hyperbolic Distribution")
-curve(log(dhyperb(x, Theta)), add = TRUE,
+curve(log(dhyperb(x, Theta = Theta)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
 par(mfrow = c(2,1))
-curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+curve(dhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Density of the\n Hyperbolic Distribution")
-curve(ddhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+curve(ddhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Derivative of the Density\n of the Hyperbolic Distribution")
-par(mfrow = c(1,1))
-hyperbRange <- hyperbCalcRange(Theta, tol = 10^(-6))
-curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+par(mfrow = c(1, 1))
+hyperbRange <- hyperbCalcRange(Theta = Theta, tol = 10^(-6))
+curve(dhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
-bks <- hyperbBreaks(Theta)
+bks <- hyperbBreaks(Theta = Theta)
 abline(v = bks)
 }
 

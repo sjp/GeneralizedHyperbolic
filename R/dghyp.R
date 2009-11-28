@@ -21,7 +21,6 @@ dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   alpha <- Theta[3]
   beta <- Theta[4]
   lambda <- Theta[5]
-
   gamma <- sqrt(alpha^2 - beta^2)
 
   ## Argument of Bessel K function in numerator
@@ -50,6 +49,7 @@ dghyp <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
 
   dens <- (y / alpha)^(lambda - 1 / 2) * ((gamma / delta)^lambda) *
           alpha^(1 / 2 - lambda) * expAndBessel / sqrt(2 * pi)
+
   dens
 } ## End of dghyp()
 
