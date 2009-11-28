@@ -87,7 +87,7 @@ hyperbBreaks(mu = 0, delta = 1, alpha = 1, beta = 0,
 
   Use \code{hyperbChangePars} to convert from the
   \eqn{(\pi, \zeta)}{(pi, zeta)} \eqn{(\phi, \gamma)}{(phi, gamma)} or
-  \eqn{(\xi, \chi)}{xi, chi)} parameterisations to the
+  \eqn{(\xi, \chi)}{(xi, chi)} parameterisations to the
   \eqn{(\alpha, \beta)}{(alpha, beta)} parameterisation used above.
 
   \code{phyperb} breaks the real line into eight regions in order to
@@ -206,7 +206,7 @@ logHist(dataVector, main =
         "Log-Density and Log-Histogram\n of the Hyperbolic Distribution")
 curve(log(dhyperb(x, Theta = Theta)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
-par(mfrow = c(2,1))
+par(mfrow = c(2, 1))
 curve(dhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Density of the\n Hyperbolic Distribution")
