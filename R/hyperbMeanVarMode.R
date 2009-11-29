@@ -1,50 +1,52 @@
-### Function to calculate the theoretical mean of a
+### Function to calculate the theoretical mean of a 
 ### hyperbolic distribution given its parameters.
-hyperbMean <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
-                       Theta = c(mu, delta, alpha, beta)) {
-
+hyperbMean <- function(Theta){
   Theta <- as.numeric(Theta)
+  hyperbPi <- Theta[1]
+  zeta <- Theta[2]
+  delta <- Theta[3]
+  mu <- Theta[4]
+  mu + delta*hyperbPi*RLambda(zeta, lambda = 1)
+} ## End of hyperbMean() 
 
-  ghypMean(Theta = c(Theta, 1))
-} ## End of hyperbMean()
-
-### Function to calculate the theoretical variance of a
+### Function to calculate the theoretical variance of a 
 ### hyperbolic distribution given its parameters.
-hyperbVar <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
-                      Theta = c(mu, delta, alpha, beta)) {
-
+hyperbVar <- function(Theta){
   Theta <- as.numeric(Theta)
-
-  ghypVar(Theta = c(Theta, 1))
+  hyperbPi <- Theta[1]
+  zeta <- Theta[2]
+  delta <- Theta[3]
+  mu <- Theta[4]
+  delta^2*(1/zeta*RLambda(zeta) + hyperbPi^2*SLambda(zeta))
 } ## End of hyperbVar()
 
-### Function to calculate the theoretical skewness of a
+### Function to calculate the theoretical skewness of a 
 ### hyperbolic distribution given its parameters.
-hyperbSkew <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
-                       Theta = c(mu, delta, alpha, beta)) {
-
+hyperbSkew <- function(Theta){
   Theta <- as.numeric(Theta)
-
-  ghypSkew(Theta = c(Theta, 1))
+  hyperbPi <- Theta[1]
+  zeta  <- Theta[2]
+  gammaLambda1(hyperbPi, zeta)
 } ## End of hyperbSkew()
 
-### Function to calculate the theoretical kurtosis of a
+### Function to calculate the theoretical kurtosis of a 
 ### hyperbolic distribution given its parameters.
-hyperbKurt <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
-                       Theta = c(mu, delta, alpha, beta)) {
-
+hyperbKurt <- function(Theta){
   Theta <- as.numeric(Theta)
-
-  ghypKurt(Theta = c(Theta, 1))
+  hyperbPi <- Theta[1]
+  zeta  <- Theta[2]
+  gammaLambda2(hyperbPi, zeta)
 } ## End of hyperbKurt()
 
 
-### Function to calculate the theoretical mode point of a
+### Function to calculate the theoretical mode point of a 
 ### hyperbolic distribution given its parameters.
-hyperbMode <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
-                       Theta = c(mu, delta, alpha, beta)) {
-
+hyperbMode <- function(Theta){
   Theta <- as.numeric(Theta)
-
-  ghypMode(Theta = c(Theta, 1))
+  hyperbPi <- Theta[1]
+  zeta <- Theta[2]
+  delta <- Theta[3]
+  mu <- Theta[4]
+  nu <- mu + delta*hyperbPi
+  nu
 } ## End of hyperbMode()
