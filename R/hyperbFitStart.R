@@ -2,8 +2,8 @@ hyperbFitStart <- function(x, breaks = NULL,
                            startValues = "BN",
                            ThetaStart = NULL,
                            startMethodSL = "Nelder-Mead",
-                           startMethodMoM = "Nelder-Mead", ...)
-{
+                           startMethodMoM = "Nelder-Mead", ...) {
+
   histData <- hist(x, plot = FALSE, right = FALSE)
   if(is.null(breaks)){
     breaks <- histData$breaks
@@ -128,7 +128,7 @@ hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
   }
 
   MoMOptimFun <- function(Theta) {
-    expTheta <- c(Theta[1], exp(Theta[2]), Theta[3], exp(Theta[4]))
+    expTheta <- c(Theta[1], exp(Theta[2]), exp(Theta[3]), Theta[4])
     (fun1(expTheta))^2 + (fun2(expTheta))^2 + 
     (fun3(expTheta))^2 + (fun4(expTheta))^2
   }
@@ -157,12 +157,10 @@ hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
   rho <- chi / xi
   delta <- (sqrt(1 + zeta) - 1) * sqrt(1 - rho^2)
   mu <- mean(x) - delta * hyperbPi * RLambda(zeta, lambda = 1)
-  startValuesMoM <- c(mu, log(delta), hyperbPi, log(zeta))
+  startValuesMoM <- c(hyperbPi, log(zeta), log(delta), mu)
   ## Get Method of Moments estimates
   MoMOptim <- optim(startValuesMoM, MoMOptimFun, method = startMethodMoM, ...)
   ThetaStart <- MoMOptim$par
+  ThetaStart <- c(ThetaStart[4], ThetaStart[3], ThetaStart[1], ThetaStart[2])
   hyperbChangePars(from = 1, to = 2, Theta = ThetaStart, noNames = TRUE)
 } ## End of hyperbFitStartMoM()
-
-
-
