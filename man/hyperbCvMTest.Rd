@@ -10,9 +10,7 @@
   or calculate the p-value for such a test.
 }
 \usage{
-hyperbCvMTest(x, mu = 0, delta = 1, alpha = 1, beta = 0,
-              Theta = c(mu, delta, alpha, beta),
-              conf.level = 0.95, \dots)
+hyperbCvMTest(x, Theta, conf.level = 0.95, \dots)
 hyperbCvMTestPValue(xi, chi, Wsq, digits = 3)
 \method{print}{hyperbCvMTest}(x, prefix = "\t", \dots)
 }
@@ -20,7 +18,7 @@ hyperbCvMTestPValue(xi, chi, Wsq, digits = 3)
   \item{x}{A numeric vector of data values for \code{hyperbCvMTest}, or
     object of class \code{"hyperbCvMTest"} for \code{print.hyperbCvMTest}.}
   \item{Theta}{Parameters of the hyperbolic distribution taking the form
-    \code{c(mu, delta, alpha, beta)}.}
+    \code{c(pi,zeta,delta,mu)}.}
   \item{conf.level}{Confidence level of the the confidence interval.}
   \item{\dots}{Further arguments to be passed to or from methods.}
   \item{xi}{Value of \eqn{\xi}{xi} in the \eqn{(\xi,\chi)}{(xi,chi)}
@@ -36,7 +34,7 @@ hyperbCvMTestPValue(xi, chi, Wsq, digits = 3)
 \details{
   \code{hyperbCvMTest} carries out a \enc{Crämer}{Cramer}-von~Mises
   goodness-of-fit test of the hyperbolic distribution. The parameter
-  \code{Theta} must be given in the \eqn{(\alpha,\beta)}{(alpha, beta)}
+  \code{Theta} must be given in the \eqn{(\pi,\zeta)}{(pi,zeta)}
   parameterisation.
 
   \code{hyperbCvMTestPValue} calculates the p-value of the test, and is
@@ -84,12 +82,12 @@ hyperbCvMTestPValue(xi, chi, Wsq, digits = 3)
 }
 \examples{
 Theta <- c(2,2,2,2)
-dataVector <- rhyperb(500, Theta = Theta)
+dataVector <- rhyperb(500, Theta)
 fittedTheta <- hyperbFit(dataVector)$Theta
-hyperbCvMTest(dataVector, Theta = fittedTheta)
+hyperbCvMTest(dataVector, fittedTheta)
 dataVector <- rnorm(1000)
 fittedTheta <- hyperbFit(dataVector, startValues = "FN")$Theta
-hyperbCvMTest(dataVector, Theta = fittedTheta)
+hyperbCvMTest(dataVector, fittedTheta)
 }
 \keyword{htest}
 \keyword{print}

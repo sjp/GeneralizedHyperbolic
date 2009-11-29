@@ -15,19 +15,15 @@
   and \code{pphyperb}.
 }
 \usage{
-qqhyperb(y, mu = 0, delta = 1, alpha = 1, beta = 0,
-         Theta = c(mu, delta, alpha, beta),
-         main = "Hyperbolic Q-Q Plot",
-         xlab = "Theoretical Quantiles",
-         ylab = "Sample Quantiles",
-         plot.it = TRUE, line = TRUE, \dots)
+qqhyperb(y, Theta, main = "Hyperbolic Q-Q Plot",
+  xlab = "Theoretical Quantiles",
+  ylab = "Sample Quantiles",
+  plot.it = TRUE, line = TRUE, \dots)
 
-pphyperb(y, mu = 0, delta = 1, alpha = 1, beta = 0,
-         Theta = c(mu, delta, alpha, beta),
-         main = "Hyperbolic P-P Plot",
-         xlab = "Uniform Quantiles",
-         ylab = "Probability-integral-transformed Data",
-         plot.it = TRUE, line = TRUE, \dots)
+pphyperb(y, Theta, main = "Hyperbolic P-P Plot",
+  xlab = "Uniform Quantiles",
+  ylab = "Probability-integral-transformed Data",
+  plot.it = TRUE, line = TRUE, \dots)
 }
 
 \arguments{
@@ -57,11 +53,11 @@ pphyperb(y, mu = 0, delta = 1, alpha = 1, beta = 0,
 
 
 \examples{
-par(mfrow = c(1, 2))
-y <- rhyperb(200, c(2, 2, 2, 2))
-qqhyperb(y, c(2, 2, 2, 2), line = FALSE)
+par(mfrow = c(1,2))
+y <- rhyperb(200, c(2,2,2,2))
+qqhyperb(y, c(2,2,2,2),line = FALSE)
 abline(0, 1, col = 2)
-pphyperb(y, c(2, 2, 2, 2))
+pphyperb(y, c(2,2,2,2))
 }
 \keyword{hplot}
 \keyword{distribution}

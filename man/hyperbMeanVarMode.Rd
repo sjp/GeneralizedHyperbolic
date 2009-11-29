@@ -11,26 +11,14 @@
   of a specific hyperbolic distribution.
 }
 \usage{
-hyperbMean(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
-hyperbVar(mu = 0, delta = 1, alpha = 1, beta = 0,
-          Theta = c(mu, delta, alpha, beta))
-hyperbSkew(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
-hyperbKurt(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
-hyperbMode(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
+hyperbMean(Theta)
+hyperbVar(Theta)
+hyperbSkew(Theta)
+hyperbKurt(Theta)
+hyperbMode(Theta)
 }
 \arguments{
-  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
-    set to 0.}
-  \item{delta}{\eqn{\delta}{delta} measures the peakedness of the distribution.
-    A default value of 1 has been set.}
-  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
-  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
-  \item{Theta}{Parameter vector of the hyperbolic distribution. This
-               takes the form c(\eqn{\mu, \delta, \alpha, \beta}{mu, delta, alpha, beta})}
+  \item{Theta}{Parameter vector of the hyperbolic distribution.}
 }
 
 \value{
@@ -43,11 +31,12 @@ hyperbMode(mu = 0, delta = 1, alpha = 1, beta = 0,
   \url{http://mathworld.wolfram.com/Kurtosis.html} for a discussion.)
 
   The parameterization of the hyperbolic distribution used for this
-  and other components of the \code{GeneralizedHyperbolic} package is the
-  \eqn{(\alpha, \beta)}{(alpha, beta)} one. See \code{\link{hyperbChangePars}}
+  and other components of the \code{HyperbolicDist} package is the
+  \eqn{(\pi,\zeta)}{(pi,zeta)} one. See \code{\link{hyperbChangePars}}
   to transfer between parameterizations.
 }
 \details{
+  
   The formulae used for the mean, variance and mode are as given in
   Barndorff-Nielsen and \enc{Blæsild}{Blaesild} (1983), p. 702.  The
   formulae used for the skewness and kurtosis are those of
@@ -60,7 +49,7 @@ hyperbMode(mu = 0, delta = 1, alpha = 1, beta = 0,
   of any desired order. Note that functions for the generalized
   hyperbolic distribution use a different parameterization, so care is
   required.
-}
+  }
 \references{
   Barndorff-Nielsen, O. and \enc{Blæsild}{Blaesild}, P (1981).
   Hyperbolic distributions and ramifications: contributions to theory
@@ -86,11 +75,11 @@ hyperbMode(mu = 0, delta = 1, alpha = 1, beta = 0,
 }
 
 \examples{
-Theta <- c(2, 2, 2, 2)
-hyperbMean(Theta = Theta)
-hyperbVar(Theta = Theta)
-hyperbSkew(Theta = Theta)
-hyperbKurt(Theta = Theta)
-hyperbMode(Theta = Theta)
+Theta <- c(2,2,2,2)
+hyperbMean(Theta)
+hyperbVar(Theta)
+hyperbSkew(Theta)
+hyperbKurt(Theta)
+hyperbMode(Theta)
 }
 \keyword{distribution}
