@@ -21,8 +21,8 @@ hyperbCvMTest <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   xcTheta <- hyperbChangePars(from = 2, to = 4, Theta = Theta, noNames = TRUE)
   alpha <- Theta[3]
   beta <- Theta[4]
-  xi <- Theta[3]
-  chi <- Theta[4]
+  xi <- xcTheta[3]
+  chi <- xcTheta[4]
   PARAMETER <- c(alpha, beta)
   names(STATISTIC) <- "Wsq"
   names(PARAMETER) <- c("alpha", "beta")
