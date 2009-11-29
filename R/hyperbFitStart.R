@@ -5,104 +5,132 @@ hyperbFitStart <- function(x, breaks = NULL,
                            startMethodMoM = "Nelder-Mead", ...) {
 
   histData <- hist(x, plot = FALSE, right = FALSE)
-  if(is.null(breaks)){
+
+  if (is.null(breaks))
     breaks <- histData$breaks
-  }
+
   midpoints <- histData$mids
   empDens <- ifelse(!is.finite(log(histData$density)), NA, histData$density)
   maxIndex <- order(empDens, na.last = FALSE)[length(empDens)]
 
-  if(length(na.omit(empDens[1:maxIndex]))>1){
-    leftAsymptote <- lm(log(empDens)[1:maxIndex]~midpoints[1:maxIndex])$coef
-    rightAsymptote <- c(NA,-10*leftAsymptote[2]) # arbitrary large value
+  if (length(na.omit(empDens[1:maxIndex])) > 1) {
+    leftAsymptote <- lm(log(empDens)[1:maxIndex] ~ midpoints[1:maxIndex])$coef
+    rightAsymptote <- c(NA, -10 * leftAsymptote[2]) # arbitrary large value
   }
-  if(length(na.omit(empDens[maxIndex:length(empDens)]))>1){
-    rightAsymptote <- lm(log(empDens)[maxIndex:length(empDens)]~
-                       midpoints[maxIndex:length(empDens)])$coef
-    if(length(na.omit(empDens[1:maxIndex]))<2){
+
+  if (length(na.omit(empDens[maxIndex:length(empDens)])) > 1) {
+    rightAsymptote <- lm(log(empDens)[maxIndex:length(empDens)] ~
+                      midpoints[maxIndex:length(empDens)])$coef
+
+    if (length(na.omit(empDens[1:maxIndex])) < 2)
       leftAsymptote <- c(NA,-10*rightAsymptote[2]) # arbitrary large value
-    }
   }
-  if((length(na.omit(empDens[1:maxIndex]))<2) &
-       (length(na.omit(empDens[maxIndex:length(empDens)]))<2)){
-     if(startValues=="BN"|startValues=="SL")
-       stop("not enough breaks to estimate asymptotes to log-density")
-   }
-  if(startValues == "US"){
+
+  if ((length(na.omit(empDens[1:maxIndex])) < 2) &
+      (length(na.omit(empDens[maxIndex:length(empDens)])) < 2)) {
+    if (startValues == "BN" | startValues == "SL")
+      stop("not enough breaks to estimate asymptotes to log-density")
+  }
+
+  if (startValues == "US") {
     svName <- "User Specified"
-      if(is.null(ThetaStart)) stop("ThetaStart must be specified")
-      if(!is.null(ThetaStart)){
-        if(length(ThetaStart)!=4) stop("ThetaStart must contain 4 values")
-        if(ThetaStart[2]<=0)
-          stop("zeta in ThetaStart must be greater than zero")
-        if(ThetaStart[3]<=0)
-          stop("delta in ThetaStart must be greater than zero")
-        }
-    ThetaStart <- c(hyperbPi = ThetaStart[1], zeta = log(ThetaStart[2]),
-                      delta = log(ThetaStart[3]), mu = ThetaStart[4])
-                   #this gives correct ThetaStart output
-                   #when startValues=="US"
+
+    if (is.null(ThetaStart))
+      stop("ThetaStart must be specified")
+
+    if (!is.null(ThetaStart)) {
+      if (length(ThetaStart) != 4)
+        stop("ThetaStart must contain 4 values")
+
+      ThetaStart <- hyperbChangePars(from = 2, to = 1, Theta = ThetaStart, noNames = TRUE)
+
+      if (ThetaStart[4] <= 0)
+        stop("zeta in ThetaStart must be greater than zero")
+
+      if (ThetaStart[2] <= 0)
+        stop("delta in ThetaStart must be greater than zero")
+    }
+
+    ThetaStart <- c(mu = ThetaStart[1], delta = log(ThetaStart[2]), hyperbPi = ThetaStart[3],
+                    zeta = log(ThetaStart[4]))
+                   # this gives correct ThetaStart output
+                   # when startValues == "US"
   }
-  
-  if(startValues=="FN"){
+
+  if (startValues == "FN") {
     svName <- "Fitted Normal"
     nu <- as.numeric(midpoints[maxIndex])
     mu <- mean(x)
     delta <- sd(x)
-    hyperbPi <- (nu - mu)/delta
+    hyperbPi <- (nu - mu) / delta
     zeta <- 1 + hyperbPi^2
-    ThetaStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    ThetaStart <- c(mu, log(delta), hyperbPi, log(zeta))
   }
-  if(startValues=="SL"){
-    svName <- "Skew Laplace" 
-    llsklp <- function(Theta){
-         -sum(log(dskewlap(x, Theta, logPars = TRUE)))
+
+  if (startValues == "SL") {
+    svName <- "Skew Laplace"
+
+    llsklp <- function(Theta) {
+      Theta <- c(Theta[3], Theta[1], Theta[2])
+      -sum(log(dskewlap(x, Theta = Theta)))
     }
-    lSkewAlpha <- log(1/leftAsymptote[2])
-    lSkewBeta <- log(abs(1/rightAsymptote[2]))
+
+    lSkewAlpha <- log(1 / leftAsymptote[2])
+    lSkewBeta <- log(abs(1 / rightAsymptote[2]))
     skewMu <- midpoints[maxIndex]
     ThetaStart <- c(lSkewAlpha, lSkewBeta, skewMu)
     skewlpOptim <- optim(ThetaStart, llsklp, NULL,
                          method = startMethodSL, hessian = FALSE, ...)
-    phi <- 1/exp(skewlpOptim$par[1])
-    hyperbGamma <- 1/exp(skewlpOptim$par[2])
+    phi <- 1 / exp(skewlpOptim$par[1])
+    hyperbGamma <- 1 / exp(skewlpOptim$par[2])
     delta <- 0.1 # Take delta to be small
     mu <- skewlpOptim$par[3]
-    hyperbPi <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[1]
-    zeta <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[2]
-    ThetaStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    hyperbPi <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[3]
+    zeta <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[4]
+    ThetaStart <- c(mu, log(delta), hyperbPi, log(zeta))
   }
-  if(startValues=="MoM"){
+
+  if (startValues == "MoM") {
      svName <- "Method of Moments"
      ThetaStart <- hyperbFitStartMoM(x, startMethodMoM = startMethodMoM, ...)
-   }
-  if (!(startValues%in%c("US","FN","SL","MoM"))) startValues <- "BN"
-  if(startValues=="BN"){
+  }
+
+  if (!(startValues %in% c("US", "FN", "SL", "MoM")))
+    startValues <- "BN"
+
+  if (startValues == "BN") {
     svName <- "Barndorff-Nielsen 1977"
     phi <- leftAsymptote[2]
     hyperbGamma <- -rightAsymptote[2]
-    if(!(is.na(leftAsymptote[1])|is.na(rightAsymptote[1]))){
-      mu <- -(leftAsymptote[1]- rightAsymptote[1])/
-             (leftAsymptote[2]- rightAsymptote[2])
-      intersectionValue <- leftAsymptote[1]+ mu*leftAsymptote[2]
-      logModalDens <- log(max(empDens,na.rm=TRUE))
+
+    if (!(is.na(leftAsymptote[1]) | is.na(rightAsymptote[1]))) {
+      mu <- -(leftAsymptote[1] - rightAsymptote[1]) /
+             (leftAsymptote[2] - rightAsymptote[2])
+      intersectionValue <- leftAsymptote[1] + mu * leftAsymptote[2]
+      logModalDens <- log(max(empDens, na.rm = TRUE))
       zeta <- intersectionValue - logModalDens
-      if(zeta <= 0) zeta <- 0.1        # This is set arbitrarily
-    }else{
+
+      if (zeta <= 0)
+        zeta <- 0.1        # This is set arbitrarily
+    } else {
       mu <- median(x)
       intersectionValue <- mu
-      logModalDens <- log(max(empDens,na.rm=TRUE))
+      logModalDens <- log(max(empDens, na.rm = TRUE))
       zeta <- intersectionValue - logModalDens
-      if(zeta <= 0) zeta <- 0.1        # This is set arbitrarily
+
+      if (zeta <= 0)
+        zeta <- 0.1        # This is set arbitrarily
     }
-    delta <- zeta/sqrt(phi*hyperbGamma)
-    hyperbPi <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[1]      
-    ThetaStart <- c(hyperbPi, log(zeta), log(delta), mu)
+
+    delta <- zeta / sqrt(phi * hyperbGamma)
+    hyperbPi <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[3]
+    ThetaStart <- c(mu, log(delta), hyperbPi, log(zeta))
   }
-  names(ThetaStart) <- c("hyperbPi", "lZeta", "lDelta", "mu")
-  list(ThetaStart=ThetaStart, breaks = breaks, midpoints = midpoints,
-       empDens = empDens, svName=svName)
-     
+
+  ThetaStart <- hyperbChangePars(1, 2, ThetaStart)
+
+  list(ThetaStart = ThetaStart, breaks = breaks, midpoints = midpoints,
+       empDens = empDens, svName = svName)
 } ## End of hyperbFitStart()
 
 hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
@@ -122,14 +150,17 @@ hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
     diff3
   }
 
-  fun4 <- function(expTheta) { 
-    diff4 <- hyperbKurt(expTheta) - kurtosis(x) 
+  fun4 <- function(expTheta) {
+    diff4 <- hyperbKurt(expTheta) - kurtosis(x)
     diff4
   }
 
   MoMOptimFun <- function(Theta) {
-    expTheta <- c(Theta[1], exp(Theta[2]), exp(Theta[3]), Theta[4])
-    (fun1(expTheta))^2 + (fun2(expTheta))^2 + 
+    expTheta <- c(Theta[4], exp(Theta[3]),
+                  Theta[1], exp(Theta[2]))
+    expTheta <- hyperbChangePars(from = 1, to = 2,
+                                 Theta = expTheta, noNames = TRUE)
+    (fun1(expTheta))^2 + (fun2(expTheta))^2 +
     (fun3(expTheta))^2 + (fun4(expTheta))^2
   }
 
