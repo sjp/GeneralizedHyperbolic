@@ -42,8 +42,6 @@ hyperbFitStart <- function(x, breaks = NULL,
       if (length(ThetaStart) != 4)
         stop("ThetaStart must contain 4 values")
 
-      ThetaStart <- hyperbChangePars(from = 2, to = 1, Theta = ThetaStart, noNames = TRUE)
-
       if (ThetaStart[4] <= 0)
         stop("zeta in ThetaStart must be greater than zero")
 
@@ -127,8 +125,6 @@ hyperbFitStart <- function(x, breaks = NULL,
     ThetaStart <- c(mu, log(delta), hyperbPi, log(zeta))
   }
 
-  ThetaStart <- hyperbChangePars(1, 2, ThetaStart)
-
   list(ThetaStart = ThetaStart, breaks = breaks, midpoints = midpoints,
        empDens = empDens, svName = svName)
 } ## End of hyperbFitStart()
@@ -193,5 +189,4 @@ hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
   MoMOptim <- optim(startValuesMoM, MoMOptimFun, method = startMethodMoM, ...)
   ThetaStart <- MoMOptim$par
   ThetaStart <- c(ThetaStart[4], ThetaStart[3], ThetaStart[1], ThetaStart[2])
-  hyperbChangePars(from = 1, to = 2, Theta = ThetaStart, noNames = TRUE)
 } ## End of hyperbFitStartMoM()
