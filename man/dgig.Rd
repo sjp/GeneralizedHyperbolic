@@ -32,7 +32,9 @@ rgig(n, chi = 1, psi = 1, lambda = 1,
 rgig1(n, chi = 1, psi = 1, Theta = (chi, psi))
 ddgig(x, chi = 1, psi = 1, lambda = 1,
       Theta = c(chi, psi, lambda), KOmega = NULL, ...)
-gigBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
+gigBreaks(chi = 1, psi = 1, lambda = 1,
+          Theta = c(chi, psi, lambda),
+          small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
 \arguments{

@@ -60,10 +60,10 @@ ppskewlap(y, mu = 0, alpha = 1, beta = 1,
 }
 \examples{
 par(mfrow = c(1, 2))
-y <- rskewlap(1000, c(2, 0.5, 1))
-qqskewlap(y, c(2, 0.5, 1), line = FALSE)
+y <- rskewlap(1000, Theta = c(2, 0.5, 1))
+qqskewlap(y, Theta = c(2, 0.5, 1), line = FALSE)
 abline(0, 1, col = 2)
-ppskewlap(y, c(2, 0.5, 1))
+ppskewlap(y, Theta = c(2, 0.5, 1))
 }
 \keyword{hplot}
 \keyword{distribution}

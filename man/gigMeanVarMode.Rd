@@ -38,7 +38,7 @@ gigMode(chi = 1, psi = 1, lambda = 1,
   \url{http://mathworld.wolfram.com/Kurtosis.html} for a discussion.)
 
   The parameterization used  for the generalized inverse Gaussian
-  distribution is the \eqn{(\chi,\psi)}{(chi, psi)} one (see
+  distribution is the \eqn{(\chi, \psi)}{(chi, psi)} one (see
   \code{\link{dgig}}). To use another parameterization, use
   \code{\link{gigChangePars}}.
 }

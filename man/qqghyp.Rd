@@ -57,10 +57,10 @@ ppghyp(y, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 
 \examples{
 par(mfrow = c(1, 2))
-y <- rghyp(200, c(2, 2, 2, 1, 2))
-qqghyp(y, c(2, 2, 2, 1, 2), line = FALSE)
+y <- rghyp(200, Theta = c(2, 2, 2, 1, 2))
+qqghyp(y, Theta = c(2, 2, 2, 1, 2), line = FALSE)
 abline(0, 1, col = 2)
-ppghyp(y, c(2, 2, 2, 1, 2))
+ppghyp(y, Theta = c(2, 2, 2, 1, 2))
 }
 \keyword{hplot}
 \keyword{distribution}

@@ -67,7 +67,7 @@ ghypMom(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 Theta <- c(1, 2, 2, 1, 2)
 mu <- Theta[1]
 ### mu moments
-(m1 <- ghypMean(Theta = Theta))
+m1 <- ghypMean(Theta = Theta)
 m1 - mu
 ghypMom(1, Theta = Theta, momType = "mu")
 momIntegrated("ghyp", order = 1, param = Theta, about = mu)
@@ -93,6 +93,5 @@ ghypMom(2, Theta = Theta, momType = "central")
 momIntegrated("ghyp", order = 2, param = Theta, about = m1)
 ghypMom(10, Theta = Theta, momType = "central")
 momIntegrated("ghyp", order = 10, param = Theta, about = m1)
-
 }
 \keyword{distribution}
