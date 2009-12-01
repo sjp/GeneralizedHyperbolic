@@ -568,9 +568,9 @@ gigBreaks <- function(chi = 1, psi = 1, lambda = 1,
   const <- (psi / chi)^(lambda / 2) / (2 * KOmega)
 
   xTiny <- 0
-  xSmall <- gigCalcRange(ThetaStand, small, density = TRUE)[1]
-  xLarge <- gigCalcRange(ThetaStand, small, density = TRUE)[2]
-  xHuge <- gigCalcRange(ThetaStand, tiny, density = TRUE)[2]
+  xSmall <- gigCalcRange(Theta = ThetaStand, tol = small, density = TRUE)[1]
+  xLarge <- gigCalcRange(Theta = ThetaStand, tol = small, density = TRUE)[2]
+  xHuge <- gigCalcRange(Theta = ThetaStand, tol = tiny, density = TRUE)[2]
 
   modeDist <- gigMode(Theta = ThetaStand)
   ## Determine break points, based on size of derivative

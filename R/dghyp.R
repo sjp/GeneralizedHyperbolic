@@ -564,21 +564,13 @@ rghyp <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- Theta[4]
   lambda <- Theta[5]
 
-  ## check parameters
-  parResult <- gigCheckPars(Theta)
-  case <- parResult$case
-  errMessage <- parResult$errMessage
-
-  if (case == "error")
-    stop(errMessage)
-
   chi <- delta^2
   psi <- alpha^2 - beta^2
 
   if (lambda == 1) {
-    X <- rgig1(n, chi, psi, lambda)
+    X <- rgig1(n, Theta = c(chi, psi, lambda))
   } else {
-    X <- rgig(n, chi, psi, lambda)
+    X <- rgig(n, Theta = c(chi, psi, lambda))
   }
 
   sigma <- sqrt(X)
