@@ -1,10 +1,15 @@
 ### Cramer-von Mises goodness of fit for the hyperbolic distribution
-hyperbCvMTest <- function(x, Theta, conf.level = 0.95, ...) {
+hyperbCvMTest <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
+                          Theta = c(mu, delta, alpha, beta),
+                          conf.level = 0.95, ...) {
 
   if (!missing(conf.level) & (length(conf.level) != 1 |
                               !is.finite(conf.level) |
                               conf.level < 0 | conf.level > 1))
     stop("conf.level must be a single number between 0 and 1")
+
+  if (length(Theta) != 4)
+    stop("Theta vector must contain 4 values")
 
   DNAME <- deparse(substitute(x))
   NX <- length(x)
@@ -13,11 +18,11 @@ hyperbCvMTest <- function(x, Theta, conf.level = 0.95, ...) {
     stop("not enough x observations")
 
   METHOD <- "Cramer-von Mises test of hyperbolic distribution"
-  zvals <- phyperb(sort(x), Theta)
+  zvals <- phyperb(sort(x), Theta = Theta)
   STATISTIC <- sum((zvals - ((2 * (1:length(x)) - 1) / (2 * length(x))))^2) +
                1 / (12 * length(x))
-  xi <- 1 / sqrt(1 + Theta[2])
-  chi <- Theta[1] * xi / sqrt(1 + Theta[1]^2)
+  xi <- hyperbChangePars(2, 4, Theta, TRUE)[3]
+  chi <- hyperbChangePars(2, 4, Theta, TRUE)[4]
   PARAMETER <- c(xi, chi)
   names(STATISTIC) <- "Wsq"
   names(PARAMETER) <- c("xi", "chi")
@@ -32,6 +37,7 @@ hyperbCvMTest <- function(x, Theta, conf.level = 0.95, ...) {
 
 ### Calculate P-Value of Cramer-von Mises test of the hyperbolic distribution
 hyperbCvMTestPValue <- function(xi, chi, Wsq, digits = 3) {
+
   xiList <- c(0.99, 0.95, seq(0.90, 0.1, by = -0.1))
   alphaList <- c(0.25, 0.1, 0.05, 0.025, 0.01)
   chiList <- seq(0, 0.8, by = 0.2)
