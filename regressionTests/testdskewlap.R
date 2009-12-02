@@ -1,0 +1,35 @@
+detach("package:GeneralizedHyperbolic")
+detach("package:HyperbolicDist")
+library(GeneralizedHyperbolic)
+gTheta <- c(2, 1, 1)
+hTheta <- c(1, 1, 2)
+sampleInput <- rskewlap(100, Theta = gTheta)
+gdResult <- dskewlap(sampleInput, Theta = gTheta)
+gpResult <- pskewlap(seq(-2, 5, 0.2), Theta = gTheta)
+gqResult <- qskewlap(seq(0.1, 0.9, 0.1), Theta = gTheta)
+detach("package:GeneralizedHyperbolic")
+library(HyperbolicDist)
+hdResult <- dskewlap(sampleInput, Theta = hTheta)
+hpResult <- pskewlap(seq(-2, 5, 0.2), Theta = hTheta)
+hqResult <- qskewlap(seq(0.1, 0.9, 0.1), Theta = hTheta)
+detach("package:HyperbolicDist")
+
+if (all(gdResult == hdResult)) {
+  dResult <- "PASS: dskewlap"
+} else {
+  dResult <- "FAIL: dskewlap"
+}
+
+if (all(gpResult == hpResult)) {
+  pResult <- "PASS: pskewlap"
+} else {
+  pResult <- "FAIL: pskewlap"
+}
+
+if (all(gqResult == hqResult)) {
+  qResult <- "PASS: qskewlap"
+} else {
+  qResult <- "FAIL: qskewlap"
+}
+
+dResult; pResult; qResult;

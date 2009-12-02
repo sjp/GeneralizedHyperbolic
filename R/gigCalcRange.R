@@ -34,7 +34,7 @@ gigCalcRange <- function(chi = 1, psi = 1, lambda = 1,
 
     zeroFun <- function(x) {
        dgig(x, Theta = Theta) - tol
-     }
+    }
 
     xUpper <- uniroot(zeroFun, interval = c(mode, xHigh), ...)$root
     xLow <- 0

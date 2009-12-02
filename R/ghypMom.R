@@ -73,7 +73,7 @@ ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
                           oldAbout = mu, newAbout = about)
   } else {
     if (momType == "mu")
-      mom = muMom[order]
+      mom <- muMom[order]
 
     if (momType == "raw") {
       about <- 0
