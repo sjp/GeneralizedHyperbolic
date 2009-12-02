@@ -90,5 +90,5 @@ hyperbBreaks <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
 
   Theta <- as.numeric(Theta)
 
-  ghypBreaks(Theta = c(Theta, 1), small = small, tiny = tiny, deriv = deriv)
+  ghypBreaks(Theta = c(Theta, 1), small = small, tiny = tiny, deriv = deriv, ...)
 } ## End of hyperbBreaks()

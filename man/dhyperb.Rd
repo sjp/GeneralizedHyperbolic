@@ -17,25 +17,31 @@
 }
 
 \usage{
-dhyperb(x, Theta, KNu = NULL, logPars = FALSE)
-phyperb(q, Theta, small = 10^(-6), tiny = 10^(-10),
+dhyperb(x, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta))
+phyperb(q, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta),
+        small = 10^(-6), tiny = 10^(-10),
         deriv = 0.3, subdivisions = 100, accuracy = FALSE, ...)
-qhyperb(p, Theta, small = 10^(-6), tiny = 10^(-10),
+qhyperb(p, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta),
+        small = 10^(-6), tiny = 10^(-10),
         deriv = 0.3, nInterpol = 100, subdivisions = 100, ...)
-rhyperb(n, Theta)
-ddhyperb(x, Theta, KNu = NULL, ...)
-hyperbBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
+rhyperb(n, mu = 0, delta = 1, alpha = 1, beta = 0,
+        Theta = c(mu, delta, alpha, beta))
+ddhyperb(x, mu = 0, delta = 1, alpha = 1, beta = 0,
+         Theta = c(mu, delta, alpha, beta))
+hyperbBreaks(mu = 0, delta = 1, alpha = 1, beta = 0,
+             Theta = c(mu, delta, alpha, beta),
+             small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
 \arguments{
   \item{x,q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
-  \item{Theta}{Parameter vector taking the form \code{c(pi,zeta,delta,mu)}.}
-  \item{KNu}{Sets the value of the Bessel function in the density or
-    derivative of the density. See \bold{Details}}.
-  \item{logPars}{Logical; if \code{TRUE} the second and third components
-    of Theta are taken to be log(zeta) and log(delta) respectively.}
+  \item{Theta}{Parameter vector taking the form
+               \code{c(mu, delta, alpha, beta)}.}
   \item{small}{Size of a small difference between the distribution
     function and zero or one. See \bold{Details}.}
   \item{tiny}{Size of a tiny difference between the distribution
@@ -50,7 +56,7 @@ hyperbBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
     integrate the density returning the distribution function.}
   \item{nInterpol}{The number of points used in qhyperb for cubic spline
     interpolation (see \code{splinefun}) of the distribution function.}
-  \item{\dots}{Passes arguments to \code{uniroot}.  See \bold{Details}.}
+  \item{\dots}{Passes arguments to \code{uniroot}. See \bold{Details}.}
 }
 
 \details{
@@ -73,9 +79,9 @@ hyperbBreaks(Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
   parameters in each case.
 
   Use \code{hyperbChangePars} to convert from the
-  \eqn{(\alpha,\beta)}{(alpha,beta)} \eqn{(\phi,\gamma)}{(phi,gamma)} or
-  \eqn{(\xi,\chi)}{xi,chi)} parameterisations to the
-  \eqn{(\pi,\zeta)}{(pi,zeta)} parameterisation used above.
+  \eqn{(\pi, \zeta)}{(pi, zeta)} \eqn{(\phi, \gamma)}{(phi, gamma)} or
+  \eqn{(\xi, \chi)}{xi, chi)} parameterisations to the
+  \eqn{(\alpha, \beta)}{(alpha, beta)} parameterisation used above.
 
   \code{phyperb} breaks the real line into eight regions in order to
   determine the integral of \code{dhyperb}. The break points determining
@@ -170,41 +176,41 @@ Ai-Wei Lee, Jennifer Tso, Richard Trendall}
   \code{\link{safeIntegrate}}, \code{\link{integrate}} for its
   shortfalls, \code{\link{splinefun}}, \code{\link{uniroot}} and
   \code{\link{hyperbChangePars}} for changing parameters to the
-  \eqn{(\pi,\zeta)}{(pi,zeta)} parameterisation, \code{\link{dghyp}} for
+  \eqn{(\alpha,\beta)}{(alpha, beta)} parameterisation, \code{\link{dghyp}} for
   the generalized hyperbolic distribution.
 }
 
 \examples{
-Theta <- c(2,1,1,0)
-hyperbRange <- hyperbCalcRange(Theta, tol = 10^(-3))
-par(mfrow = c(1,2))
-curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+Theta <- c(0, 2, 1, 0)
+hyperbRange <- hyperbCalcRange(Theta = Theta, tol = 10^(-3))
+par(mfrow = c(1, 2))
+curve(dhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Density of the\n Hyperbolic Distribution")
-curve(phyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+curve(phyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Distribution Function of the\n Hyperbolic Distribution")
-dataVector <- rhyperb(500, Theta)
-curve(dhyperb(x, Theta), range(dataVector)[1], range(dataVector)[2],
+dataVector <- rhyperb(500, Theta = Theta)
+curve(dhyperb(x, Theta = Theta), range(dataVector)[1], range(dataVector)[2],
       n = 500)
 hist(dataVector, freq = FALSE, add =TRUE)
 title("Density and Histogram\n of the Hyperbolic Distribution")
 logHist(dataVector, main =
         "Log-Density and Log-Histogram\n of the Hyperbolic Distribution")
-curve(log(dhyperb(x, Theta)), add = TRUE,
+curve(log(dhyperb(x, Theta = Theta)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
-par(mfrow = c(2,1))
-curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+par(mfrow = c(2, 1))
+curve(dhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Density of the\n Hyperbolic Distribution")
-curve(ddhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+curve(ddhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
 title("Derivative of the Density\n of the Hyperbolic Distribution")
-par(mfrow = c(1,1))
-hyperbRange <- hyperbCalcRange(Theta, tol = 10^(-6))
-curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+par(mfrow = c(1, 1))
+hyperbRange <- hyperbCalcRange(Theta = Theta, tol = 10^(-6))
+curve(dhyperb(x, Theta = Theta), from = hyperbRange[1], to = hyperbRange[2],
       n = 1000)
-bks <- hyperbBreaks(Theta)
+bks <- hyperbBreaks(Theta = Theta)
 abline(v = bks)
 }
 
