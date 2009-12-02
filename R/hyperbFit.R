@@ -31,7 +31,7 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, ThetaStart = NULL,
 
   llfunc <- function(Theta) {
     KNu <- besselK(exp(Theta[2]), nu = 1)
-    -sum(log(dhyperb(x, Theta, KNu = KNu, logPars = TRUE)))
+    -sum(log(dhyperb(x, Theta = Theta)))
   }
 
   output <- numeric(7)
@@ -134,10 +134,10 @@ plot.hyperbFit <- function(x, which = 1:4,
   obsName <- x$obsName
 
   hypDens <- function(x)
-    dhyperb(x, Theta, KNu, logPars = FALSE)
+    dhyperb(x, Theta = Theta)
 
   logHypDens <- function(x)
-    log(dhyperb(x, Theta, KNu = KNu, logPars = FALSE))
+    log(dhyperb(x, Theta = Theta))
 
   ymax <- 1.06 * max(hypDens(seq(min(breaks), max(breaks), 0.1)),
                      empDens, na.rm = TRUE)
@@ -161,10 +161,10 @@ plot.hyperbFit <- function(x, which = 1:4,
   }
 
   if (show[3])
-    qqhyperb(obs, Theta, main = plotTitles[3], ...)
+    qqhyperb(obs, Theta = Theta, main = plotTitles[3], ...)
 
   if (show[4])
-    pphyperb(obs, Theta, main = plotTitles[4], ...)
+    pphyperb(obs, Theta = Theta, main = plotTitles[4], ...)
 
   invisible()
 }

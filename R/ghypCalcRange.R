@@ -43,4 +43,4 @@ ghypCalcRange <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     range <- c(xLower, xUpper)
   }
   return(range)
-} ## End of hyperbCalcRange()
+} ## End of ghypCalcRange()
