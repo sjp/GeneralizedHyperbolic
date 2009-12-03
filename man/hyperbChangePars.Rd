@@ -7,13 +7,13 @@
   This function interchanges between the following 4 parameterizations
   of the hyperbolic distribution:
 
-  1. \eqn{\pi, \zeta, \delta, \mu}{pi, zeta, delta, mu}
+  1. \eqn{\mu, \delta, \pi, \zeta}{mu, delta, pi, zeta}
 
-  2. \eqn{\alpha, \beta, \delta, \mu}{alpha, beta, delta, mu}
+  2. \eqn{\mu, \delta, \alpha, \beta}{mu, delta, alpha, beta}
 
-  3. \eqn{\phi, \gamma, \delta, \mu}{phi, gamma, delta, mu}
+  3. \eqn{\mu, \delta, \phi, \gamma}{mu, delta, phi, gamma}
 
-  4. \eqn{\xi, \chi, \delta, \mu}{xi, chi, delta, mu}
+  4. \eqn{\mu, \delta, \xi, \chi}{mu, delta, xi, chi}
 
   The first three are given in Barndorff-Nielsen and
   \enc{Blæsild}{Blaesild} (1983), and the fourth in Prause (1999)
@@ -34,13 +34,13 @@ hyperbChangePars(from, to, Theta, noNames = FALSE)
 \details{
   In the 4 parameterizations, the following must be positive:
 
-  1. \eqn{\zeta,\delta}{zeta, delta}
+  1. \eqn{\zeta, \delta}{zeta, delta}
 
-  2. \eqn{\alpha,\delta}{alpha, delta}
+  2. \eqn{\alpha, \delta}{alpha, delta}
 
-  3. \eqn{\phi,\gamma,\delta}{phi, gamma, delta}
+  3. \eqn{\phi, \gamma,\delta}{phi, gamma, delta}
 
-  4. \eqn{\xi,\delta}{xi, delta}
+  4. \eqn{\xi, \delta}{xi, delta}
 
   Furthermore, note that in the second parameterization
   \eqn{\alpha}{alpha} must be greater than the absolute value of
@@ -72,7 +72,7 @@ Jennifer Tso, Richard Trendall}
 \seealso{\code{\link{dhyperb}}}
 
 \examples{
-Theta1 <- c(-2,1,3,0)                      # Parameterization 1
+Theta1 <- c(-2, 1, 3, 0)                      # Parameterization 1
 Theta2 <- hyperbChangePars(1, 2, Theta1)   # Convert to parameterization 2
 Theta2                                     # Parameterization 2
 hyperbChangePars(2, 1, as.numeric(Theta2)) # Convert back to parameterization 1

@@ -12,7 +12,9 @@
 }
 
 \usage{
-hyperbCalcRange(Theta, tol = 10^(-5), density = FALSE)
+hyperbCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0,
+                Theta = c(mu, delta, alpha, beta),
+                tol = 10^(-5), density = FALSE, ...)
 }
 \arguments{
   \item{Theta}{Value of parameter vector specifying the hyperbolic
@@ -57,14 +59,14 @@ hyperbCalcRange(Theta, tol = 10^(-5), density = FALSE)
 }
 
 \examples{
-par(mfrow = c(1,2))
-Theta <- c(3,5,1,0)
-hyperbRange <- hyperbCalcRange(Theta, tol = 10^(-3))
+par(mfrow = c(1, 2))
+Theta <- c(0, 1, 3, 1)
+hyperbRange <- hyperbCalcRange(Theta = Theta, tol = 10^(-3))
 hyperbRange
-curve(phyperb(x, Theta), hyperbRange[1], hyperbRange[2])
-maxDens <- dhyperb(hyperbMode(Theta), Theta)
-hyperbRange <- hyperbCalcRange(Theta, tol = 10^(-3)*maxDens, density = TRUE)
+curve(phyperb(x, Theta = Theta), hyperbRange[1], hyperbRange[2])
+maxDens <- dhyperb(hyperbMode(Theta = Theta), Theta = Theta)
+hyperbRange <- hyperbCalcRange(Theta = Theta, tol = 10^(-3) * maxDens, density = TRUE)
 hyperbRange
-curve(dhyperb(x, Theta), hyperbRange[1], hyperbRange[2])
+curve(dhyperb(x, Theta = Theta), hyperbRange[1], hyperbRange[2])
 }
 \keyword{distribution}

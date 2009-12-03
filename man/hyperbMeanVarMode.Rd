@@ -11,11 +11,16 @@
   of a specific hyperbolic distribution.
 }
 \usage{
-hyperbMean(Theta)
-hyperbVar(Theta)
-hyperbSkew(Theta)
-hyperbKurt(Theta)
-hyperbMode(Theta)
+hyperbMean(mu = 0, delta = 1, alpha = 1, beta = 0,
+           Theta = c(mu, delta, alpha, beta))
+hyperbVar(mu = 0, delta = 1, alpha = 1, beta = 0,
+          Theta = c(mu, delta, alpha, beta))
+hyperbSkew(mu = 0, delta = 1, alpha = 1, beta = 0,
+           Theta = c(mu, delta, alpha, beta))
+hyperbKurt(mu = 0, delta = 1, alpha = 1, beta = 0,
+           Theta = c(mu, delta, alpha, beta))
+hyperbMode(mu = 0, delta = 1, alpha = 1, beta = 0,
+           Theta = c(mu, delta, alpha, beta))
 }
 \arguments{
   \item{Theta}{Parameter vector of the hyperbolic distribution.}
@@ -32,7 +37,7 @@ hyperbMode(Theta)
 
   The parameterization of the hyperbolic distribution used for this
   and other components of the \code{HyperbolicDist} package is the
-  \eqn{(\pi,\zeta)}{(pi,zeta)} one. See \code{\link{hyperbChangePars}}
+  \eqn{(\alpha, \beta)}{(alpha, beta)} one. See \code{\link{hyperbChangePars}}
   to transfer between parameterizations.
 }
 \details{
@@ -75,11 +80,11 @@ hyperbMode(Theta)
 }
 
 \examples{
-Theta <- c(2,2,2,2)
-hyperbMean(Theta)
-hyperbVar(Theta)
-hyperbSkew(Theta)
-hyperbKurt(Theta)
-hyperbMode(Theta)
+Theta <- c(2, 2, 2, 1)
+hyperbMean(Theta = Theta)
+hyperbVar(Theta = Theta)
+hyperbSkew(Theta = Theta)
+hyperbKurt(Theta = Theta)
+hyperbMode(Theta = Theta)
 }
 \keyword{distribution}
