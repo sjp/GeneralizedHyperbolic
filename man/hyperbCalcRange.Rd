@@ -6,7 +6,7 @@
   this function calculates the range outside of which the distribution
   has negligible probability, or the density function is negligible, to
   a specified tolerance. The parameterization used
-  is the \eqn{(\pi,\zeta)}{(pi,zeta)} one (see
+  is the \eqn{(\alpha, \beta)}{(alpha, beta)} one (see
   \code{\link{dhyperb}}). To use another parameterization, use
   \code{\link{hyperbChangePars}}.
 }
@@ -14,11 +14,11 @@
 \usage{
 hyperbCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0,
                 Theta = c(mu, delta, alpha, beta),
-                tol = 10^(-5), density = FALSE, ...)
+                tol = 10^(-5), density = TRUE, ...)
 }
 \arguments{
   \item{Theta}{Value of parameter vector specifying the hyperbolic
-    distribution.}
+    distribution. This takes the form \code{c(mu, delta, alpha, beta)}.}
   \item{tol}{Tolerance.}
   \item{density}{Logical. If \code{FALSE}, the bounds are for the probability
     distribution. If \code{TRUE}, they are for the density function.}

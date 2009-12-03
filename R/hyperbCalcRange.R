@@ -3,7 +3,7 @@
 ### DJS 8/09/06
 hyperbCalcRange <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
                             Theta = c(mu, delta, alpha, beta),
-                            tol = 10^(-5), density = FALSE, ...) {
+                            tol = 10^(-5), density = TRUE, ...) {
 
   if (length(Theta) != 4)
     stop("Theta vector must contain 4 values")

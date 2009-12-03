@@ -73,7 +73,7 @@ hyperbBreaks(mu = 0, delta = 1, alpha = 1, beta = 0,
 
   A succinct description of the hyperbolic distribution is given in
   Barndorff-Nielsen and \enc{Blæsild}{Blaesild} (1983). Three different
-  possibleparameterisations are described in that paper. A fourth
+  possible parameterisations are described in that paper. A fourth
   parameterization is given in Prause (1999). All use location and scale
   parameters \eqn{\mu}{mu} and \eqn{\delta}{delta}. There are two other
   parameters in each case.
@@ -82,6 +82,9 @@ hyperbBreaks(mu = 0, delta = 1, alpha = 1, beta = 0,
   \eqn{(\pi, \zeta)}{(pi, zeta)} \eqn{(\phi, \gamma)}{(phi, gamma)} or
   \eqn{(\xi, \chi)}{xi, chi)} parameterisations to the
   \eqn{(\alpha, \beta)}{(alpha, beta)} parameterisation used above.
+
+  Each of the functions are wrapper functions for their equivalent
+  generalized hyperbolic. For example, \code{dhyperb} calls \code{dghyp}.
 
   \code{phyperb} breaks the real line into eight regions in order to
   determine the integral of \code{dhyperb}. The break points determining
@@ -122,7 +125,7 @@ hyperbBreaks(mu = 0, delta = 1, alpha = 1, beta = 0,
   distribution is the generalized inverse Gaussian.  \code{rhyperb} uses
   this representation to generate observations from the hyperbolic
   distribution. Generalized inverse Gaussian observations are obtained
-  via the algorithm of Dagpunar (1989).  }
+  via the algorithm of Dagpunar (1989).}
 
 \value{
   \code{dhyperb} gives the density, \code{phyperb} gives the distribution

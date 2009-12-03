@@ -10,24 +10,24 @@ hyperbChangePars <- function (from, to, Theta, noNames = FALSE) {
   if ((to != 1) & (to != 2) & (to != 3) & (to != 4))
     stop("the argument 'to' must be either 1, 2, 3 or 4")
 
-  delta <- Theta[3]
+  delta <- Theta[2]
 
   if (delta <= 0)
     stop("delta must be greater than zero")
 
-  mu <- Theta[4]
+  mu <- Theta[1]
 
   if (from == 1) {
-    hyperbPi <- Theta[1]
-    zeta <- Theta[2]
+    hyperbPi <- Theta[3]
+    zeta <- Theta[4]
 
     if (zeta <= 0)
       stop("zeta must be greater than zero")
   }
 
   if (from == 2) {
-    alpha <- Theta[1]
-    beta <- Theta[2]
+    alpha <- Theta[3]
+    beta <- Theta[4]
 
     if (alpha <= 0)
       stop("alpha must be greater than zero")
@@ -37,8 +37,8 @@ hyperbChangePars <- function (from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 3) {
-    phi <- Theta[1]
-    gamma <- Theta[2]
+    phi <- Theta[3]
+    gamma <- Theta[4]
 
     if (phi <= 0)
       stop("phi must be greater than zero")
@@ -48,8 +48,8 @@ hyperbChangePars <- function (from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 4) {
-    xi <- Theta[1]
-    chi <- Theta[2]
+    xi <- Theta[3]
+    chi <- Theta[4]
 
     if ((xi <= 0) | (xi > 1))
       stop("xi must be between zero and one")
