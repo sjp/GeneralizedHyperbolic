@@ -14,22 +14,6 @@ hpResult <- pghyp(seq(-2, 5, 0.2), Theta = hTheta)
 hqResult <- qghyp(seq(0.1, 0.9, 0.1), Theta = hTheta)
 detach("package:HyperbolicDist")
 
-if (all(gdResult == hdResult)) {
-  dResult <- "PASS: dghyp"
-} else {
-  dResult <- "FAIL: dghyp"
-}
-
-if (all(gpResult == hpResult)) {
-  pResult <- "PASS: pghyp"
-} else {
-  pResult <- "FAIL: pghyp"
-}
-
-if (all(gqResult == hqResult)) {
-  qResult <- "PASS: qghyp"
-} else {
-  qResult <- "FAIL: qghyp"
-}
-
-dResult; pResult; qResult;
+checkEqual(gdResult, hdResult, "dghyp")
+checkEqual(gpResult, hpResult, "pghyp")
+checkEqual(gqResult, hqResult, "qghyp")

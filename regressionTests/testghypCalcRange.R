@@ -9,8 +9,4 @@ library(HyperbolicDist)
 hResult <- ghypCalcRange(Theta = hTheta)
 detach("package:HyperbolicDist")
 
-if (all(gResult == hResult)) {
-  print("PASS: ghypCalcRange")
-} else {
-  print("FAIL: ghypCalcRange")
-}
+checkEqual(gResult, hResult, "ghypCalcRange")

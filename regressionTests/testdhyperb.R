@@ -15,22 +15,6 @@ hpResult <- phyperb(seq(-2, 5, 0.2), Theta = hTheta)
 hqResult <- qhyperb(seq(0.1, 0.9, 0.1), Theta = hTheta)
 detach("package:HyperbolicDist")
 
-if (all(abs(gdResult - hdResult) < 0.00001)) {
-  dResult <- "PASS: dhyperb"
-} else {
-  dResult <- paste("FAIL: dhyperb", "gdResult:", gdResult, "hdResult:", hdResult)
-}
-
-if (all(abs(gpResult - hpResult) < 0.00001)) {
-  pResult <- "PASS: phyperb"
-} else {
-  pResult <- paste("FAIL: phyperb", "gpResult:", gpResult, "pdResult:", hpResult)
-}
-
-if (all(abs(gqResult - hqResult) < 0.00001)) {
-  qResult <- "PASS: qhyperb"
-} else {
-  qResult <- paste("FAIL: qhyperb", "gqResult:", gqResult, "hqResult:", hqResult)
-}
-
-dResult; pResult; qResult;
+checkEqual(gdResult, hdResult, "dhyperb")
+checkEqual(gpResult, hpResult, "phyperb")
+checkEqual(gqResult, hqResult, "qhyperb")

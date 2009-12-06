@@ -7,44 +7,18 @@ gmResult <- ghypMean(Theta = gTheta)
 gvResult <- ghypVar(Theta = gTheta)
 gsResult <- ghypSkew(Theta = gTheta)
 gkResult <- ghypKurt(Theta = gTheta)
-gmResult <- ghypMode(Theta = gTheta)
+gmoResult <- ghypMode(Theta = gTheta)
 detach("package:GeneralizedHyperbolic")
 library(HyperbolicDist)
 hmResult <- ghypMean(Theta = hTheta)
 hvResult <- ghypVar(Theta = hTheta)
 hsResult <- ghypSkew(Theta = hTheta)
 hkResult <- ghypKurt(Theta = hTheta)
-hmResult <- ghypMode(Theta = hTheta)
+hmoResult <- ghypMode(Theta = hTheta)
 detach("package:HyperbolicDist")
 
-if (all(gmResult == hmResult)) {
-  mResult <- "PASS: ghypMean"
-} else {
-  mResult <- "FAIL: ghypMean"
-}
-
-if (all(gvResult == hvResult)) {
-  vResult <- "PASS: ghypVar"
-} else {
-  vResult <- "FAIL: ghypVar"
-}
-
-if (all(gsResult == hsResult)) {
-  sResult <- "PASS: ghypSkew"
-} else {
-  sResult <- "FAIL: ghypSkew"
-}
-
-if (all(gkResult == hkResult)) {
-  kResult <- "PASS: ghypKurt"
-} else {
-  kResult <- "FAIL: ghypKurt"
-}
-
-if (all(gmResult == hmResult)) {
-  moResult <- "PASS: ghypMode"
-} else {
-  moResult <- "FAIL: ghypMode"
-}
-
-mResult; vResult; sResult; kResult; moResult;
+checkEqual(gmResult, hmResult, "ghypMean")
+checkEqual(gvResult, hvResult, "ghypVar")
+checkEqual(gsResult, hsResult, "ghypSkew")
+checkEqual(gkResult, hkResult, "ghypKurt")
+checkEqual(gmoResult, hmoResult, "ghypMode")
