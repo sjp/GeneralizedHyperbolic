@@ -25,11 +25,13 @@ pgig(q, chi = 1, psi = 1, lambda = 1,
      Theta = c(chi, psi, lambda),
      small = 10^(-6), tiny = 10^(-10), deriv = 0.3,
      subdivisions = 100, accuracy = FALSE, ...)
-qgig(p, Theta, small = 10^(-6), tiny = 10^(-10), deriv = 0.3,
+qgig(p, chi = 1, psi = 1, lambda = 1,
+     Theta = c(chi, psi, lambda),
+     small = 10^(-6), tiny = 10^(-10), deriv = 0.3,
      nInterpol = 100, subdivisions = 100, ...)
 rgig(n, chi = 1, psi = 1, lambda = 1,
      Theta = c(chi, psi, lambda))
-rgig1(n, chi = 1, psi = 1, Theta = (chi, psi))
+rgig1(n, chi = 1, psi = 1, Theta = c(chi, psi))
 ddgig(x, chi = 1, psi = 1, lambda = 1,
       Theta = c(chi, psi, lambda), KOmega = NULL, ...)
 gigBreaks(chi = 1, psi = 1, lambda = 1,
