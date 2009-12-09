@@ -1,14 +1,14 @@
 ### Change parameterizations of the Generalized Hyperbolic Distribution
-ghypChangePars <- function(from, to, Theta, noNames = FALSE) {
+ghypChangePars <- function(from, to, param, noNames = FALSE) {
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  # If lambda is omitted from the Theta vector it defaults to 1
-  if (length(Theta) == 4)
-    Theta <- c(Theta, 1)
+  # If lambda is omitted from the param vector it defaults to 1
+  if (length(param) == 4)
+    param <- c(param, 1)
 
-  if (length(Theta) != 5)
-    stop("Theta vector must contain 4 or 5 values")
+  if (length(param) != 5)
+    stop("param vector must contain 4 or 5 values")
 
   if ((from != 1) & (from != 2) & (from != 3) & (from != 4))
     stop("the argument 'from' must be either 1, 2, 3 or 4")
@@ -16,16 +16,16 @@ ghypChangePars <- function(from, to, Theta, noNames = FALSE) {
   if ((to != 1) & (to != 2) & (to != 3) & (to != 4))
     stop("the argument 'to' must be either 1, 2, 3 or 4")
 
-  mu <- Theta[1]
-  delta <- Theta[2]
-  lambda <- Theta[5]
+  mu <- param[1]
+  delta <- param[2]
+  lambda <- param[5]
 
   if (delta <= 0)
     stop("delta must be greater than zero")
 
   if (from == 1) {
-    alpha <- Theta[3]
-    beta <- Theta[4]
+    alpha <- param[3]
+    beta <- param[4]
 
     if (alpha <= 0)
       stop("alpha must be greater than zero")
@@ -35,16 +35,16 @@ ghypChangePars <- function(from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 2) {
-    zeta <- Theta[3]
-    rho <- Theta[4]
+    zeta <- param[3]
+    rho <- param[4]
 
     if (zeta <= 0)
       stop("zeta must be greater than zero")
   }
 
   if (from == 3) {
-    xi <- Theta[3]
-    chi <- Theta[4]
+    xi <- param[3]
+    chi <- param[4]
 
     if (xi <= 0 | xi > 1)
       stop("xi must be between zero and one")
@@ -54,8 +54,8 @@ ghypChangePars <- function(from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 4) {
-    alphaBar <- Theta[3]
-    betaBar <- Theta[4]
+    alphaBar <- param[3]
+    betaBar <- param[4]
 
     if (alphaBar <= 0)
       stop("alpha bar must be greater than zero")

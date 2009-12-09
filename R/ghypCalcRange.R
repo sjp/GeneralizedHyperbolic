@@ -2,41 +2,41 @@
 ### or for the density function
 ### DJS 19/12/06
 ghypCalcRange <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-                          Theta = c(mu, delta, alpha, beta, lambda),
+                          param = c(mu, delta, alpha, beta, lambda),
                           tol = 10^(-5), density = TRUE, ...) {
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  if (length(Theta) == 4)
-    Theta <- c(Theta, 1)
+  if (length(param) == 4)
+    param <- c(param, 1)
 
-  mu <- Theta[1]
-  delta <- Theta[2]
-  alpha <- Theta[3]
-  beta <- Theta[4]
-  lambda <- Theta[5]
+  mu <- param[1]
+  delta <- param[2]
+  alpha <- param[3]
+  beta <- param[4]
+  lambda <- param[5]
 
   if (density == FALSE) {
     ## bounds are for distribution function
     stop("Distribution function bounds not yet implemented")
   } else {
     ## bounds are for the density function
-    mode <- ghypMode(Theta = Theta)
-    xHigh <- mode + sqrt(ghypVar(Theta = Theta))
+    mode <- ghypMode(param = param)
+    xHigh <- mode + sqrt(ghypVar(param = param))
 
-    while (dghyp(xHigh, Theta = Theta) > tol) {
-      xHigh <- xHigh + sqrt(ghypVar(Theta = Theta))
+    while (dghyp(xHigh, param = param) > tol) {
+      xHigh <- xHigh + sqrt(ghypVar(param = param))
     }
 
     zeroFun <- function(x) {
-      dghyp(x, Theta = Theta) - tol
+      dghyp(x, param = param) - tol
     }
 
     xUpper <- uniroot(zeroFun, interval = c(mode, xHigh), ...)$root
-    xLow <- mode - sqrt(ghypVar(Theta = Theta))
+    xLow <- mode - sqrt(ghypVar(param = param))
 
-    while (dghyp(xLow, Theta = Theta) > tol) {
-      xLow <- xLow - sqrt(ghypVar(Theta = Theta))
+    while (dghyp(xLow, param = param) > tol) {
+      xLow <- xLow - sqrt(ghypVar(param = param))
     }
 
     xLower <- uniroot(zeroFun, interval = c(xLow, mode), ...)$root

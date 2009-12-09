@@ -1,7 +1,7 @@
 ### Function to fit hyperbolic distribution to data
 ###
 ### DJS 11/09/06
-hyperbFit <- function(x, freq = NULL, breaks = NULL, ThetaStart = NULL,
+hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
                       startMethod = "Nelder-Mead", startValues = "BN",
                       method = "Nelder-Mead", hessian = FALSE,
                       plots = FALSE, printOut = FALSE,
@@ -20,55 +20,55 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, ThetaStart = NULL,
   x <- as.numeric(na.omit(x))
   startInfo <- hyperbFitStart(x, breaks = breaks,
                               startValues = startValues,
-                              ThetaStart = ThetaStart,
+                              paramStart = paramStart,
                               startMethodSL = startMethod,
                               startMethodMoM = startMethod, ...)
-  ThetaStart <- startInfo$ThetaStart
+  paramStart <- startInfo$paramStart
   svName <- startInfo$svName
   breaks <- startInfo$breaks
   empDens <- startInfo$empDens
   midpoints <- startInfo$midpoints
 
-  llfunc <- function(Theta) {
-    KNu <- besselK(exp(Theta[2]), nu = 1)
-    -sum(log(dhyperb(x, Theta = Theta)))
+  llfunc <- function(param) {
+    KNu <- besselK(exp(param[2]), nu = 1)
+    -sum(log(dhyperb(x, param = param)))
   }
 
   output <- numeric(7)
   ind <- 1:4
 
   if (method == "BFGS") {
-    opOut <- optim(ThetaStart, llfunc, NULL, method = "BFGS",
+    opOut <- optim(paramStart, llfunc, NULL, method = "BFGS",
                    hessian = hessian, control = controlBFGS, ...)
   }
 
   if (method == "Nelder-Mead") {
-    opOut <- optim(ThetaStart, llfunc, NULL, method = "Nelder-Mead",
+    opOut <- optim(paramStart, llfunc, NULL, method = "Nelder-Mead",
                   hessian = hessian, control = controlNM, ...)
   }
 
   if (method == "nlm") {
     ind <- c(2, 1, 5, 4)
-    opOut <- nlm(llfunc, ThetaStart, hessian = hessian,
+    opOut <- nlm(llfunc, paramStart, hessian = hessian,
                  iterlim = maxitNLM, ...)
   }
 
-  Theta <- as.numeric(opOut[[ind[1]]])[1:4]       # parameter values
-  Theta[2] <- exp(Theta[2])                       # don't use logs
-  Theta[3] <- exp(Theta[3])                       # don't use logs
-  names(Theta) <- c("pi", "zeta", "delta", "mu")
+  param <- as.numeric(opOut[[ind[1]]])[1:4]       # parameter values
+  param[2] <- exp(param[2])                       # don't use logs
+  param[3] <- exp(param[3])                       # don't use logs
+  names(param) <- c("pi", "zeta", "delta", "mu")
   maxLik <- -(as.numeric(opOut[[ind[2]]]))        # maximum likelihood
   conv <- as.numeric(opOut[[ind[4]]])             # convergence
   iter <- as.numeric(opOut[[ind[3]]])[1]          # iterations
-  ThetaStart <- c(ThetaStart[1], exp(ThetaStart[2]),
-                  exp(ThetaStart[3]), ThetaStart[4])
+  paramStart <- c(paramStart[1], exp(paramStart[2]),
+                  exp(paramStart[3]), paramStart[4])
 
-  KNu <- besselK(Theta[2], nu = 1)
+  KNu <- besselK(param[2], nu = 1)
 
-  fitResults <- list(Theta = Theta, maxLik = maxLik,
+  fitResults <- list(param = param, maxLik = maxLik,
                      hessian = if (hessian) opOut$hessian else NULL,
                      method = method, conv = conv, iter = iter,
-                     obs = x, obsName = xName, ThetaStart = ThetaStart,
+                     obs = x, obsName = xName, paramStart = paramStart,
                      svName = svName, startValues = startValues,
                      KNu = KNu, breaks = breaks,
                      midpoints = midpoints, empDens = empDens)
@@ -95,7 +95,7 @@ print.hyperbFit <- function(x,
 
   cat("\nData:     ", x$obsName, "\n")
   cat("Parameter estimates:\n")
-  print.default(format(x$Theta, digits = digits),
+  print.default(format(x$param, digits = digits),
                 print.gap = 2, quote = FALSE)
   cat("Likelihood:        ", x$maxLik, "\n")
   cat("Method:            ", x$method, "\n")
@@ -125,7 +125,7 @@ plot.hyperbFit <- function(x, which = 1:4,
   par(mar = c(6, 4, 4, 2) + 0.1)
   show <- rep(FALSE, 4)
   show[which] <- TRUE
-  Theta <- x$Theta
+  param <- x$param
   KNu <- x$KNu
   breaks <- x$breaks
   empDens <- x$empDens
@@ -134,10 +134,10 @@ plot.hyperbFit <- function(x, which = 1:4,
   obsName <- x$obsName
 
   hypDens <- function(x)
-    dhyperb(x, Theta = Theta)
+    dhyperb(x, param = param)
 
   logHypDens <- function(x)
-    log(dhyperb(x, Theta = Theta))
+    log(dhyperb(x, param = param))
 
   ymax <- 1.06 * max(hypDens(seq(min(breaks), max(breaks), 0.1)),
                      empDens, na.rm = TRUE)
@@ -145,9 +145,9 @@ plot.hyperbFit <- function(x, which = 1:4,
     hist.default(obs, breaks, right = FALSE, freq = FALSE, ylim = c(0, ymax),
                  main = plotTitles[1], ...)
     curve(hypDens, min(breaks) - 1, max(breaks) + 1, add = TRUE, ylab = NULL)
-    title(sub = paste("Theta = (",
-          round(Theta[1], 3), ",", round(Theta[2], 3), ",",
-          round(Theta[3], 3), ",", round(Theta[4], 3), ")", sep = ""))
+    title(sub = paste("param = (",
+          round(param[1], 3), ",", round(param[2], 3), ",",
+          round(param[3], 3), ",", round(param[4], 3), ")", sep = ""))
   }
 
   if (show[2]){
@@ -155,16 +155,16 @@ plot.hyperbFit <- function(x, which = 1:4,
             main = plotTitles[2], ...)
     curve(logHypDens, min(breaks) - 1, max(breaks) + 1, add = TRUE,
           ylab = NULL, xlab = NULL)
-    title(sub = paste("Theta = (",
-          round(Theta[1], 3), ", ", round(Theta[2], 3), ", ",
-          round(Theta[3], 3), ", ", round(Theta[4], 3), ")", sep = ""))
+    title(sub = paste("param = (",
+          round(param[1], 3), ", ", round(param[2], 3), ", ",
+          round(param[3], 3), ", ", round(param[4], 3), ")", sep = ""))
   }
 
   if (show[3])
-    qqhyperb(obs, Theta = Theta, main = plotTitles[3], ...)
+    qqhyperb(obs, param = param, main = plotTitles[3], ...)
 
   if (show[4])
-    pphyperb(obs, Theta = Theta, main = plotTitles[4], ...)
+    pphyperb(obs, param = param, main = plotTitles[4], ...)
 
   invisible()
 }

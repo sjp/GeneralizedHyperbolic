@@ -1,6 +1,6 @@
 # QQ-plot for generalised inverse gaussian distribution
 qqgig <- function(y, chi = 1, psi = 1, lambda = 1,
-                  Theta = c(chi, psi, lambda),
+                  param = c(chi, psi, lambda),
                   main = "GIG Q-Q Plot",
                   xlab = "Theoretical Quantiles",
                   ylab = "Sample Quantiles",
@@ -14,7 +14,7 @@ qqgig <- function(y, chi = 1, psi = 1, lambda = 1,
   if ((n <- length(y)) == 0)
     stop("y is empty or has only NAs")
 
-  x <- qgig(ppoints(n), Theta = Theta)[order(order(y))]
+  x <- qgig(ppoints(n), param = param)[order(order(y))]
 
   if (has.na) {
     y <- x
@@ -25,9 +25,9 @@ qqgig <- function(y, chi = 1, psi = 1, lambda = 1,
 
   if(plot.it) {
     plot(x, y, main = main, xlab = xlab, ylab = ylab, ...)
-    title(sub = paste("Theta = (",
-          round(Theta[1], 3), ", " , round(Theta[2], 3), ", ",
-          round(Theta[3], 3), ")", sep = ""))
+    title(sub = paste("param = (",
+          round(param[1], 3), ", " , round(param[2], 3), ", ",
+          round(param[3], 3), ")", sep = ""))
 
     if(line)
       abline(0, 1)
@@ -38,7 +38,7 @@ qqgig <- function(y, chi = 1, psi = 1, lambda = 1,
 
 ### PP-plot for generalised inverse gaussian distribution
 ppgig <- function(y, chi = 1, psi = 1, lambda = 1,
-                  Theta = c(chi, psi, lambda),
+                  param = c(chi, psi, lambda),
                   main = "GIG P-P Plot",
                   xlab = "Uniform Quantiles",
                   ylab = "Probability-integral-transformed Data",
@@ -52,7 +52,7 @@ ppgig <- function(y, chi = 1, psi = 1, lambda = 1,
   if(0 == (n <- length(y)))
     stop("data is empty")
 
-  yvals <- pgig(y, Theta = Theta)
+  yvals <- pgig(y, param = param)
   xvals <- ppoints(n, a = 1 / 2)[order(order(y))]
 
   if (has.na) {
@@ -67,9 +67,9 @@ ppgig <- function(y, chi = 1, psi = 1, lambda = 1,
   if (plot.it) {
     plot(xvals, yvals, main = main, xlab = xlab, ylab = ylab,
          ylim = c(0, 1), xlim = c(0, 1), ...)
-    title(sub = paste("Theta = (",
-          round(Theta[1], 3), ", ", round(Theta[2], 3), ", ",
-          round(Theta[3], 3), ")", sep = ""))
+    title(sub = paste("param = (",
+          round(param[1], 3), ", ", round(param[2], 3), ", ",
+          round(param[3], 3), ")", sep = ""))
 
     if (line)
       abline(0, 1)

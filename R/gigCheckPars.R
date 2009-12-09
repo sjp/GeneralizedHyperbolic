@@ -1,19 +1,19 @@
 ### Check for boundary and error cases
 ### Return case normal, gamma, inverse gamma or error
 ### In case of error, include appropriate message
-gigCheckPars <- function(Theta, ...) {
+gigCheckPars <- function(param, ...) {
 
-  Theta <- as.numeric(Theta)
-  chi <- Theta[1]
-  psi <- Theta[2]
-  lambda <- Theta[3]
+  param <- as.numeric(param)
+  chi <- param[1]
+  psi <- param[2]
+  lambda <- param[3]
 
   case <- "normal"
   errMessage <- ""
 
-  if (length(Theta) != 3) {
+  if (length(param) != 3) {
     case <- "error"
-    errMessage <- "Theta vector must contain 3 values"
+    errMessage <- "param vector must contain 3 values"
   } else {
     if (chi < 0) {
       case <- "error"

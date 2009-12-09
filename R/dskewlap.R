@@ -1,13 +1,13 @@
 ### Density function for the skew-Laplace distribution
 dskewlap <- function(x, mu = 0, alpha = 1, beta = 1,
-                     Theta = c(mu, alpha, beta)) {
+                     param = c(mu, alpha, beta)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  if (length(param) != 3)
+    stop("param vector must contain 3 values")
 
-  mu <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
+  mu <- param[1]
+  alpha <- param[2]
+  beta <- param[3]
   ab <- alpha + beta
 
   belowMu <- (1 / ab) * exp((x - mu) / alpha)
@@ -20,14 +20,14 @@ dskewlap <- function(x, mu = 0, alpha = 1, beta = 1,
 
 ### Distribution function for the skew-Laplace distribution
 pskewlap <- function(q, mu = 0, alpha = 1, beta = 1,
-                     Theta = c(mu, alpha, beta)) {
+                     param = c(mu, alpha, beta)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  if (length(param) != 3)
+    stop("param vector must contain 3 values")
 
-  mu <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
+  mu <- param[1]
+  alpha <- param[2]
+  beta <- param[3]
   ab <- alpha + beta
 
   if (alpha <= 0)
@@ -46,14 +46,14 @@ pskewlap <- function(q, mu = 0, alpha = 1, beta = 1,
 
 ### Quantile function for the skew-Laplace distribution
 qskewlap <- function(p, mu = 0, alpha = 1, beta = 1,
-                     Theta = c(mu, alpha, beta)) {
+                     param = c(mu, alpha, beta)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  if (length(param) != 3)
+    stop("param vector must contain 3 values")
 
-  mu <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
+  mu <- param[1]
+  alpha <- param[2]
+  beta <- param[3]
   ab <- alpha + beta
 
   if (alpha <= 0)
@@ -76,14 +76,14 @@ qskewlap <- function(p, mu = 0, alpha = 1, beta = 1,
 ### Function to generate random observations from the
 ### skew Laplace distribution
 rskewlap <- function(n, mu = 0, alpha = 1, beta = 1,
-                     Theta = c(mu, alpha, beta)) {
+                     param = c(mu, alpha, beta)) {
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  if (length(param) != 3)
+    stop("param vector must contain 3 values")
 
-  mu <- Theta[1]
-  alpha <- Theta[2]
-  beta <- Theta[3]
+  mu <- param[1]
+  alpha <- param[2]
+  beta <- param[3]
   ab <- alpha + beta
 
   if (alpha <= 0)

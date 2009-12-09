@@ -1,21 +1,21 @@
 ### Check for boundary and error cases
 ### Return case normal, or error
 ### In case of error, include appropriate message
-ghypCheckPars <- function(Theta) {
+ghypCheckPars <- function(param) {
 
-  Theta <- as.numeric(Theta)
-  mu <- Theta[1]
-  delta <- Theta[2]
-  alpha <- Theta[3]
-  beta <- Theta[4]
-  lambda <- Theta[5]
+  param <- as.numeric(param)
+  mu <- param[1]
+  delta <- param[2]
+  alpha <- param[3]
+  beta <- param[4]
+  lambda <- param[5]
 
   case <- ""
   errMessage <- ""
 
-  if (length(Theta) != 5) {
+  if (length(param) != 5) {
     case <- "error"
-    errMessage <- "Theta vector must contain 5 values"
+    errMessage <- "param vector must contain 5 values"
   } else {
     if (alpha < 0) {
       case <- "error"

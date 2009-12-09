@@ -1,6 +1,6 @@
 hyperbFitStart <- function(x, breaks = NULL,
                            startValues = "BN",
-                           ThetaStart = NULL,
+                           paramStart = NULL,
                            startMethodSL = "Nelder-Mead",
                            startMethodMoM = "Nelder-Mead", ...) {
 
@@ -35,23 +35,23 @@ hyperbFitStart <- function(x, breaks = NULL,
   if (startValues == "US") {
     svName <- "User Specified"
 
-    if (is.null(ThetaStart))
-      stop("ThetaStart must be specified")
+    if (is.null(paramStart))
+      stop("paramStart must be specified")
 
-    if (!is.null(ThetaStart)) {
-      if (length(ThetaStart) != 4)
-        stop("ThetaStart must contain 4 values")
+    if (!is.null(paramStart)) {
+      if (length(paramStart) != 4)
+        stop("paramStart must contain 4 values")
 
-      if (ThetaStart[2] <= 0)
-        stop("zeta in ThetaStart must be greater than zero")
+      if (paramStart[2] <= 0)
+        stop("zeta in paramStart must be greater than zero")
 
-      if (ThetaStart[3] <= 0)
-        stop("delta in ThetaStart must be greater than zero")
+      if (paramStart[3] <= 0)
+        stop("delta in paramStart must be greater than zero")
     }
 
-    ThetaStart <- c(hyperbPi = ThetaStart[1], zeta = log(ThetaStart[2]),
-                    delta = log(ThetaStart[3]), mu = ThetaStart[4])
-                   #this gives correct ThetaStart output
+    paramStart <- c(hyperbPi = paramStart[1], zeta = log(paramStart[2]),
+                    delta = log(paramStart[3]), mu = paramStart[4])
+                   #this gives correct paramStart output
                    #when startValues=="US"
   }
 
@@ -62,21 +62,21 @@ hyperbFitStart <- function(x, breaks = NULL,
     delta <- sd(x)
     hyperbPi <- (nu - mu) / delta
     zeta <- 1 + hyperbPi^2
-    ThetaStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
   }
 
   if (startValues == "SL") {
     svName <- "Skew Laplace"
 
-    llsklp <- function(Theta) {
-      -sum(log(dskewlap(x, Theta = Theta)))
+    llsklp <- function(param) {
+      -sum(log(dskewlap(x, param = param)))
     }
 
     lSkewAlpha <- log(1 / leftAsymptote[2])
     lSkewBeta <- log(abs(1 / rightAsymptote[2]))
     skewMu <- midpoints[maxIndex]
-    ThetaStart <- c(lSkewAlpha, lSkewBeta, skewMu)
-    skewlpOptim <- optim(ThetaStart, llsklp, NULL,
+    paramStart <- c(lSkewAlpha, lSkewBeta, skewMu)
+    skewlpOptim <- optim(paramStart, llsklp, NULL,
                          method = startMethodSL, hessian = FALSE, ...)
     phi <- 1 / exp(skewlpOptim$par[1])
     hyperbGamma <- 1 / exp(skewlpOptim$par[2])
@@ -84,12 +84,12 @@ hyperbFitStart <- function(x, breaks = NULL,
     mu <- skewlpOptim$par[3]
     hyperbPi <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[1]
     zeta <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[2]
-    ThetaStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
   }
 
   if (startValues == "MoM") {
     svName <- "Method of Moments"
-    ThetaStart <- hyperbFitStartMoM(x, startMethodMoM = startMethodMoM, ...)
+    paramStart <- hyperbFitStartMoM(x, startMethodMoM = startMethodMoM, ...)
   }
 
   if (!(startValues %in% c("US", "FN", "SL", "MoM")))
@@ -121,40 +121,40 @@ hyperbFitStart <- function(x, breaks = NULL,
 
     delta <- zeta / sqrt(phi * hyperbGamma)
     hyperbPi <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[1]
-    ThetaStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
   }
 
-  names(ThetaStart) <- c("hyperbPi", "lZeta", "lDelta", "mu")
-  list(ThetaStart = ThetaStart, breaks = breaks, midpoints = midpoints,
+  names(paramStart) <- c("hyperbPi", "lZeta", "lDelta", "mu")
+  list(paramStart = paramStart, breaks = breaks, midpoints = midpoints,
        empDens = empDens, svName = svName)
 } ## End of hyperbFitStart()
 
 hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
 
-  fun1 <- function(expTheta) {
-    diff1 <- hyperbMean(expTheta) - mean(x)
+  fun1 <- function(expparam) {
+    diff1 <- hyperbMean(expparam) - mean(x)
     diff1
   }
 
-  fun2 <- function(expTheta) {
-    diff2 <- hyperbVar(expTheta) - var(x)
+  fun2 <- function(expparam) {
+    diff2 <- hyperbVar(expparam) - var(x)
     diff2
   }
 
-  fun3 <- function(expTheta) {
-    diff3 <- hyperbSkew(expTheta) - skewness(x)
+  fun3 <- function(expparam) {
+    diff3 <- hyperbSkew(expparam) - skewness(x)
     diff3
   }
 
-  fun4 <- function(expTheta) {
-    diff4 <- hyperbKurt(expTheta) - kurtosis(x)
+  fun4 <- function(expparam) {
+    diff4 <- hyperbKurt(expparam) - kurtosis(x)
     diff4
   }
 
-  MoMOptimFun <- function(Theta) {
-    expTheta <- c(Theta[1], exp(Theta[2]), exp(Theta[3]), Theta[4])
-    (fun1(expTheta))^2 + (fun2(expTheta))^2 +
-    (fun3(expTheta))^2 + (fun4(expTheta))^2
+  MoMOptimFun <- function(param) {
+    expparam <- c(param[1], exp(param[2]), exp(param[3]), param[4])
+    (fun1(expparam))^2 + (fun2(expparam))^2 +
+    (fun3(expparam))^2 + (fun4(expparam))^2
   }
 
   ## Determine starting values for parameters using
@@ -184,8 +184,8 @@ hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
   startValuesMoM <- c(hyperbPi, log(zeta), log(delta), mu)
   ## Get Method of Moments estimates
   MoMOptim <- optim(startValuesMoM, MoMOptimFun, method = startMethodMoM, ...)
-  ThetaStart <- MoMOptim$par
-  ThetaStart
+  paramStart <- MoMOptim$par
+  paramStart
 } ## End of hyperbFitStartMoM
 
 

@@ -2,22 +2,22 @@
 ### or for the density function
 ### DJS 10/01/07
 gigCalcRange <- function(chi = 1, psi = 1, lambda = 1,
-                         Theta = c(chi, psi, lambda),
+                         param = c(chi, psi, lambda),
                          tol = 10^(-5), density = TRUE, ...) {
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
   ## check parameters
-  parResult <- gigCheckPars(Theta)
+  parResult <- gigCheckPars(param)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
   if (case == "error")
     stop(errMessage)
 
-  chi <- Theta[1]
-  psi <- Theta[2]
-  lambda <- Theta[3]
+  chi <- param[1]
+  psi <- param[2]
+  lambda <- param[3]
   KLambda <- besselK(x = sqrt(chi * psi), nu = lambda)
 
   if (!density) {
@@ -25,15 +25,15 @@ gigCalcRange <- function(chi = 1, psi = 1, lambda = 1,
     stop("Distribution function bounds not yet implemented")
   } else {
     ## bounds are for the density function
-    mode <- gigMode(Theta = Theta)
-    xHigh <- mode + sqrt(gigVar(Theta = Theta))
+    mode <- gigMode(param = param)
+    xHigh <- mode + sqrt(gigVar(param = param))
 
-    while (dgig(xHigh, Theta = Theta) > tol) {
-      xHigh <- xHigh + sqrt(gigVar(Theta = Theta))
+    while (dgig(xHigh, param = param) > tol) {
+      xHigh <- xHigh + sqrt(gigVar(param = param))
     }
 
     zeroFun <- function(x) {
-       dgig(x, Theta = Theta) - tol
+       dgig(x, param = param) - tol
     }
 
     xUpper <- uniroot(zeroFun, interval = c(mode, xHigh), ...)$root

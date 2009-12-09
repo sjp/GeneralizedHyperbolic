@@ -1,7 +1,7 @@
 ### Change parameterizations of the Hyperbolic Distribution
-hyperbChangePars <- function (from, to, Theta, noNames = FALSE) {
+hyperbChangePars <- function (from, to, param, noNames = FALSE) {
 
-  if (length(Theta) != 4)
+  if (length(param) != 4)
     stop("parameter vector must contain 4 values")
 
   if ((from != 1) & (from != 2) & (from != 3) & (from != 4))
@@ -10,24 +10,24 @@ hyperbChangePars <- function (from, to, Theta, noNames = FALSE) {
   if ((to != 1) & (to != 2) & (to != 3) & (to != 4))
     stop("the argument 'to' must be either 1, 2, 3 or 4")
 
-  delta <- Theta[2]
+  delta <- param[2]
 
   if (delta <= 0)
     stop("delta must be greater than zero")
 
-  mu <- Theta[1]
+  mu <- param[1]
 
   if (from == 1) {
-    hyperbPi <- Theta[3]
-    zeta <- Theta[4]
+    hyperbPi <- param[3]
+    zeta <- param[4]
 
     if (zeta <= 0)
       stop("zeta must be greater than zero")
   }
 
   if (from == 2) {
-    alpha <- Theta[3]
-    beta <- Theta[4]
+    alpha <- param[3]
+    beta <- param[4]
 
     if (alpha <= 0)
       stop("alpha must be greater than zero")
@@ -37,8 +37,8 @@ hyperbChangePars <- function (from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 3) {
-    phi <- Theta[3]
-    gamma <- Theta[4]
+    phi <- param[3]
+    gamma <- param[4]
 
     if (phi <= 0)
       stop("phi must be greater than zero")
@@ -48,8 +48,8 @@ hyperbChangePars <- function (from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 4) {
-    xi <- Theta[3]
-    chi <- Theta[4]
+    xi <- param[3]
+    chi <- param[4]
 
     if ((xi <= 0) | (xi > 1))
       stop("xi must be between zero and one")

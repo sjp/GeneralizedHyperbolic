@@ -1,6 +1,6 @@
 ### Cramer-von Mises goodness of fit for the hyperbolic distribution
 hyperbCvMTest <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
-                          Theta = c(mu, delta, alpha, beta),
+                          param = c(mu, delta, alpha, beta),
                           conf.level = 0.95, ...) {
 
   if (!missing(conf.level) & (length(conf.level) != 1 |
@@ -8,8 +8,8 @@ hyperbCvMTest <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
                               conf.level < 0 | conf.level > 1))
     stop("conf.level must be a single number between 0 and 1")
 
-  if (length(Theta) != 4)
-    stop("Theta vector must contain 4 values")
+  if (length(param) != 4)
+    stop("param vector must contain 4 values")
 
   DNAME <- deparse(substitute(x))
   NX <- length(x)
@@ -18,11 +18,11 @@ hyperbCvMTest <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
     stop("not enough x observations")
 
   METHOD <- "Cramer-von Mises test of hyperbolic distribution"
-  zvals <- phyperb(sort(x), Theta = Theta)
+  zvals <- phyperb(sort(x), param = param)
   STATISTIC <- sum((zvals - ((2 * (1:length(x)) - 1) / (2 * length(x))))^2) +
                1 / (12 * length(x))
-  xi <- hyperbChangePars(2, 4, Theta, TRUE)[3]
-  chi <- hyperbChangePars(2, 4, Theta, TRUE)[4]
+  xi <- hyperbChangePars(2, 4, param, TRUE)[3]
+  chi <- hyperbChangePars(2, 4, param, TRUE)[4]
   PARAMETER <- c(xi, chi)
   names(STATISTIC) <- "Wsq"
   names(PARAMETER) <- c("xi", "chi")

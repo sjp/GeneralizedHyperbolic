@@ -1,14 +1,14 @@
 ### Change parameterizations of the generalized inverse Gaussian distribution
-gigChangePars <- function (from, to, Theta, noNames = FALSE) {
+gigChangePars <- function (from, to, param, noNames = FALSE) {
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  # If lambda is ommitted from the Theta vector, it defaults to 1
-  if (length(Theta) == 2)
-    Theta <- c(Theta, 1)
+  # If lambda is ommitted from the param vector, it defaults to 1
+  if (length(param) == 2)
+    param <- c(param, 1)
 
-  if (length(Theta) != 3)
-    stop("Theta vector must contain 3 values")
+  if (length(param) != 3)
+    stop("param vector must contain 3 values")
 
   if ((from != 1) & (from != 2) & (from != 3) & (from != 4))
     stop("the argument 'from' must be either 1, 2, 3 or 4")
@@ -16,11 +16,11 @@ gigChangePars <- function (from, to, Theta, noNames = FALSE) {
   if ((to != 1) & (to != 2) & (to != 3) & (to != 4))
     stop("the argument 'to' must be either 1, 2, 3 or 4")
 
-  lambda <- Theta[3]
+  lambda <- param[3]
 
   if (from == 1) {
-    chi <- Theta[1]
-    psi <- Theta[2]
+    chi <- param[1]
+    psi <- param[2]
 
     if (chi <= 0)
       stop("chi must be greater than zero")
@@ -30,8 +30,8 @@ gigChangePars <- function (from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 2) {
-    delta <- Theta[1]
-    gamma <- Theta[2]
+    delta <- param[1]
+    gamma <- param[2]
 
     if (delta <= 0)
       stop("delta must be greater than zero")
@@ -41,8 +41,8 @@ gigChangePars <- function (from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 3) {
-    alpha <- Theta[1]
-    beta <- Theta[2]
+    alpha <- param[1]
+    beta <- param[2]
 
     if (alpha <= 0)
       stop("alpha must be greater than zero")
@@ -52,8 +52,8 @@ gigChangePars <- function (from, to, Theta, noNames = FALSE) {
   }
 
   if (from == 4) {
-    omega <- Theta[1]
-    eta <- Theta[2]
+    omega <- param[1]
+    eta <- param[2]
 
     if (omega <= 0)
       stop("omega must be greater than zero")

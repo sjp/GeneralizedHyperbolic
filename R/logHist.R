@@ -14,8 +14,8 @@ logHist <- function (x, breaks = "Sturges",
   mids <- histInfor$mids
   nB <- length(breaks)
   counts <- histInfor$counts
-  height <- range(logDensity,finite=TRUE)[2] -
-            range(logDensity,finite=TRUE)[1]
+  height <- range(logDensity, finite = TRUE)[2] -
+            range(logDensity, finite = TRUE)[1]
   base <- min(logDensity[is.finite(logDensity)]) - 0.25 * height
 
   ## yMax is the max value of logDensity plus another 25%.
@@ -34,15 +34,15 @@ logHist <- function (x, breaks = "Sturges",
   heights <- rep(0, nB)
 
   for (j in 2:(nB - 1)) {
-    if (is.finite(max(logDensity[j-1], logDensity[j]))) {
-      heights[j] <- max(logDensity[j-1],logDensity[j])
+    if (is.finite(max(logDensity[j - 1], logDensity[j]))) {
+      heights[j] <- max(logDensity[j - 1], logDensity[j])
     } else {
       heights[j] <- NA
     }
   }
 
   heights[1] <- ifelse(is.finite(logDensity[1]), logDensity[1], NA)
-  heights[nB] <- ifelse(is.finite(logDensity[nB-1]), logDensity[nB-1], NA)
+  heights[nB] <- ifelse(is.finite(logDensity[nB - 1]), logDensity[nB - 1], NA)
 
   if (htype == "b" | htype == "h") {
     i <- 1:nB

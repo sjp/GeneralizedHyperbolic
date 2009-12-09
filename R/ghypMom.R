@@ -7,7 +7,7 @@
 ### about "about".
 
 ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-                    Theta = c(mu, delta, alpha, beta, lambda),
+                    param = c(mu, delta, alpha, beta, lambda),
                     momType = "raw", about = 0) {
 
   ## check order is whole number
@@ -25,24 +25,24 @@ ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     stop("Unrecognised moment type")
 
   ## unpack parameters
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  if (length(Theta) == 4)
-    Theta <- c(Theta, 1)
+  if (length(param) == 4)
+    param <- c(param, 1)
 
   ## check parameters
-  parResult <- ghypCheckPars(Theta)
+  parResult <- ghypCheckPars(param)
   case <- parResult$case
   errMessage <- parResult$errMessage
 
   if (case == "error")
     stop(errMessage)
 
-  mu <- Theta[1]
-  delta <- Theta[2]
-  alpha <- Theta[3]
-  beta <- Theta[4]
-  lambda <- Theta[5]
+  mu <- param[1]
+  delta <- param[2]
+  alpha <- param[3]
+  beta <- param[4]
+  lambda <- param[5]
 
   gamma <- sqrt(alpha^2 - beta^2)
   zeta <- delta * gamma
@@ -82,7 +82,7 @@ ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     }
 
     if (momType == "central") {
-      about <- ghypMean(Theta = Theta)
+      about <- ghypMean(param = param)
       mom <- momChangeAbout(order = order, oldMom = muMom,
                             oldAbout = mu, newAbout = about)
     }

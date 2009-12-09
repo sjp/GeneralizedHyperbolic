@@ -1,14 +1,14 @@
 ### Functions for the hyperbolic distribution
 ### Density of the hyperbolic distribution
 dhyperb <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
-                    Theta = c(mu, delta, alpha, beta)) {
+                    param = c(mu, delta, alpha, beta)) {
 
-  if (length(Theta) != 4)
-    stop("Theta vector must contain 4 values")
+  if (length(param) != 4)
+    stop("param vector must contain 4 values")
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  dghyp(x, Theta = c(Theta, 1))
+  dghyp(x, param = c(param, 1))
 } ## End of dhyperb()
 
 
@@ -20,17 +20,17 @@ dhyperb <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
 ###
 ### DJS 05/09/06
 phyperb <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0,
-                    Theta = c(mu, delta, alpha, beta),
+                    param = c(mu, delta, alpha, beta),
                     small = 10^(-6), tiny = 10^(-10),
                     deriv = 0.3, subdivisions = 100,
                     accuracy = FALSE, ...) {
 
-  if (length(Theta) != 4)
-    stop("Theta vector must contain 4 values")
+  if (length(param) != 4)
+    stop("param vector must contain 4 values")
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  pghyp(q, Theta = c(Theta, 1), small = small, tiny = tiny, deriv = deriv,
+  pghyp(q, param = c(param, 1), small = small, tiny = tiny, deriv = deriv,
         subdivisions = subdivisions, accuracy = accuracy, ...)
 } ## End of phyperb()
 
@@ -38,16 +38,16 @@ phyperb <- function(q, mu = 0, delta = 1, alpha = 1, beta = 0,
 ###
 ### DJS 06/09/06
 qhyperb <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0,
-                    Theta = c(mu, delta, alpha, beta),
+                    param = c(mu, delta, alpha, beta),
                     small = 10^(-6), tiny = 10^(-10),
                     deriv = 0.3, nInterpol = 100, subdivisions = 100, ...) {
 
-  if (length(Theta) != 4)
-   stop("Theta vector must contain 4 values")
+  if (length(param) != 4)
+   stop("param vector must contain 4 values")
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  qghyp(p, Theta = c(Theta, 1), small = small, tiny = tiny, deriv = deriv,
+  qghyp(p, param = c(param, 1), small = small, tiny = tiny, deriv = deriv,
         nInterpol = nInterpol, subdivisions = subdivisions, ...)
 } # End of qhyperb()
 
@@ -57,38 +57,38 @@ qhyperb <- function(p, mu = 0, delta = 1, alpha = 1, beta = 0,
 ### Gaussian distribution and Dagpunar's algorithm
 ### for the generalized inverse Gaussian
 rhyperb <- function(n, mu = 0, delta = 1, alpha = 1, beta = 0,
-                    Theta = c(mu, delta, alpha, beta)) {
+                    param = c(mu, delta, alpha, beta)) {
 
-  if (length(Theta) != 4)
-    stop("Theta vector must contain 4 values")
+  if (length(param) != 4)
+    stop("param vector must contain 4 values")
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  rghyp(n, Theta = Theta)
+  rghyp(n, param = param)
 } ## End of rhyperb()
 
 ### Derivative of the density
 ddhyperb <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
-                     Theta = c(mu, delta, alpha, beta)) {
+                     param = c(mu, delta, alpha, beta)) {
 
-  if (length(Theta) != 4)
-    stop("Theta vector must contain 4 values")
+  if (length(param) != 4)
+    stop("param vector must contain 4 values")
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  ddghyp(x, Theta = c(Theta, 1))
+  ddghyp(x, param = c(param, 1))
 } ## End of ddhyperb()
 
 ### Function to set up breaks for phyperb and qhyperb
 hyperbBreaks <- function(mu = 0, delta = 1, alpha = 1, beta = 0,
-                         Theta = c(mu, delta, alpha, beta),
+                         param = c(mu, delta, alpha, beta),
                          small = 10^(-6), tiny = 10^(-10),
                          deriv = 0.3, ...) {
 
-  if (length(Theta) != 4)
-   stop("Theta vector must contain 4 values")
+  if (length(param) != 4)
+   stop("param vector must contain 4 values")
 
-  Theta <- as.numeric(Theta)
+  param <- as.numeric(param)
 
-  ghypBreaks(Theta = c(Theta, 1), small = small, tiny = tiny, deriv = deriv, ...)
+  ghypBreaks(param = c(param, 1), small = small, tiny = tiny, deriv = deriv, ...)
 } ## End of hyperbBreaks()
