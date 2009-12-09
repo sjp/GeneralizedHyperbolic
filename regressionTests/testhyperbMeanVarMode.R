@@ -20,6 +20,6 @@ detach("package:HyperbolicDist")
 
 checkEqual(gmResult, hmResult, "hyperbMean")
 checkEqual(gvResult, hvResult, "hyperbVar")
-checkEqual(gsResult, hmResult, "hyperbSkew")
+checkEqual(gsResult, hsResult, "hyperbSkew")
 checkEqual(gkResult, hkResult, "hyperbKurt")
 checkEqual(gmoResult, hmoResult, "hyperbMode")
