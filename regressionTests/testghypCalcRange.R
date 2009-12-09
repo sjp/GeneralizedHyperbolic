@@ -6,7 +6,7 @@ hTheta <- c(0.5, 3, 1, 1, 0)
 gResult <- ghypCalcRange(param = gParam)
 detach("package:GeneralizedHyperbolic")
 library(HyperbolicDist)
-hResult <- ghypCalcRange(param = hParam)
+hResult <- ghypCalcRange(Theta = hParam)
 detach("package:HyperbolicDist")
 
 checkEqual(gResult, hResult, "ghypCalcRange")

@@ -6,7 +6,7 @@ hParam <- c(1, 2, 1)
 gResult <- gigCalcRange(param = gParam)
 detach("package:GeneralizedHyperbolic")
 library(HyperbolicDist)
-hResult <- gigCalcRange(param = hParam)
+hResult <- gigCalcRange(Theta = hParam)
 detach("package:HyperbolicDist")
 
 checkEqual(gResult, hResult, "gigCalcRange")
