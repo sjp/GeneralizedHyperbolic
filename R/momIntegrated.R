@@ -20,11 +20,11 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
 
       if (absolute == FALSE) {
         ddist <- function(x, order, param, about) {
-          (x - about)^order * dghyp(x, Theta = param)
+          (x - about)^order * dghyp(x, param = param)
         }
       } else {
         ddist <- function(x, order, param, about) {
-          abs(x - about)^order * dghyp(x, Theta = param)
+          abs(x - about)^order * dghyp(x, param = param)
         }
       }
     } else if (distname == "hyperb" | distname == "hyperbolic") {
@@ -33,11 +33,11 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
 
       if (absolute == FALSE) {
         ddist <- function(x, order, param, about) {
-          (x - about)^order * dhyperb(x, Theta = param)
+          (x - about)^order * dhyperb(x, param = param)
         }
       } else {
         ddist <- function(x, order, param, about) {
-          abs(x - about)^order * dhyperb(x, Theta = param)
+          abs(x - about)^order * dhyperb(x, param = param)
         }
       }
     } else  if (distname == "gig" |
@@ -49,11 +49,11 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
 
       if (absolute == FALSE) {
         ddist <- function(x, order, param, about) {
-          (x - about)^order * dgig(x, Theta = param)
+          (x - about)^order * dgig(x, param = param)
         }
       } else {
         ddist <- function(x, order, param, about) {
-          abs(x - about)^order * dgig(x, Theta = param)
+          abs(x - about)^order * dgig(x, param = param)
         }
       }
     } else if (distname == "gamma") {
@@ -88,7 +88,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
 
       dinvgamma <- function(x, shape, rate = 1, scale = 1/rate) {
         dens <- ifelse(x <= 0, 0,
-        (scale / x)^shape * exp(-scale / x) / (x * gamma(shape)))
+                       (scale / x)^shape * exp(-scale / x) / (x * gamma(shape)))
         return(dens)
       }
 
