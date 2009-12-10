@@ -7,7 +7,8 @@
   generalized hyperbolic and related distributions.
 }
 \usage{
-momIntegrated(densFn, order, param = NULL, about = 0, absolute = FALSE)
+momIntegrated(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma", "vg"),
+              order, param = NULL, about = 0, absolute = FALSE)
 }
 
 \arguments{

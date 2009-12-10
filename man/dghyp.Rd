@@ -11,28 +11,28 @@
 \description{
   Density function, distribution function, quantiles and
   random number generation for the generalized hyperbolic distribution
-  with parameter vector \code{Theta}. Utility routines are included for
+  with parameter vector \code{param}. Utility routines are included for
   the derivative of the density function and to find suitable break
   points for use in determining the distribution function.
 }
 
 \usage{
 dghyp(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-      Theta = c(mu, delta, alpha, beta, lambda))
+      param = c(mu, delta, alpha, beta, lambda))
 pghyp(q, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-      Theta = c(mu, delta, alpha, beta, lambda),
+      param = c(mu, delta, alpha, beta, lambda),
       small = 10^(-6), tiny = 10^(-10),
       deriv = 0.3, subdivisions = 100, accuracy = FALSE, ...)
 qghyp(p, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-      Theta = c(mu, delta, alpha, beta, lambda),
+      param = c(mu, delta, alpha, beta, lambda),
       small = 10^(-6), tiny = 10^(-10),
       deriv = 0.3, nInterpol = 100, subdivisions = 100, ...)
 rghyp(n, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-      Theta = c(mu, delta, alpha, beta, lambda))
+      param = c(mu, delta, alpha, beta, lambda))
 ddghyp(x, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-       Theta = c(mu, delta, alpha, beta, lambda))
+       param = c(mu, delta, alpha, beta, lambda))
 ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-           Theta = c(mu, delta, alpha, beta, lambda),
+           param = c(mu, delta, alpha, beta, lambda),
            small = 10^(-6), tiny = 10^(-10), deriv = 0.3, ...)
 }
 
@@ -48,7 +48,7 @@ ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
   \item{lambda}{\eqn{\lambda}{lambda} is the shape parameter and dictates the
     shape that the distribution shall take. Default value is 1.}
-  \item{Theta}{Parameter vector taking the form
+  \item{param}{Parameter vector taking the form
     \code{c(mu, delta, alpha, beta, lambda)}.}
   \item{small}{Size of a small difference between the distribution
     function and zero or one. See \bold{Details}.}
@@ -195,36 +195,36 @@ ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 }
 
 \examples{
-Theta <- c(0, 1, 3, 1, 1 / 2)
-ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-3))
+param <- c(0, 1, 3, 1, 1 / 2)
+ghypRange <- ghypCalcRange(param = param, tol = 10^(-3))
 par(mfrow = c(1, 2))
-curve(dghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
+curve(dghyp(x, param = param), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Density of the\n Generalized Hyperbolic Distribution")
-curve(pghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
+curve(pghyp(x, param = param), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Distribution Function of the\n Generalized Hyperbolic Distribution")
-dataVector <- rghyp(500, Theta = Theta)
-curve(dghyp(x, Theta = Theta), range(dataVector)[1], range(dataVector)[2],
+dataVector <- rghyp(500, param = param)
+curve(dghyp(x, param = param), range(dataVector)[1], range(dataVector)[2],
       n = 500)
 hist(dataVector, freq = FALSE, add = TRUE)
 title("Density and Histogram of the\n Generalized Hyperbolic Distribution")
 logHist(dataVector, main =
         "Log-Density and Log-Histogramof the\n Generalized Hyperbolic Distribution")
-curve(log(dghyp(x, Theta = Theta)), add = TRUE,
+curve(log(dghyp(x, param = param)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
 par(mfrow = c(2, 1))
-curve(dghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
+curve(dghyp(x, param = param), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Density of the\n Generalized Hyperbolic Distribution")
-curve(ddghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
+curve(ddghyp(x, param = param), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
 title("Derivative of the Density of the\n Generalized Hyperbolic Distribution")
 par(mfrow = c(1, 1))
-ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-6))
-curve(dghyp(x, Theta = Theta), from = ghypRange[1], to = ghypRange[2],
+ghypRange <- ghypCalcRange(param = param, tol = 10^(-6))
+curve(dghyp(x, param = param), from = ghypRange[1], to = ghypRange[2],
       n = 1000)
-bks <- ghypBreaks(Theta = Theta)
+bks <- ghypBreaks(param = param)
 abline(v = bks)
 }
 

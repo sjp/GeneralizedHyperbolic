@@ -11,7 +11,8 @@
 }
 \usage{
 ghypMom(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-        Theta = c(mu, delta, alpha, beta, lambda), momType = "raw", about = 0)
+        param = c(mu, delta, alpha, beta, lambda),
+        momType = c("raw", "central", "mu"), about = 0)
 }
 
 \arguments{

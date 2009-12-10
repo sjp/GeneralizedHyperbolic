@@ -1,4 +1,5 @@
-momIntegrated <- function(densFn, order, param = NULL, about = 0,
+momIntegrated <- function(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma", "vg"),
+                          order, param = NULL, about = 0,
                           absolute = FALSE) {
 
   if (missing(densFn) | !(is.function(densFn) | is.character(densFn)))
@@ -9,7 +10,7 @@ momIntegrated <- function(densFn, order, param = NULL, about = 0,
   high <- Inf
 
   if (is.character(densFn)) {
-    distname <- tolower(densFn)
+    distname <- match.arg(densFn)
 
     if (is.null(densFn))
       stop("unsupported distribution")

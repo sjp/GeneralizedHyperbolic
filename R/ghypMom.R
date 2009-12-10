@@ -8,7 +8,7 @@
 
 ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
                     param = c(mu, delta, alpha, beta, lambda),
-                    momType = "raw", about = 0) {
+                    momType = c("raw", "central", "mu"), about = 0) {
 
   ## check order is whole number
   if (!is.wholenumber(order))
@@ -18,10 +18,9 @@ ghypMom <- function(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
     stop("Order must be positive")
 
   ## check momType
-  momType <- as.character(momType)
-  momType <- tolower(momType)
+  momType <- match.arg(momType)
 
-  if (momType != "raw" & momType != "central" & momType != "mu")
+  if (! momType %in% c("raw", "central", "mu"))
     stop("Unrecognised moment type")
 
   ## unpack parameters

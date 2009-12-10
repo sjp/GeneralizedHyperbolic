@@ -12,19 +12,19 @@
 }
 \usage{
 dskewlap(x, mu = 0, alpha = 1, beta = 1,
-         Theta = c(mu, alpha, beta))
+         param = c(mu, alpha, beta))
 pskewlap(q, mu = 0, alpha = 1, beta = 1,
-         Theta = c(mu, alpha, beta))
+         param = c(mu, alpha, beta))
 qskewlap(p, mu = 0, alpha = 1, beta = 1,
-         Theta = c(mu, alpha, beta))
+         param = c(mu, alpha, beta))
 rskewlap(n, mu = 0, alpha = 1, beta = 1,
-         Theta = c(mu, alpha, beta))
+         param = c(mu, alpha, beta))
 }
 \arguments{
   \item{x, q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
-  \item{Theta}{Vector of parameters of the skew-Laplace distribution:
+  \item{param}{Vector of parameters of the skew-Laplace distribution:
     \eqn{\mu}{mu}, \eqn{\alpha}{alpha} and \eqn{\beta}{beta}}.
 }
 \details{
@@ -64,20 +64,20 @@ Ai-Wei Lee, Richard Trendall}
 \seealso{\code{\link{hyperbFitStart}}}
 
 \examples{
-Theta <- c(1, 1, 2)
+param <- c(1, 1, 2)
 par(mfrow = c(1, 2))
-curve(dskewlap(x, Theta = Theta), from = -5, to = 8, n = 1000)
+curve(dskewlap(x, param = param), from = -5, to = 8, n = 1000)
 title("Density of the\n Skew-Laplace Distribution")
-curve(pskewlap(x, Theta = Theta), from = -5, to = 8, n = 1000)
+curve(pskewlap(x, param = param), from = -5, to = 8, n = 1000)
 title("Distribution Function of the\n Skew-Laplace Distribution")
-dataVector <- rskewlap(500, Theta = Theta)
-curve(dskewlap(x, Theta = Theta), range(dataVector)[1], range(dataVector)[2],
+dataVector <- rskewlap(500, param = param)
+curve(dskewlap(x, param = param), range(dataVector)[1], range(dataVector)[2],
       n = 500)
 hist(dataVector, freq = FALSE, add = TRUE)
 title("Density and Histogram\n of the Skew-Laplace Distribution")
 logHist(dataVector, main =
         "Log-Density and Log-Histogram\n of the Skew-Laplace Distribution")
-curve(log(dskewlap(x, Theta = Theta)), add = TRUE,
+curve(log(dskewlap(x, param = param)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
 }
 \keyword{distribution} 
