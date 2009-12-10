@@ -4,10 +4,10 @@ hyperbChangePars <- function (from, to, param, noNames = FALSE) {
   if (length(param) != 4)
     stop("parameter vector must contain 4 values")
 
-  if ((from != 1) & (from != 2) & (from != 3) & (from != 4))
+  if (! from %in% 1:4)
     stop("the argument 'from' must be either 1, 2, 3 or 4")
 
-  if ((to != 1) & (to != 2) & (to != 3) & (to != 4))
+  if (! to %in% 1:4)
     stop("the argument 'to' must be either 1, 2, 3 or 4")
 
   delta <- param[2]
