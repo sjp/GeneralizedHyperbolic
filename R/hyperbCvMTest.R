@@ -15,19 +15,17 @@ hyperbCvMTest <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
   NX <- length(x)
 
   if (NX < 2)
-    stop("not enough x observations")
+    stop("Not enough x observations")
 
   METHOD <- "Cramer-von Mises test of hyperbolic distribution"
   zvals <- phyperb(sort(x), param = param)
   STATISTIC <- sum((zvals - ((2 * (1:length(x)) - 1) / (2 * length(x))))^2) +
                1 / (12 * length(x))
-  xi <- hyperbChangePars(2, 4, param, TRUE)[3]
-  chi <- hyperbChangePars(2, 4, param, TRUE)[4]
-  PARAMETER <- c(xi, chi)
+  PARAMETER <- param
   names(STATISTIC) <- "Wsq"
-  names(PARAMETER) <- c("xi", "chi")
+  names(PARAMETER) <- c("mu", "delta", "alpha", "beta")
   names(METHOD) <- "Cramer-von Mises test of hyperbolic distribution"
-  pValResult <- hyperbCvMTestPValue(xi, chi, STATISTIC)
+  pValResult <- hyperbCvMTestPValue(delta, alpha, beta, STATISTIC)
   RVAL <- list(statistic = STATISTIC, method = METHOD, data.name = DNAME,
                parameter = PARAMETER, p.value = pValResult$pValue,
                warn = pValResult$warn)
@@ -36,7 +34,11 @@ hyperbCvMTest <- function(x, mu = 0, delta = 1, alpha = 1, beta = 0,
 } ## End hyperbCvMTest()
 
 ### Calculate P-Value of Cramer-von Mises test of the hyperbolic distribution
-hyperbCvMTestPValue <- function(xi, chi, Wsq, digits = 3) {
+hyperbCvMTestPValue <- function(delta = 1, alpha = 1, beta = 0,
+                                Wsq, digits = 3) {
+
+  xi <- 1 / sqrt(1 + delta * sqrt(alpha^2 - beta^2))
+  chi <- beta / (alpha * sqrt(1 + delta * sqrt(alpha^2 - beta^2)))
 
   xiList <- c(0.99, 0.95, seq(0.90, 0.1, by = -0.1))
   alphaList <- c(0.25, 0.1, 0.05, 0.025, 0.01)
@@ -141,7 +143,7 @@ hyperbCvMTestPValue <- function(xi, chi, Wsq, digits = 3) {
 
   pValResult <- list(pValue = pValue, warn = sum(warn))
   pValResult
-}## End hyperbCvMTestPValue()
+} ## End hyperbCvMTestPValue()
 
 ### Print results of Cramer-von Mises goodness-of-fit test
 ### for the hyperbolic distribution
