@@ -16,14 +16,14 @@
 }
 \usage{
 qqhyperb(y, mu = 0, delta = 1, alpha = 1, beta = 0,
-         Theta = c(mu, delta, alpha, beta),
+         param = c(mu, delta, alpha, beta),
          main = "Hyperbolic Q-Q Plot",
          xlab = "Theoretical Quantiles",
          ylab = "Sample Quantiles",
          plot.it = TRUE, line = TRUE, \dots)
 
 pphyperb(y, mu = 0, delta = 1, alpha = 1, beta = 0,
-         Theta = c(mu, delta, alpha, beta),
+         param = c(mu, delta, alpha, beta),
          main = "Hyperbolic P-P Plot",
          xlab = "Uniform Quantiles",
          ylab = "Probability-integral-transformed Data",
@@ -32,7 +32,13 @@ pphyperb(y, mu = 0, delta = 1, alpha = 1, beta = 0,
 
 \arguments{
   \item{y}{The data sample.}
-  \item{Theta}{Parameters of the hyperbolic distribution.}
+  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
+    set to 0.}
+  \item{delta}{\eqn{\delta}{delta} is the scale parameter of the distribution.
+    A default value of 1 has been set.}
+  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
+  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
+  \item{param}{Parameters of the hyperbolic distribution.}
   \item{xlab, ylab, main}{Plot labels.}
   \item{plot.it}{Logical. Should the result be plotted?}
   \item{line}{Add line through origin with unit slope.}
@@ -58,11 +64,11 @@ pphyperb(y, mu = 0, delta = 1, alpha = 1, beta = 0,
 
 \examples{
 par(mfrow = c(1, 2))
-Theta <- c(2, 2, 2, 1.5)
-y <- rhyperb(200, Theta = Theta)
-qqhyperb(y, Theta = Theta, line = FALSE)
+param <- c(2, 2, 2, 1.5)
+y <- rhyperb(200, param = param)
+qqhyperb(y, param = param, line = FALSE)
 abline(0, 1, col = 2)
-pphyperb(y, Theta = Theta)
+pphyperb(y, param = param)
 }
 \keyword{hplot}
 \keyword{distribution}

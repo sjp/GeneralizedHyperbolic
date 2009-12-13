@@ -12,18 +12,24 @@
 }
 \usage{
 hyperbMean(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
+           param = c(mu, delta, alpha, beta))
 hyperbVar(mu = 0, delta = 1, alpha = 1, beta = 0,
-          Theta = c(mu, delta, alpha, beta))
+          param = c(mu, delta, alpha, beta))
 hyperbSkew(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
+           param = c(mu, delta, alpha, beta))
 hyperbKurt(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
+           param = c(mu, delta, alpha, beta))
 hyperbMode(mu = 0, delta = 1, alpha = 1, beta = 0,
-           Theta = c(mu, delta, alpha, beta))
+           param = c(mu, delta, alpha, beta))
 }
 \arguments{
-  \item{Theta}{Parameter vector of the hyperbolic distribution.}
+  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
+    set to 0.}
+  \item{delta}{\eqn{\delta}{delta} is the scale parameter of the distribution.
+    A default value of 1 has been set.}
+  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
+  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
+  \item{param}{Parameter vector of the hyperbolic distribution.}
 }
 
 \value{
@@ -80,11 +86,11 @@ hyperbMode(mu = 0, delta = 1, alpha = 1, beta = 0,
 }
 
 \examples{
-Theta <- c(2, 2, 2, 1)
-hyperbMean(Theta = Theta)
-hyperbVar(Theta = Theta)
-hyperbSkew(Theta = Theta)
-hyperbKurt(Theta = Theta)
-hyperbMode(Theta = Theta)
+param <- c(2, 2, 2, 1)
+hyperbMean(param = param)
+hyperbVar(param = param)
+hyperbSkew(param = param)
+hyperbKurt(param = param)
+hyperbMode(param = param)
 }
 \keyword{distribution}

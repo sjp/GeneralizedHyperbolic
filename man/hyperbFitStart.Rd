@@ -95,7 +95,7 @@
 
 
 \seealso{
-  \code{\link{HyperbolicDistribution}}, \code{\link{dskewlap}},
+  \code{\link{dhyperb}}, \code{\link{dskewlap}},
   \code{\link{hyperbFit}}, \code{\link{hist}}, and
   \code{\link{optim}}.
 }

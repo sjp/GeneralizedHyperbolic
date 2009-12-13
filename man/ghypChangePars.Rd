@@ -20,13 +20,13 @@
 }
 
 \usage{
-ghypChangePars(from, to, Theta, noNames = FALSE)
+ghypChangePars(from, to, param, noNames = FALSE)
 }
 
 \arguments{
   \item{from}{The set of parameters to change from.}
   \item{to}{The set of parameters to change to.}
-  \item{Theta}{"from" parameter vector consisting of 5 numerical elements.}
+  \item{param}{"from" parameter vector consisting of 5 numerical elements.}
   \item{noNames}{Logical. When \code{TRUE}, suppresses the parameter
     \code{names} in the output.}
 }
@@ -52,7 +52,7 @@ ghypChangePars(from, to, Theta, noNames = FALSE)
 }
 
 \value{
-  A numerical vector of length 5 representing \code{Theta} in the
+  A numerical vector of length 5 representing \code{param} in the
   \code{to} parameterization.
 }
 
@@ -74,10 +74,10 @@ Jennifer Tso, Richard Trendall}
 \seealso{\code{\link{dghyp}}}
 
 \examples{
-Theta1 <- c(0, 3, 2, 1, 2)                   # Parameterization 1
-Theta2 <- ghypChangePars(1, 2, Theta1)   # Convert to parameterization 2
-Theta2                                   # Parameterization 2
-ghypChangePars(2, 1, as.numeric(Theta2)) # Convert back to parameterization 1
+param1 <- c(0, 3, 2, 1, 2)               # Parameterization 1
+param2 <- ghypChangePars(1, 2, param1)   # Convert to parameterization 2
+param2                                   # Parameterization 2
+ghypChangePars(2, 1, as.numeric(param2)) # Convert back to parameterization 1
 }
 
 \keyword{distribution}

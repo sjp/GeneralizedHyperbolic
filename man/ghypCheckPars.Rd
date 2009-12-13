@@ -8,14 +8,14 @@
   and if they correspond to the boundary cases.
 }
 \usage{
-ghypCheckPars(Theta)
+ghypCheckPars(param)
 }
 \arguments{
-  \item{Theta}{Numeric. Putative parameter values for a generalized
+  \item{param}{Numeric. Putative parameter values for a generalized
     hyperblic distribution.}
 }
 \details{
-  The vector \code{Theta} takes the form \code{c(mu, delta, alpha, beta, lambda)}.
+  The vector \code{param} takes the form \code{c(mu, delta, alpha, beta, lambda)}.
 
   If \code{alpha} is negative, an error is returned.
 

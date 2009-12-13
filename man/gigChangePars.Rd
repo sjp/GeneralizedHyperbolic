@@ -20,13 +20,13 @@
 }
 
 \usage{
-gigChangePars(from, to, Theta, noNames = FALSE)
+gigChangePars(from, to, param, noNames = FALSE)
 }
 
 \arguments{
   \item{from}{The set of parameters to change from.}
   \item{to}{The set of parameters to change to.}
-  \item{Theta}{\dQuote{\code{from}} parameter vector consisting of 3
+  \item{param}{\dQuote{\code{from}} parameter vector consisting of 3
     numerical elements.}
   \item{noNames}{Logical. When \code{TRUE}, suppresses the parameter
     \code{names} in the output.}
@@ -39,7 +39,7 @@ gigChangePars(from, to, Theta, noNames = FALSE)
 }
 
 \value{
-  A numerical vector of length 3 representing \code{Theta} in the
+  A numerical vector of length 3 representing \code{param} in the
   \dQuote{\code{to}} parameterization.
 }
 
@@ -59,10 +59,10 @@ gigChangePars(from, to, Theta, noNames = FALSE)
 \seealso{\code{\link{dgig}}}
 
 \examples{
-Theta1 <- c(2.5, -0.5, 5)               # Parameterisation 1
-Theta2 <- gigChangePars(1, 2, Theta1)   # Convert to parameterization 2
-Theta2                                  # Parameterization 2
-gigChangePars(2, 1, as.numeric(Theta2)) # Convert back to parameterization 1
+param1 <- c(2.5, -0.5, 5)               # Parameterisation 1
+param2 <- gigChangePars(1, 2, param1)   # Convert to parameterization 2
+param2                                  # Parameterization 2
+gigChangePars(2, 1, as.numeric(param2)) # Convert back to parameterization 1
 }
 
 \keyword{distribution}

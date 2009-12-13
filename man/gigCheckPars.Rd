@@ -8,15 +8,15 @@
   and if they correspond to the boundary cases.
 }
 \usage{
-gigCheckPars(Theta, ...)
+gigCheckPars(param, ...)
 }
 \arguments{
-  \item{Theta}{Numeric. Putative parameter values for a generalized
+  \item{param}{Numeric. Putative parameter values for a generalized
     inverse Gaussian distribution.}
   \item{...}{Further arguments for calls to \code{all.equal}.}
 }
 \details{
-  The vector \code{Theta} takes the form \code{c(chi, psi, lambda)}.
+  The vector \code{param} takes the form \code{c(chi, psi, lambda)}.
 
   If either \code{chi} or \code{psi} is negative, an error is returned.
 
@@ -36,8 +36,8 @@ gigCheckPars(Theta, ...)
 
 \value{
   A list with components:
-  \item{case}{Whichever of \code{'error'}, \code{'gamma'},
-    \code{invgamma}, or \code{'normal'} is identified by the function.}
+  \item{case}{Whichever of \code{"error"}, \code{"gamma"},
+    \code{invgamma}, or \code{"normal"} is identified by the function.}
   \item{errMessage}{An appropriate error message if an error was found,
     the empty string \code{""} otherwise.}
 }

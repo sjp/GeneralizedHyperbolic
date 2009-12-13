@@ -19,14 +19,14 @@
 }
 \usage{
 qqgig(y, chi = 1, psi = 1, lambda = 1,
-      Theta = c(chi, psi, lambda),
+      param = c(chi, psi, lambda),
       main = "GIG Q-Q Plot",
       xlab = "Theoretical Quantiles",
       ylab = "Sample Quantiles",
       plot.it = TRUE, line = TRUE, \dots)
 
 ppgig(y, chi = 1, psi = 1, lambda = 1,
-      Theta = c(chi, psi, lambda),
+      param = c(chi, psi, lambda),
       main = "GIG P-P Plot",
       xlab = "Uniform Quantiles",
       ylab = "Probability-integral-transformed Data",
@@ -35,7 +35,11 @@ ppgig(y, chi = 1, psi = 1, lambda = 1,
 
 \arguments{
   \item{y}{The data sample.}
-  \item{Theta}{Parameters of the generalized inverse Gaussian distribution.}
+  \item{chi}{A shape parameter that by default holds a value of 1.}
+  \item{psi}{Another shape parameter that is set to 1 by default.}
+  \item{lambda}{Shape parameter of the GIG distribution. Common to all forms of 
+    parameterization. By default this is set to 1.}
+  \item{param}{Parameters of the generalized inverse Gaussian distribution.}
   \item{xlab, ylab, main}{Plot labels.}
   \item{plot.it}{Logical.  TRUE denotes the results should be plotted.}
   \item{line}{Logical. If TRUE, a line with zero intercept and unit slope
@@ -60,10 +64,10 @@ ppgig(y, chi = 1, psi = 1, lambda = 1,
 }
 \examples{
 par(mfrow = c(1, 2))
-y <- rgig(1000, Theta = c(2, 3, 1))
-qqgig(y, Theta = c(2, 3, 1), line = FALSE)
+y <- rgig(1000, param = c(2, 3, 1))
+qqgig(y, param = c(2, 3, 1), line = FALSE)
 abline(0, 1, col = 2)
-ppgig(y, Theta = c(2, 3, 1))
+ppgig(y, param = c(2, 3, 1))
 }
 \keyword{hplot}
 \keyword{distribution}

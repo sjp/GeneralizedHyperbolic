@@ -24,6 +24,8 @@ rskewlap(n, mu = 0, alpha = 1, beta = 1,
   \item{x, q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
+  \item{mu}{The location parameter, set to 0 by default.}
+  \item{alpha, beta}{The shape parameters, both set to 1 by default.}
   \item{param}{Vector of parameters of the skew-Laplace distribution:
     \eqn{\mu}{mu}, \eqn{\alpha}{alpha} and \eqn{\beta}{beta}}.
 }

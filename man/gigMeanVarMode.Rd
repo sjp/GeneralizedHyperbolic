@@ -13,18 +13,22 @@
 
 \usage{
 gigMean(chi = 1, psi = 1, lambda = 1,
-        Theta = c(chi, psi, lambda))
+        param = c(chi, psi, lambda))
 gigVar(chi = 1, psi = 1, lambda = 1,
-       Theta = c(chi, psi, lambda))
+       param = c(chi, psi, lambda))
 gigSkew(chi = 1, psi = 1, lambda = 1,
-        Theta = c(chi, psi, lambda))
+        param = c(chi, psi, lambda))
 gigKurt(chi = 1, psi = 1, lambda = 1,
-        Theta = c(chi, psi, lambda))
+        param = c(chi, psi, lambda))
 gigMode(chi = 1, psi = 1, lambda = 1,
-        Theta = c(chi, psi, lambda))
+        param = c(chi, psi, lambda))
 }
 \arguments{
-  \item{Theta}{Parameter vector of the generalized inverse Gaussian
+  \item{chi}{A shape parameter that by default holds a value of 1.}
+  \item{psi}{Another shape parameter that is set to 1 by default.}
+  \item{lambda}{Shape parameter of the GIG distribution. Common to all forms of 
+    parameterization. By default this is set to 1.}
+  \item{param}{Parameter vector of the generalized inverse Gaussian
     distribution.}
 }
 
@@ -57,11 +61,11 @@ gigMode(chi = 1, psi = 1, lambda = 1,
 }
 
 \examples{
-Theta <- c(5, 2.5, -0.5)
-gigMean(Theta = Theta)
-gigVar(Theta = Theta)
-gigSkew(Theta = Theta)
-gigKurt(Theta = Theta)
-gigMode(Theta = Theta)
+param <- c(5, 2.5, -0.5)
+gigMean(param = param)
+gigVar(param = param)
+gigSkew(param = param)
+gigKurt(param = param)
+gigMode(param = param)
 }
 \keyword{distribution}

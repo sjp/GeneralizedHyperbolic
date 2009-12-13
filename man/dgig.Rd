@@ -43,6 +43,10 @@ gigBreaks(chi = 1, psi = 1, lambda = 1,
   \item{x, q}{Vector of quantiles.}
   \item{p}{Vector of probabilities.}
   \item{n}{Number of observations to be generated.}
+  \item{chi}{A shape parameter that by default holds a value of 1.}
+  \item{psi}{Another shape parameter that is set to 1 by default.}
+  \item{lambda}{Shape parameter of the GIG distribution. Common to all forms of 
+    parameterization. By default this is set to 1.}
   \item{param}{Parameter vector taking the form \code{c(chi, psi, lambda)}
     for \code{rgig}, or \code{c(chi, psi)} for \code{rgig1}.}
   \item{KOmega}{Sets the value of the Bessel function in the density or

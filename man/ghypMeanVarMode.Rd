@@ -11,18 +11,26 @@
 }
 \usage{
 ghypMean(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-         Theta = c(mu, delta, alpha, beta, lambda))
+         param = c(mu, delta, alpha, beta, lambda))
 ghypVar(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-        Theta = c(mu, delta, alpha, beta, lambda))
+        param = c(mu, delta, alpha, beta, lambda))
 ghypSkew(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-         Theta = c(mu, delta, alpha, beta, lambda))
+         param = c(mu, delta, alpha, beta, lambda))
 ghypKurt(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-         Theta = c(mu, delta, alpha, beta, lambda))
+         param = c(mu, delta, alpha, beta, lambda))
 ghypMode(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-         Theta = c(mu, delta, alpha, beta, lambda))
+         param = c(mu, delta, alpha, beta, lambda))
 }
 \arguments{
-  \item{Theta}{Parameter vector of the generalized hyperbolic distribution.}
+  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
+    set to 0.}
+  \item{delta}{\eqn{\delta}{delta} is the scale parameter of the distribution.
+    A default value of 1 has been set.}
+  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
+  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
+  \item{lambda}{\eqn{\lambda}{lambda} is the shape parameter and dictates the
+    shape that the distribution shall take. Default value is 1.}
+  \item{param}{Parameter vector of the generalized hyperbolic distribution.}
 }
 
 \value{
@@ -57,16 +65,16 @@ ghypMode(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 }
 
 \examples{
-Theta <- c(2, 2, 2, 1, 2)
-ghypMean(Theta = Theta)
-ghypVar(Theta = Theta)
-ghypSkew(Theta = Theta)
-ghypKurt(Theta = Theta)
-ghypMode(Theta = Theta)
-maxDens <- dghyp(ghypMode(Theta = Theta), Theta = Theta)
-ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-3) * maxDens)
-curve(dghyp(x, Theta = Theta), ghypRange[1], ghypRange[2])
-abline(v = ghypMode(Theta = Theta), col = "blue")
-abline(v = ghypMean(Theta = Theta), col = "red")
+param <- c(2, 2, 2, 1, 2)
+ghypMean(param = param)
+ghypVar(param = param)
+ghypSkew(param = param)
+ghypKurt(param = param)
+ghypMode(param = param)
+maxDens <- dghyp(ghypMode(param = param), param = param)
+ghypRange <- ghypCalcRange(param = param, tol = 10^(-3) * maxDens)
+curve(dghyp(x, param = param), ghypRange[1], ghypRange[2])
+abline(v = ghypMode(param = param), col = "blue")
+abline(v = ghypMean(param = param), col = "red")
 }
 \keyword{distribution}

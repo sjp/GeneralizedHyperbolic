@@ -19,7 +19,15 @@ ghypMom(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   \item{order}{Numeric. The order of the moment to be calculated. Not
     permitted to be a vector. Must be a positive whole number except for
     moments about zero.}
-  \item{Theta}{Numeric. The parameter vector specifying the GHyp
+  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
+    set to 0.}
+  \item{delta}{\eqn{\delta}{delta} is the scale parameter of the distribution.
+    A default value of 1 has been set.}
+  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
+  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
+  \item{lambda}{\eqn{\lambda}{lambda} is the shape parameter and dictates the
+    shape that the distribution shall take. Default value is 1.}
+  \item{param}{Numeric. The parameter vector specifying the GHyp
     distribution. Of the form \code{c(mu, delta, alpha, beta, lambda)}
     (see \code{\link{dghyp}}).}
   \item{momType}{Common types of moments to be calculated, default is "raw". 
@@ -65,34 +73,34 @@ ghypMom(order, mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 
 
 \examples{
-Theta <- c(1, 2, 2, 1, 2)
-mu <- Theta[1]
+param <- c(1, 2, 2, 1, 2)
+mu <- param[1]
 ### mu moments
-m1 <- ghypMean(Theta = Theta)
+m1 <- ghypMean(param = param)
 m1 - mu
-ghypMom(1, Theta = Theta, momType = "mu")
-momIntegrated("ghyp", order = 1, param = Theta, about = mu)
-ghypMom(2, Theta = Theta, momType = "mu")
-momIntegrated("ghyp", order = 2, param = Theta, about = mu)
-ghypMom(10, Theta = Theta, momType = "mu")
-momIntegrated("ghyp", order = 10, param = Theta, about = mu)
+ghypMom(1, param = param, momType = "mu")
+momIntegrated("ghyp", order = 1, param = param, about = mu)
+ghypMom(2, param = param, momType = "mu")
+momIntegrated("ghyp", order = 2, param = param, about = mu)
+ghypMom(10, param = param, momType = "mu")
+momIntegrated("ghyp", order = 10, param = param, about = mu)
 
 ### raw moments
-ghypMean(Theta = Theta)
-ghypMom(1, Theta = Theta, momType = "raw")
-momIntegrated("ghyp", order = 1, param = Theta, about = 0)
-ghypMom(2, Theta = Theta, momType = "raw")
-momIntegrated("ghyp", order = 2, param = Theta, about = 0)
-ghypMom(10, Theta = Theta, momType = "raw")
-momIntegrated("ghyp", order = 10, param = Theta, about = 0)
+ghypMean(param = param)
+ghypMom(1, param = param, momType = "raw")
+momIntegrated("ghyp", order = 1, param = param, about = 0)
+ghypMom(2, param = param, momType = "raw")
+momIntegrated("ghyp", order = 2, param = param, about = 0)
+ghypMom(10, param = param, momType = "raw")
+momIntegrated("ghyp", order = 10, param = param, about = 0)
 
 ### central moments
-ghypMom(1, Theta = Theta, momType = "central")
-momIntegrated("ghyp", order = 1, param = Theta, about = m1)
-ghypVar(Theta = Theta)
-ghypMom(2, Theta = Theta, momType = "central")
-momIntegrated("ghyp", order = 2, param = Theta, about = m1)
-ghypMom(10, Theta = Theta, momType = "central")
-momIntegrated("ghyp", order = 10, param = Theta, about = m1)
+ghypMom(1, param = param, momType = "central")
+momIntegrated("ghyp", order = 1, param = param, about = m1)
+ghypVar(param = param)
+ghypMom(2, param = param, momType = "central")
+momIntegrated("ghyp", order = 2, param = param, about = m1)
+ghypMom(10, param = param, momType = "central")
+momIntegrated("ghyp", order = 10, param = param, about = m1)
 }
 \keyword{distribution}

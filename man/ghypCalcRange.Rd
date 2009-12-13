@@ -12,12 +12,21 @@
 
 \usage{
 ghypCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
-              Theta = c(mu, delta, alpha, beta, lambda),
+              param = c(mu, delta, alpha, beta, lambda),
               tol = 10^(-5), density = TRUE, ...)
 }
 \arguments{
-  \item{Theta}{Value of parameter vector specifying the generalized
-    hyperbolic distribution.}
+  \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
+    set to 0.}
+  \item{delta}{\eqn{\delta}{delta} is the scale parameter of the distribution.
+    A default value of 1 has been set.}
+  \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
+  \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
+  \item{lambda}{\eqn{\lambda}{lambda} is the shape parameter and dictates the
+    shape that the distribution shall take. Default value is 1.}
+  \item{param}{Value of parameter vector specifying the generalized
+    hyperbolic distribution. This takes the form \code{c(mu, delta,
+    alpha, beta, lambda)}.}
   \item{tol}{Tolerance.}
   \item{density}{Logical. If \code{TRUE}, the bounds are for the density
     function. If \code{FALSE}, they should be for the probability
@@ -27,7 +36,7 @@ ghypCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 
 \details{
   The particular generalized hyperbolic distribution being considered is
-  specified by the value of the parameter value \code{Theta}.
+  specified by the value of the parameter value \code{param}.
 
   If \code{density = TRUE}, the function gives a range, outside of which
   the density is less than the given tolerance. Useful for plotting the
@@ -57,11 +66,11 @@ ghypCalcRange(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
 }
 
 \examples{
-Theta <- c(0, 1, 5, 3, 1)
-maxDens <- dghyp(ghypMode(Theta = Theta), Theta = Theta)
-ghypRange <- ghypCalcRange(Theta = Theta, tol = 10^(-3) * maxDens)
+param <- c(0, 1, 5, 3, 1)
+maxDens <- dghyp(ghypMode(param = param), param = param)
+ghypRange <- ghypCalcRange(param = param, tol = 10^(-3) * maxDens)
 ghypRange
-curve(dghyp(x, Theta = Theta), ghypRange[1], ghypRange[2])
-\dontrun{ghypCalcRange(Theta = Theta, tol = 10^(-3), density = FALSE)}
+curve(dghyp(x, param = param), ghypRange[1], ghypRange[2])
+\dontrun{ghypCalcRange(param = param, tol = 10^(-3), density = FALSE)}
 }
 \keyword{distribution}

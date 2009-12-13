@@ -42,7 +42,7 @@ ghypBreaks(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   \item{n}{Number of observations to be generated.}
   \item{mu}{\eqn{\mu}{mu} is the location parameter. By default this is
     set to 0.}
-  \item{delta}{\eqn{\delta}{delta} measures the peakedness of the distribution.
+  \item{delta}{\eqn{\delta}{delta} is the scale parameter of the distribution.
     A default value of 1 has been set.}
   \item{alpha}{\eqn{\alpha}{alpha} is the tail parameter, with a default value of 1.}
   \item{beta}{\eqn{\beta}{beta} is the skewness parameter, by default this is 0.}
