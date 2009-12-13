@@ -11,7 +11,7 @@
 }
 \usage{
 hyperbCvMTest(x, mu = 0, delta = 1, alpha = 1, beta = 0,
-              param = c(mu, delta, alpha, beta)),
+              param = c(mu, delta, alpha, beta),
               conf.level = 0.95, ...)
 hyperbCvMTestPValue(delta = 1, alpha = 1, beta = 0, Wsq, digits = 3)
 \method{print}{hyperbCvMTest}(x, prefix = "\t", ...)
