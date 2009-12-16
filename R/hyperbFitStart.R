@@ -42,6 +42,10 @@ hyperbFitStart <- function(x, breaks = NULL,
       if (length(paramStart) != 4)
         stop("paramStart must contain 4 values")
 
+      paramStart <- hyperbChangePars(1, 2, paramStart)
+      paramStart <- c(hyperbPi = paramStart[3], zeta = paramStart[4],
+                      delta = paramStart[2], mu = paramStart[1])
+
       if (paramStart[2] <= 0)
         stop("zeta in paramStart must be greater than zero")
 
@@ -51,8 +55,8 @@ hyperbFitStart <- function(x, breaks = NULL,
 
     paramStart <- c(hyperbPi = paramStart[1], zeta = log(paramStart[2]),
                     delta = log(paramStart[3]), mu = paramStart[4])
-                   #this gives correct paramStart output
-                   #when startValues=="US"
+                    #this gives correct paramStart output
+                    #when startValues=="US"
   }
 
   if (startValues == "FN") {
@@ -75,21 +79,25 @@ hyperbFitStart <- function(x, breaks = NULL,
     lSkewAlpha <- log(1 / leftAsymptote[2])
     lSkewBeta <- log(abs(1 / rightAsymptote[2]))
     skewMu <- midpoints[maxIndex]
-    paramStart <- c(lSkewAlpha, lSkewBeta, skewMu)
+    paramStart <- c(skewMu, lSkewAlpha, lSkewBeta)
     skewlpOptim <- optim(paramStart, llsklp, NULL,
                          method = startMethodSL, hessian = FALSE, ...)
-    phi <- 1 / exp(skewlpOptim$par[1])
-    hyperbGamma <- 1 / exp(skewlpOptim$par[2])
+    phi <- 1 / exp(skewlpOptim$par[2])
+    hyperbGamma <- 1 / exp(skewlpOptim$par[3])
     delta <- 0.1 # Take delta to be small
-    mu <- skewlpOptim$par[3]
-    hyperbPi <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[1]
-    zeta <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[2]
+    mu <- skewlpOptim$par[1]
+    hyperbPi <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[3]
+    zeta <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[4]
     paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
   }
 
   if (startValues == "MoM") {
     svName <- "Method of Moments"
     paramStart <- hyperbFitStartMoM(x, startMethodMoM = startMethodMoM, ...)
+    paramStart <- hyperbChangePars(2, 1, paramStart)
+    paramStart <- c(hyperbPi = paramStart[3], zeta = log(paramStart[4]),
+                    delta = log(paramStart[2]), mu = paramStart[1])
+
   }
 
   if (!(startValues %in% c("US", "FN", "SL", "MoM")))
@@ -120,11 +128,13 @@ hyperbFitStart <- function(x, breaks = NULL,
     }
 
     delta <- zeta / sqrt(phi * hyperbGamma)
-    hyperbPi <- hyperbChangePars(3, 1, c(phi, hyperbGamma, delta, mu))[1]
+    hyperbPi <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[3]
     paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
   }
 
-  names(paramStart) <- c("hyperbPi", "lZeta", "lDelta", "mu")
+  paramStart <- c(paramStart[4], exp(paramStart[3]), paramStart[1], exp(paramStart[2]))
+  paramStart <- hyperbChangePars(1, 2, paramStart)
+  names(paramStart) <- c("mu", "delta", "alpha", "beta")
   list(paramStart = paramStart, breaks = breaks, midpoints = midpoints,
        empDens = empDens, svName = svName)
 } ## End of hyperbFitStart()
