@@ -131,30 +131,29 @@ hyperbFitStart <- function(x, breaks = NULL,
 
 hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
 
-  fun1 <- function(expparam) {
-    diff1 <- hyperbMean(expparam) - mean(x)
+  fun1 <- function(param) {
+    diff1 <- hyperbMean(param) - mean(x)
     diff1
   }
 
-  fun2 <- function(expparam) {
-    diff2 <- hyperbVar(expparam) - var(x)
+  fun2 <- function(param) {
+    diff2 <- hyperbVar(param) - var(x)
     diff2
   }
 
-  fun3 <- function(expparam) {
-    diff3 <- hyperbSkew(expparam) - skewness(x)
+  fun3 <- function(param) {
+    diff3 <- hyperbSkew(param) - skewness(x)
     diff3
   }
 
-  fun4 <- function(expparam) {
-    diff4 <- hyperbKurt(expparam) - kurtosis(x)
+  fun4 <- function(param) {
+    diff4 <- hyperbKurt(param) - kurtosis(x)
     diff4
   }
 
   MoMOptimFun <- function(param) {
-    expparam <- c(param[1], exp(param[2]), exp(param[3]), param[4])
-    (fun1(expparam))^2 + (fun2(expparam))^2 +
-    (fun3(expparam))^2 + (fun4(expparam))^2
+    (fun1(param))^2 + (fun2(param))^2 +
+    (fun3(param))^2 + (fun4(param))^2
   }
 
   ## Determine starting values for parameters using
@@ -181,12 +180,10 @@ hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
   rho <- chi / xi
   delta <- (sqrt(1 + zeta) - 1) * sqrt( 1 - rho^2)
   mu <- mean(x) - delta * hyperbPi * RLambda(zeta, lambda = 1)
-  startValuesMoM <- c(hyperbPi, log(zeta), log(delta), mu)
+  startValuesMoM <- c(mu, delta, hyperbPi, zeta)
+  startValuesMoM <- hyperbChangePars(1, 2, startValuesMoM, noNames = TRUE)
   ## Get Method of Moments estimates
   MoMOptim <- optim(startValuesMoM, MoMOptimFun, method = startMethodMoM, ...)
   paramStart <- MoMOptim$par
   paramStart
 } ## End of hyperbFitStartMoM
-
-
-
