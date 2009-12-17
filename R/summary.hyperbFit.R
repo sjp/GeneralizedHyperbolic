@@ -8,10 +8,11 @@ summary.hyperbFit <- function(object, ...) {
     stop("Object must belong to class hyperbFit")
 
   if (!is.null(object$hessian)) {
+    param <- hyperbChangePars(2, 1, object$param)
     sds <- sqrt(diag(solve(object$hessian)))
-    sds[2] <- object$Theta[2] * sds[2]
-    sds[3] <- object$Theta[3] * sds[3]
-    names(sds) <- c("pi","zeta","delta","mu")
+    sds[4] <- object$param[4] * sds[4]
+    sds[2] <- object$param[2] * sds[2]
+    names(sds) <- c("mu", "delta","alpha","beta")
     object$sds <- sds
   }
 
@@ -31,10 +32,10 @@ print.summary.hyperbFit <- function(x,
   cat("Parameter estimates:\n")
 
   if (is.null(x$sds)) {
-    print.default(format(x$Theta, digits = digits),
+    print.default(format(x$param, digits = digits),
                   print.gap = 2, quote = FALSE)
   } else {
-    ans <- format(rbind(x$Theta, x$sds), digits = digits)
+    ans <- format(rbind(x$param, x$sds), digits = digits)
     ans[1, ] <- sapply(ans[1, ], function(obs) paste("", obs))
     ans[2, ] <- sapply(ans[2, ],
                        function(obs) paste("(", obs, ")", sep = ""))
@@ -50,9 +51,9 @@ print.summary.hyperbFit <- function(x,
     print.default(ans, print.gap = 2, quote = FALSE)
   }
 
-  cat("Likelihood:        ",x$maxLik,"\n")
-  cat("Method:            ",x$method,"\n")
-  cat("Convergence code:  ",x$conv,"\n")
-  cat("Iterations:        ",x$iter,"\n")
+  cat("Likelihood:        ", x$maxLik, "\n")
+  cat("Method:            ", x$method, "\n")
+  cat("Convergence code:  ", x$conv, "\n")
+  cat("Iterations:        ", x$iter, "\n")
   invisible(x)
 }
