@@ -12,7 +12,6 @@ print(hResultList$Theta)
 hResult <- hResultList$Theta
 hResultStart <- hResultList$ThetaStart
 
-hResult <- c(hResult[1], exp(hResult[2]), exp(hResult[3]), hResult[4])
 hResultStart <- c(hResultStart[1], exp(hResultStart[2]),
                   exp(hResultStart[3]), hResultStart[4])
 
@@ -30,14 +29,17 @@ hResultList$Theta <- hResult
 hResultList$ThetaStart <- hResultStart
 
 hResult <- hResultList
+
+print(hResult)
+
+
+
+
 detach("package:HyperbolicDist")
 library(GeneralizedHyperbolic)
 # should be close to c(0, 1, 0, 1)
 gResult <- hyperbFit(hypDat)
 
-
-cat("Test results:\n\n", "HyperbolicDist result:\n")
-print(hResult)
 cat("GeneralizedHyperbolic result:\n")
 print(gResult)
 

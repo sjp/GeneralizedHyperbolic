@@ -59,12 +59,12 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
   iter <- as.numeric(opOut[[ind[3]]])[1]          # iterations
 
   fitResults <- list(param = param, maxLik = maxLik,
-                     hessian = ifelse(hessian, opOut$hessian, NULL),
+                     hessian = if (hessian) opOut$hessian else NULL,
                      method = method, conv = conv, iter = iter,
                      obs = x, obsName = xName, paramStart = paramStart,
                      svName = svName, startValues = startValues,
-                     KNu = KNu, breaks = breaks,
-                     midpoints = midpoints, empDens = empDens)
+                     breaks = breaks, midpoints = midpoints,
+                     empDens = empDens)
 
   class(fitResults) <- "hyperbFit"
 
@@ -119,7 +119,6 @@ plot.hyperbFit <- function(x, which = 1:4,
   show <- rep(FALSE, 4)
   show[which] <- TRUE
   param <- x$param
-  KNu <- x$KNu
   breaks <- x$breaks
   empDens <- x$empDens
   mipoints <- x$midpoints
