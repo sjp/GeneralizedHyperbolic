@@ -25,7 +25,7 @@
        plotTitles = paste(c("Histogram of ","Log-Histogram of ",
                             "Q-Q Plot of ","P-P Plot of "), x$obsName,
                           sep = ""),
-       ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...)
+       ask = prod(par("mfcol")) < length(which) & dev.interactive(), ...)
 }
 
 \arguments{
