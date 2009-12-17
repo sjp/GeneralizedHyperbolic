@@ -46,7 +46,7 @@ ghypCheckPars <- function(param) {
 
         if (delta < 0) {
           case <- "error"
-          errMessage <- "delta must be less than zero when lambda > 0"
+          errMessage <- "delta must be non-negative when lambda > 0"
         }
 
         if (abs(beta) >= alpha & delta < 0) {
