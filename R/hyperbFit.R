@@ -30,7 +30,6 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
   midpoints <- startInfo$midpoints
 
   llfunc <- function(param) {
-    KNu <- besselK(exp(param[2]), nu = 1)
     -sum(log(dhyperb(x, param = param)))
   }
 
@@ -54,19 +53,13 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
   }
 
   param <- as.numeric(opOut[[ind[1]]])[1:4]       # parameter values
-  param[2] <- exp(param[2])                       # don't use logs
-  param[3] <- exp(param[3])                       # don't use logs
-  names(param) <- c("pi", "zeta", "delta", "mu")
+  names(param) <- c("mu", "delta", "alpha", "beta")
   maxLik <- -(as.numeric(opOut[[ind[2]]]))        # maximum likelihood
   conv <- as.numeric(opOut[[ind[4]]])             # convergence
   iter <- as.numeric(opOut[[ind[3]]])[1]          # iterations
-  paramStart <- c(paramStart[1], exp(paramStart[2]),
-                  exp(paramStart[3]), paramStart[4])
-
-  KNu <- besselK(param[2], nu = 1)
 
   fitResults <- list(param = param, maxLik = maxLik,
-                     hessian = if (hessian) opOut$hessian else NULL,
+                     hessian = ifelse(hessian, opOut$hessian, NULL),
                      method = method, conv = conv, iter = iter,
                      obs = x, obsName = xName, paramStart = paramStart,
                      svName = svName, startValues = startValues,
@@ -114,7 +107,7 @@ plot.hyperbFit <- function(x, which = 1:4,
                            ask = prod(par("mfcol")) < length(which) &
                                  dev.interactive(), ...) {
 
-  if (!class(x) == "hyperbFit")
+  if (class(x) != "hyperbFit")
     stop("Object must belong to class hyperbFit")
 
   if (ask) {
@@ -146,11 +139,11 @@ plot.hyperbFit <- function(x, which = 1:4,
                  main = plotTitles[1], ...)
     curve(hypDens, min(breaks) - 1, max(breaks) + 1, add = TRUE, ylab = NULL)
     title(sub = paste("param = (",
-          round(param[1], 3), ",", round(param[2], 3), ",",
-          round(param[3], 3), ",", round(param[4], 3), ")", sep = ""))
+          round(param[1], 3), ", ", round(param[2], 3), ", ",
+          round(param[3], 3), ", ", round(param[4], 3), ")", sep = ""))
   }
 
-  if (show[2]){
+  if (show[2]) {
     logHist(obs, breaks, include.lowest = TRUE, right = FALSE,
             main = plotTitles[2], ...)
     curve(logHypDens, min(breaks) - 1, max(breaks) + 1, add = TRUE,
