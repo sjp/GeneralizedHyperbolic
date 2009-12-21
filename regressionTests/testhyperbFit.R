@@ -6,9 +6,6 @@ library(HyperbolicDist)
 hypDat <- rhyperb(1000, c(0, 1, 1, 0))
 hResultList <- hyperbFit(hypDat)
 
-# printing Theta to be sure it works
-print(hResultList$Theta)
-
 hResult <- hResultList$Theta
 hResultStart <- hResultList$ThetaStart
 

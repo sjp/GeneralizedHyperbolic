@@ -29,8 +29,29 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
   empDens <- startInfo$empDens
   midpoints <- startInfo$midpoints
 
+  
+
   llfunc <- function(param) {
-    -sum(log(dhyperb(x, param = param)))
+    # This function used to expect (pi, zeta) values.
+    # As a result the old code will be executed.
+    # This also has a habit of breaking due to incorrect delta
+    # values in the new form.
+    
+    mu <- param[1]
+    delta <- param[2]
+    alpha <- param[3]
+    beta <- param[4]
+
+    hyperbPi <- beta / sqrt(alpha^2 - beta^2)
+    zeta <- delta * sqrt(alpha^2 - beta^2)
+
+    KNu <- besselK(zeta, nu = 1)
+
+    hyperbDens <- (2 * delta * sqrt(1 + hyperbPi^2) * KNu)^(-1) *
+                  exp(-zeta * (sqrt(1 + hyperbPi^2) * sqrt(1 + ((x - mu) /
+                  delta)^2) - hyperbPi * (x - mu) / delta))
+    as.numeric(hyperbDens)
+    -sum(log(hyperbDens))
   }
 
   output <- numeric(7)
