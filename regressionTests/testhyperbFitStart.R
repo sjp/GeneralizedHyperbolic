@@ -14,10 +14,10 @@ detach("package:HyperbolicDist")
 library(GeneralizedHyperbolic)
 # should be close to c(0, 1, 0, 1)
 gResult <- hyperbFitStart(hypDat)
+detach("package:GeneralizedHyperbolic")
 
 
 cat("Test results:\n\n", "HyperbolicDist result:\n")
-print(hResult)
+print(hResult$ThetaStart)
 cat("GeneralizedHyperbolic result:\n")
-print(gResult)
-
+print(gResult$paramStart)

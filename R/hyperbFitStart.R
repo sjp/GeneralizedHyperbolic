@@ -43,20 +43,13 @@ hyperbFitStart <- function(x, breaks = NULL,
         stop("paramStart must contain 4 values")
 
       paramStart <- hyperbChangePars(1, 2, paramStart)
-      paramStart <- c(hyperbPi = paramStart[3], zeta = paramStart[4],
-                      delta = paramStart[2], mu = paramStart[1])
 
-      if (paramStart[2] <= 0)
+      if (paramStart[4] <= 0)
         stop("zeta in paramStart must be greater than zero")
 
-      if (paramStart[3] <= 0)
+      if (paramStart[2] <= 0)
         stop("delta in paramStart must be greater than zero")
     }
-
-    paramStart <- c(hyperbPi = paramStart[1], zeta = log(paramStart[2]),
-                    delta = log(paramStart[3]), mu = paramStart[4])
-                    #this gives correct paramStart output
-                    #when startValues=="US"
   }
 
   if (startValues == "FN") {
@@ -66,7 +59,7 @@ hyperbFitStart <- function(x, breaks = NULL,
     delta <- sd(x)
     hyperbPi <- (nu - mu) / delta
     zeta <- 1 + hyperbPi^2
-    paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    paramStart <- c(mu, delta, hyperbPi, zeta)
   }
 
   if (startValues == "SL") {
@@ -88,16 +81,13 @@ hyperbFitStart <- function(x, breaks = NULL,
     mu <- skewlpOptim$par[1]
     hyperbPi <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[3]
     zeta <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[4]
-    paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    paramStart <- c(mu, delta, hyperbPi, zeta)
   }
 
   if (startValues == "MoM") {
     svName <- "Method of Moments"
     paramStart <- hyperbFitStartMoM(x, startMethodMoM = startMethodMoM, ...)
     paramStart <- hyperbChangePars(2, 1, paramStart)
-    paramStart <- c(hyperbPi = paramStart[3], zeta = log(paramStart[4]),
-                    delta = log(paramStart[2]), mu = paramStart[1])
-
   }
 
   if (!(startValues %in% c("US", "FN", "SL", "MoM")))
@@ -129,10 +119,9 @@ hyperbFitStart <- function(x, breaks = NULL,
 
     delta <- zeta / sqrt(phi * hyperbGamma)
     hyperbPi <- hyperbChangePars(3, 1, c(mu, delta, phi, hyperbGamma))[3]
-    paramStart <- c(hyperbPi, log(zeta), log(delta), mu)
+    paramStart <- c(mu, delta, hyperbPi, zeta)
   }
 
-  paramStart <- c(paramStart[4], exp(paramStart[3]), paramStart[1], exp(paramStart[2]))
   paramStart <- hyperbChangePars(1, 2, paramStart)
   names(paramStart) <- c("mu", "delta", "alpha", "beta")
   list(paramStart = paramStart, breaks = breaks, midpoints = midpoints,
