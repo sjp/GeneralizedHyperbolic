@@ -72,7 +72,7 @@ Jennifer Tso, Richard Trendall}
 \seealso{\code{\link{dhyperb}}}
 
 \examples{
-param1 <- c(-2, 1, 3, 0)                   # Parameterization 1
+param1 <- c(2, 1, 3, 1)                   # Parameterization 1
 param2 <- hyperbChangePars(1, 2, param1)   # Convert to parameterization 2
 param2                                     # Parameterization 2
 hyperbChangePars(2, 1, as.numeric(param2)) # Convert back to parameterization 1

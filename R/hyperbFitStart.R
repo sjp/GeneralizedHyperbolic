@@ -131,22 +131,22 @@ hyperbFitStart <- function(x, breaks = NULL,
 hyperbFitStartMoM <- function(x, startMethodMoM = "Nelder-Mead", ...) {
 
   fun1 <- function(param) {
-    diff1 <- hyperbMean(param) - mean(x)
+    diff1 <- hyperbMean(param = param) - mean(x)
     diff1
   }
 
   fun2 <- function(param) {
-    diff2 <- hyperbVar(param) - var(x)
+    diff2 <- hyperbVar(param = param) - var(x)
     diff2
   }
 
   fun3 <- function(param) {
-    diff3 <- hyperbSkew(param) - skewness(x)
+    diff3 <- hyperbSkew(param = param) - skewness(x)
     diff3
   }
 
   fun4 <- function(param) {
-    diff4 <- hyperbKurt(param) - kurtosis(x)
+    diff4 <- hyperbKurt(param = param) - kurtosis(x)
     diff4
   }
 

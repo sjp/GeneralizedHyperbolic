@@ -102,7 +102,7 @@
 
 \examples{
 param <- c(2, 2, 2, 1)
-dataVector <- rhyperb(500, param)
+dataVector <- rhyperb(500, param = param)
 hyperbFitStart(dataVector, startValues = "FN")
 hyperbFitStartMoM(dataVector)
 hyperbFitStart(dataVector, startValues = "MoM")

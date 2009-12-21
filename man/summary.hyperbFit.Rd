@@ -55,8 +55,8 @@
 }
 \examples{
 ### Continuing the  hyperbFit(.) example:
-Theta <- c(2,2,2,2)
-dataVector <- rhyperb(500, Theta)
+param <- c(2, 2, 2, 1)
+dataVector <- rhyperb(500, param = param)
 fit <- hyperbFit(dataVector, method = "BFGS", hessian = TRUE)
 print(fit)
 summary(fit)

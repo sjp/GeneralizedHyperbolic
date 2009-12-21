@@ -193,7 +193,7 @@ hist(dataVector, freq = FALSE, add = TRUE)
 title("Density and Histogram\n of the Generalized Inverse Gaussian")
 logHist(dataVector, main =
         "Log-Density and Log-Histogram\n of the Generalized Inverse Gaussian")
-curve(log(dgig(x, param)), add = TRUE,
+curve(log(dgig(x, param = param)), add = TRUE,
       range(dataVector)[1], range(dataVector)[2], n = 500)
 par(mfrow = c(2, 1))
 curve(dgig(x, param = param), from = gigRange[1], to = gigRange[2],

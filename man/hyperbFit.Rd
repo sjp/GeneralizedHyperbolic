@@ -150,7 +150,7 @@
 
 \examples{
 param <- c(2, 2, 2, 1)
-dataVector <- rhyperb(500, param)
+dataVector <- rhyperb(500, param = param)
 ## See how well hyperbFit works
 hyperbFit(dataVector)
 hyperbFit(dataVector, plots = TRUE)

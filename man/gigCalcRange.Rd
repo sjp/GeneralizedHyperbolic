@@ -60,7 +60,7 @@ gigCalcRange(chi = 1, psi = 1, lambda = 1,
 }
 
 \examples{
-param <- c(2.5, -0.5, 5)
+param <- c(2.5, 0.5, 5)
 maxDens <- dgig(gigMode(param = param), param = param)
 gigRange <- gigCalcRange(param = param, tol = 10^(-3) * maxDens)
 gigRange
