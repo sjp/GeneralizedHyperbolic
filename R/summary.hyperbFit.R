@@ -4,16 +4,13 @@
 ### DJS 11/08/06
 summary.hyperbFit <- function(object, ...) {
 
-  if (!class(object) == "hyperbFit")
+  if (class(object) != "hyperbFit")
     stop("Object must belong to class hyperbFit")
 
   if (!is.null(object$hessian)) {
-    param <- hyperbChangePars(2, 1, object$param)
-    sds <- sqrt(diag(solve(object$hessian)))
-    sds[4] <- object$param[4] * sds[4]
-    sds[2] <- object$param[2] * sds[2]
-    names(sds) <- c("mu", "delta","alpha","beta")
-    object$sds <- sds
+    varcov <- solve(object$hessian)
+    par.ses <- sqrt(diag(varcov)) 
+    object$sds <- par.ses
   }
 
   class(object) <- "summary.hyperbFit"

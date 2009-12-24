@@ -29,14 +29,12 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
   empDens <- startInfo$empDens
   midpoints <- startInfo$midpoints
 
-  
-
   llfunc <- function(param) {
     # This function used to expect (pi, zeta) values.
     # As a result the old code will be executed.
     # This also has a habit of breaking due to incorrect delta
     # values in the new form.
-    
+
     mu <- param[1]
     delta <- param[2]
     alpha <- param[3]
@@ -59,18 +57,17 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
 
   if (method == "BFGS") {
     opOut <- optim(paramStart, llfunc, NULL, method = "BFGS",
-                   hessian = hessian, control = controlBFGS, ...)
+                   control = controlBFGS, ...)
   }
 
   if (method == "Nelder-Mead") {
     opOut <- optim(paramStart, llfunc, NULL, method = "Nelder-Mead",
-                  hessian = hessian, control = controlNM, ...)
+                   control = controlNM, ...)
   }
 
   if (method == "nlm") {
     ind <- c(2, 1, 5, 4)
-    opOut <- nlm(llfunc, paramStart, hessian = hessian,
-                 iterlim = maxitNLM, ...)
+    opOut <- nlm(llfunc, paramStart, iterlim = maxitNLM, ...)
   }
 
   param <- as.numeric(opOut[[ind[1]]])[1:4]       # parameter values
@@ -78,6 +75,59 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
   maxLik <- -(as.numeric(opOut[[ind[2]]]))        # maximum likelihood
   conv <- as.numeric(opOut[[ind[4]]])             # convergence
   iter <- as.numeric(opOut[[ind[3]]])[1]          # iterations
+
+  # If there is a hessian to be computed, compute it using the likelihood
+  # at the estimated parameters, this code was borrowed from the fBasics
+  # package, see utils-hessian.R
+
+  if (hessian) {
+    n <- length(param)
+    lloutput <- llfunc(param)
+    eps <- .Machine$double.eps
+
+    # Compute the stepsize:
+    h = eps^(1/3) *
+        apply(as.data.frame(param), 1, function(z) max(abs(z), 1.0e-2))
+    ee = diag(h) # Matrix(diag(h), sparse = TRUE)
+
+    # Compute forward and backward steps:
+    gp = vector(mode = "numeric", length = n)
+    gm = vector(mode = "numeric", length = n)
+
+    for (i in 1:n)
+      gp[i] <- llfunc(param + ee[, i])
+
+    for (i in 1:n)
+      gm[i] <- llfunc(param - ee[, i])
+
+    H = h %*% t(h)
+    Hm = H
+    Hp = H
+
+    # Compute double forward and backward steps:
+    for (i in 1:n) {
+      for (j in  i:n) {
+        Hp[i, j] <- llfunc(param + ee[, i] + ee[, j])
+        Hp[j, i] <- Hp[i, j]
+        Hm[i, j] <- llfunc(param - ee[, i] - ee[, j])
+        Hm[j, i] <- Hm[i, j]
+      }
+    }
+
+    # Compute the Hessian:
+    for (i in 1:n) {
+      for (j in  i:n) {
+        H[i, j] = ((Hp[i, j] - gp[i] - gp[j] + lloutput + lloutput -
+                  gm[i] - gm[j] + Hm[i, j]) / H[i, j]) / 2
+        H[j, i] = H[i, j]
+      }
+    }
+
+    colnames(H) <- names(param)
+    rownames(H) <- names(param)
+
+    opOut$hessian <- H
+  }
 
   fitResults <- list(param = param, maxLik = maxLik,
                      hessian = if (hessian) opOut$hessian else NULL,
