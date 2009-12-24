@@ -53,6 +53,22 @@ ghypCheckPars <- function(param) {
           case <- "error"
           errMessage <- "absolute value of beta must be less than alpha and delta must be less than zero when lambda > 0"
         }
+
+        if (case != "error") {
+          if (lambda == 1) {
+            if (alpha > 0 & abs(beta) < abs(alpha) & delta == 0)
+              case <- "skew laplace"
+
+            if (alpha > 0 & beta == 0 & delta == 0)
+              case <- "laplace"
+
+            if (alpha > 0 & abs(beta) < abs(alpha) & delta > 0)
+              case <- "hyperbolic"
+          } else {
+            if (alpha > 0 & abs(beta) < abs(alpha) & delta == 0)
+              case <- "variance gamma"
+          }
+        }
       }
 
       if (lambda < 0) {
@@ -70,9 +86,31 @@ ghypCheckPars <- function(param) {
           case <- "error"
           errMessage <- "absolute value of beta must be equal to alpha and delta must be greater than zero when lambda < 0"
         }
+
+        if (case != "error") {
+          if (lambda == -1/2) {
+            if (alpha == 0 & beta == 0 & delta > 0)
+              case <- "cauchy"
+
+            if (alpha > 0 & abs(beta) < abs(alpha) & delta > 0)
+              case <- "normal inverse gaussian"
+          } else {
+            # Allowing a tolerance for the alpha == abs(beta) test
+            if (abs(alpha - abs(beta)) < 0.001 & beta >= 0 & delta > 0)
+              case <- "skew hyperbolic"
+
+            if (alpha == 0 & beta == 0 & delta > 0)
+              case <- "student's t"
+          }
+        }
       }
     }
   }
+
+  # Using the normal distribution as a limiting case when no distribution
+  # has been set and no errors have been found
+  if (case == "")
+    case <- "normal"
 
   result <- list(case = case, errMessage = errMessage)
   return(result)
