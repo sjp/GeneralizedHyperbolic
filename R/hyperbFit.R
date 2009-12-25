@@ -139,10 +139,10 @@ hyperbFit <- function(x, freq = NULL, breaks = NULL, paramStart = NULL,
 
   class(fitResults) <- "hyperbFit"
 
-  if (printOut == TRUE)
+  if (printOut)
     print(fitResults, ...)
 
-  if (plots == TRUE)
+  if (plots)
     plot.hyperbFit(fitResults, ...)
 
   fitResults

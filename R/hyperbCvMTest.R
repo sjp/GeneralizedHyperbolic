@@ -113,7 +113,7 @@ hyperbCvMTestPValue <- function(delta = 1, alpha = 1, beta = 0,
     }
   }
 
-  if (exactXi == FALSE) {
+  if (!exactXi) {
     wsqTable <- wsqTable[1:5] +
                 ((xi - xiLo) / (xiUp - xiLo)) * (wsqTable[6:10] - wsqTable[1:5])
   }

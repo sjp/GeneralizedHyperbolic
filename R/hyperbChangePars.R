@@ -144,7 +144,7 @@ hyperbChangePars <- function (from, to, param, noNames = FALSE) {
       output <- c(mu = mu, delta = delta, xi = xi, chi = chi)
   }
 
-  if (noNames == TRUE)
+  if (noNames)
     names(output) <- NULL
 
   output

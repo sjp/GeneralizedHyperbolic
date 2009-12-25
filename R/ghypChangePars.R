@@ -165,8 +165,8 @@ ghypChangePars <- function(from, to, param, noNames = FALSE) {
                   betaBar = betaBar, lambda = lambda)
   }
 
-  if (noNames == TRUE)
-      names(output) <- NULL
+  if (noNames)
+    names(output) <- NULL
 
   output
 } ## End of hyperbChangePars()

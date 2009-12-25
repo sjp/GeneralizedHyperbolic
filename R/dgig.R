@@ -425,7 +425,7 @@ rgig1 <- function(n, chi = 1, psi = 1, param = c(chi, psi)) {
   for (i in 1:n) {
     needValue <- TRUE
 
-    while(needValue == TRUE) {
+    while (needValue) {
       R1 <- runif(1)
       R2 <- runif(1)
       Y <- m + a * R2 / R1 + b * (1 - R2) / R1
@@ -498,7 +498,8 @@ rgig <- function(n, chi = 1, psi = 1, lambda = 1,
 
   for (i in 1:n) {
     needValue <- TRUE
-    while (needValue == TRUE) {
+
+    while (needValue) {
       R1 <- runif(1)
       R2 <- runif(1)
       Y <- m + a * R2 / R1 + b * (1 - R2) / R1

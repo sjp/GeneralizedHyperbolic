@@ -16,7 +16,7 @@ ghypCalcRange <- function(mu = 0, delta = 1, alpha = 1, beta = 0, lambda = 1,
   beta <- param[4]
   lambda <- param[5]
 
-  if (density == FALSE) {
+  if (!density) {
     ## bounds are for distribution function
     stop("Distribution function bounds not yet implemented")
   } else {

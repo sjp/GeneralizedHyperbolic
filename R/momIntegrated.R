@@ -19,7 +19,7 @@ momIntegrated <- function(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma
       if (is.null(param))
         param <- c(0, 1, 1, 0, 1)
 
-      if (absolute == FALSE) {
+      if (!absolute) {
         ddist <- function(x, order, param, about) {
           (x - about)^order * dghyp(x, param = param)
         }
@@ -32,7 +32,7 @@ momIntegrated <- function(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma
       if (is.null(param))
         param <- c(0, 1, 1, 0)
 
-      if (absolute == FALSE) {
+      if (!absolute) {
         ddist <- function(x, order, param, about) {
           (x - about)^order * dhyperb(x, param = param)
         }
@@ -48,7 +48,7 @@ momIntegrated <- function(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma
 
       low <- 0
 
-      if (absolute == FALSE) {
+      if (!absolute) {
         ddist <- function(x, order, param, about) {
           (x - about)^order * dgig(x, param = param)
         }
@@ -66,7 +66,7 @@ momIntegrated <- function(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma
 
       low <- 0
 
-      if (absolute == FALSE) {
+      if (!absolute) {
         ddist <- function(x, order, param, about) {
           (x - about)^order *
           dgamma(x, shape = param[1], rate = param[2])
@@ -93,7 +93,7 @@ momIntegrated <- function(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma
         return(dens)
       }
 
-      if (absolute == FALSE) {
+      if (!absolute) {
         ddist <- function(x, order, param, about) {
           (x - about)^order *
           dinvgamma(x, shape = param[1], rate = param[2])
@@ -111,7 +111,7 @@ momIntegrated <- function(densFn = c("ghyp", "hyperb", "gig", "gamma", "invgamma
       if (is.null(param))
         param <- c(0, 1, 0, 1)
 
-      if (absolute == FALSE) {
+      if (!absolute) {
         ddist <- function(x, order, param, about) {
           (x - about)^order * dvg(x, param = param)
         }

@@ -148,7 +148,7 @@ gigChangePars <- function (from, to, param, noNames = FALSE) {
       output <- c(omega = omega, eta = eta, lambda = lambda)
   }
 
-  if (noNames == TRUE)
+  if (noNames)
     names(output) <- NULL
 
   output
