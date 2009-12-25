@@ -20,24 +20,19 @@
 }
 \details{
   \code{summary.hyperbFit} calculates standard errors for the estimates
-  of \eqn{\pi}{pi}, \eqn{\zeta}{zeta}, \eqn{\delta}{delta}, and
-  \eqn{\mu}{mu} of the hyperbolic distribution parameter vector Theta if
-  the Hessian from the call to \code{\link{optim}} or \code{\link{nlm}}
-  is available. Because the parameters in the call to the optimiser are
-  \eqn{\pi}{pi}, \eqn{\log(\zeta)}{log(zeta)},
-  \eqn{\log(\delta)}{log(delta)}, and \eqn{\mu}{mu}, the delta method is
-  used to obtain the standard errors for \eqn{\zeta}{zeta} and
-  \eqn{\delta}{delta}.
+  of \eqn{\mu}{mu}, \eqn{\delta}{delta}, \eqn{\alpha}{alpha}, and
+  \eqn{\beta}{beta} of the hyperbolic distribution parameter vector param if
+  the Hessian from the call to \code{\link{hyperbFit}} is available.
 }
 \value{
   If the Hessian is available, \code{summary.hyperbFit} computes
-  standard errors for the estimates of \eqn{\pi}{pi}, \eqn{\zeta}{zeta},
-  \eqn{\delta}{delta}, and \eqn{\mu}{mu}, and adds them to \code{object}
+  standard errors for the estimates of \eqn{\mu}{mu}, \eqn{\delta}{delta},
+  \eqn{\alpha}{alpha}, and \eqn{\beta}{beta}, and adds them to \code{object}
   as \code{object$sds}. Otherwise, no calculations are performed and the
   composition of \code{object} is unaltered.
 
   \code{summary.hyperbFit} invisibly returns \code{x}
-  with class  changed to \code{summary.hyperbFit}.
+  with class changed to \code{summary.hyperbFit}.
 
   See \code{\link{hyperbFit}} for the composition of an object of class
   \code{hyperbFit}.
@@ -60,6 +55,5 @@ dataVector <- rhyperb(500, param = param)
 fit <- hyperbFit(dataVector, method = "BFGS", hessian = TRUE)
 print(fit)
 summary(fit)
-
 }
 \keyword{distribution}
