@@ -13,7 +13,7 @@
   \code{ghypLargeShape} have a constant location parameter of
   \eqn{\mu}{mu} = 0. The shape parameter \eqn{\lambda}{lambda} will
   vary from (-1, -0.5, 0, 1, 1.5) in \code{ghypSmallShape} and
-  (2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2) in \code{ghypLargeShape}.
+  (-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2) in \code{ghypLargeShape}.
   The parameter \eqn{\alpha}{alpha} varies from (0, 0.5, 1) in
   \code{ghypSmallShape} and (0, 0.5, 1, 1.5, 2) in \code{ghypLargeShape}.
   In \code{ghypSmallShape} the set of values for the \eqn{\beta}{beta}
