@@ -1,4 +1,7 @@
-test.ghypMean <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
+library(GeneralizedHyperbolic)
+data(ghypParam)
+
+test.ghypMean <- function(testParam = ghypSmallShape, n = 10000, accuracy = 0.01) {
   for (i in 1:nrow(testParam)) {
     param <- testParam[i, ]
 
@@ -22,12 +25,12 @@ test.ghypMean <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
     cat("difference", sep = "\n")
     print(difference)
     cat("checkTrue", sep = "\n")
-    print(checkTrue(difference < accuracy))
+    print(checkTrue("test.ghypMean", difference < accuracy))
   }
 }
 
 
-test.ghypVar <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
+test.ghypVar <- function(testParam = ghypSmallShape, n = 10000, accuracy = 0.01) {
   for (i in 1:nrow(testParam)) {
     param <- testParam[i, ]
 
@@ -51,11 +54,11 @@ test.ghypVar <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
     cat("difference", sep = "\n")
     print(difference)
     cat("checkTrue", sep = "\n")
-    print(checkTrue(difference < accuracy))
+    print(checkTrue("test.ghypVar", difference < accuracy))
   }
 }
 
-test.ghypSkew <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
+test.ghypSkew <- function(testParam = ghypSmallShape, n = 10000, accuracy = 0.01) {
   for (i in 1:nrow(testParam)) {
     param <- testParam[i, ]
 
@@ -79,11 +82,11 @@ test.ghypSkew <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
     cat("difference", sep = "\n")
     print(difference)
     cat("checkTrue", sep = "\n")
-    print(checkTrue(difference < accuracy))
+    print(checkTrue("test.ghypSkew", difference < accuracy))
   }
 }
 
-test.ghypKurt <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
+test.ghypKurt <- function(testParam = ghypSmallShape, n = 10000, accuracy = 0.01) {
   for (i in 1:nrow(testParam)) {
     param <- testParam[i, ]
 
@@ -107,6 +110,19 @@ test.ghypKurt <- function(testParam = smallShape, n = 10000, accuracy = 0.01) {
     cat("difference", sep = "\n")
     print(difference)
     cat("checkTrue", sep = "\n")
-    print(checkTrue(difference < accuracy))
+    print(checkTrue("test.ghypKurt", difference < accuracy))
   }
 }
+
+checkTrue <- function(f, bool) {
+  if (bool) {
+    paste(f, ": PASS", sep = "")
+  } else {
+    paste(f, ": FAIL", sep = "")
+  }
+}
+
+test.ghypMean()
+test.ghypVar()
+test.ghypSkew()
+test.ghypKurt()

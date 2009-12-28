@@ -1,4 +1,5 @@
 \name{ghypParam}
+\docType{data}
 \alias{ghypSmallShape}
 \alias{ghypLargeShape}
 \alias{ghypSmallParam}
