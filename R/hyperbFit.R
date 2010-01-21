@@ -233,21 +233,14 @@ plot.hyperbFit <- function(x, which = 1:4,
 }
 
 coef.hyperbFit <- function(object, ...) {
-
-  if (! "hyperbFit" %in% class(object))
-    stop("Object must belong to class hyperbFit")
-
-  print(object$param)
+  object$param
 }
 
 vcov.hyperbFit <- function(object, ...) {
-
-  if (! "hyperbFit" %in% class(object))
-    stop("Object must belong to class hyperbFit")
 
   if (is.null(object$hessian))
     stop("hyperbFit must be run again with the hessian parameter set to TRUE")
 
   varcov <- solve(object$hessian)
-  print(varcov)
+  varcov
 }
