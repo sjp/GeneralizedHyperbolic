@@ -34,7 +34,7 @@ ghypCheckPars(param)
 
 \value{
   A list with components:
-  \item{case}{Either \code{""} or \code{"error"}.}
+  \item{case}{Either the name of the special case of the distribution or \code{"error"}.}
   \item{errMessage}{An appropriate error message if an error was found,
     the empty string \code{""} otherwise.}
 }
